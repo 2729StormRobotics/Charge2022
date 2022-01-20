@@ -5,10 +5,20 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants.HangerConstants.*;
-import edu.wpi.first.wpilibj.Solenoid;
+
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+// private final CANSparkMax m_motor;
+
+// private final RelativeEncoder m_encoder;
+
+
 
 public class Hanger extends SubsystemBase {
   /** Creates a new Hanger. */

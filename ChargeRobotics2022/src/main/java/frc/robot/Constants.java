@@ -14,7 +14,8 @@ package frc.robot;
  */
 public final class Constants {
 public static final class HangerConstants{
-    
+    // This is a temporary fill-in value
+    public static final int kHangerMotorPort = 1;
 }
 
 }

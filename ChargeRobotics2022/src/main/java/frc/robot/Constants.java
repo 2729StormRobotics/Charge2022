@@ -16,22 +16,23 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
  */
 public final class Constants {
 
-    public static final class ShooterConstants{
+    public static final class IntakeConstants {
+        //real nums needed for:
+        // motor port
+        // motor Intake/Reject speed
+        // extend/retract
+        public static final int kIntakeMotorPort = 4;
+        public static final double kIntakeMotorSpeed = 0.56;
+        public static final int kEjectMotorSpeed = -1;
 
-        public static final int kLeftMotorPort = 0;
-        public static final int kRightMotorPort = 0;
-        
-        public static final int kBottomExtendedChannel = 0;
-        public static final int kBottomRetractedChannel = 0;
-        public static final int kSideExtendedChannel = 0;      
-        public static final int kSideRetractedChannel = 0;
-        
-        public static final Value kPistonExtendedValue = Value.kForward;
-        public static final Value kPistonRetractedValue = Value.kReverse;
+        public static final int kIntakeExtendChannel = 0;
+        public static final int kIntakeRetractChannel = 0;
+        public static final Value kIntakeExtendValue = Value.kForward;
+        public static final Value kIntakeRetractValue = Value.kReverse;
+       
 
-        public static final double kVelocityConversion = 0;
-
-      
     }
+
+    
 
 }

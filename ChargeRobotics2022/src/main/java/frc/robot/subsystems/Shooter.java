@@ -11,6 +11,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static frc.robot.Constants.ShooterConstants.*;
@@ -30,16 +31,17 @@ public class Shooter extends SubsystemBase {
   public Shooter() {
 
     // Instantiate the motor
-    m_motor = new CANSparkMax(kLeftMotorPort, MotorType.kBrushless);
+    m_motor = new CANSparkMax(kMotorPort, MotorType.kBrushless);
 
     // Instantiate the encoders
     m_encoder = m_motor.getEncoder();
 
     // Instantiate the pistons
-    m_bottomAnglePiston1 = new DoubleSolenoid(kBottomExtendedChannel, kBottomRetractedChannel);
-    m_bottomAnglePiston2 = new DoubleSolenoid(kBottomExtendedChannel, kBottomRetractedChannel);
-    m_sideAnglePiston1 = new DoubleSolenoid(kSideExtendedChannel, kSideRetractedChannel);
-    m_sideAnglePiston2 = new DoubleSolenoid(kSideExtendedChannel, kSideRetractedChannel);
+    m_bottomAnglePiston1 = new DoubleSolenoid(kPistonModuleType, kBottomExtendedChannel, kBottomRetractedChannel);
+    m_bottomAnglePiston2 = new DoubleSolenoid(kPistonModuleType, kBottomExtendedChannel, kBottomRetractedChannel);
+    m_sideAnglePiston1 = new DoubleSolenoid(kPistonModuleType, kSideExtendedChannel, kSideRetractedChannel);
+    m_sideAnglePiston2 = new DoubleSolenoid(kPistonModuleType, kSideExtendedChannel, kSideRetractedChannel);
+
 
     // Initialize the motor
     motorInit(m_motor);
@@ -56,7 +58,13 @@ public class Shooter extends SubsystemBase {
     encoderInit(motor.getEncoder());
   }
 
-  private void stopShooter(){
+  // Runs the motor
+  public void runMotor(){
+    m_motor.set(kMotorSpeed);
+  } 
+
+  // Stops the motor
+  private void stopMotor(){
     m_motor.set(0);
   }
 
@@ -77,26 +85,26 @@ public class Shooter extends SubsystemBase {
   }
 
   // Retract all pistons
-  private void setRetractedAngle(){
+  public void setRetractedAngle(){
     retractBottomPistons();
     retractSidePistons();
   }
   
   // Extend to highest position
-  private void setExtendedAngle(){
+  public void setExtendedAngle(){
     retractSidePistons();
     extendBottomPistons();
   }
 
   // Extend to second lowest position
-  private void setMiddleLowAngle(){
+  public void setMiddleLowAngle(){
     setRetractedAngle();
     extendSidePistons();
     extendBottomPistons();
   }
 
   // Extend to second highest position
-  private void setMiddleHighAngle(){
+  public void setMiddleHighAngle(){
     setRetractedAngle();
     extendBottomPistons();
     extendSidePistons();

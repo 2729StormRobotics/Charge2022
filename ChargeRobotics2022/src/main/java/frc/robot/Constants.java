@@ -4,7 +4,9 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -33,6 +35,25 @@ public final class Constants {
 
     }
 
+    public static final class ShooterConstants{
+
+        public static final int kMotorPort = 0;
+        public static final double kMotorSpeed = 0;
+
+        public static final int kBottomExtendedChannel = 0;
+        public static final int kBottomRetractedChannel = 0;
+        public static final int kSideExtendedChannel = 0;      
+        public static final int kSideRetractedChannel = 0;
+        
+        public static final Value kPistonExtendedValue = Value.kForward;
+        public static final Value kPistonRetractedValue = Value.kReverse;
+        public static final PneumaticsModuleType kPistonModuleType = PneumaticsModuleType.REVPH;
+
+        public static final double kVelocityConversion = 0;
+
+
+      
+    }
     
 
 }

@@ -56,6 +56,10 @@ public class Shooter extends SubsystemBase {
     encoderInit(motor.getEncoder());
   }
 
+  private void stopShooter(){
+    m_motor.set(0);
+  }
+
     // Intialize the encoders
     private void encoderInit(RelativeEncoder encoder){
       encoder.setVelocityConversionFactor(kVelocityConversion); // Sets encoder units to be the desired ones
@@ -77,6 +81,27 @@ public class Shooter extends SubsystemBase {
     retractBottomPistons();
     retractSidePistons();
   }
+  
+  // Extend to highest position
+  private void setExtendedAngle(){
+    retractSidePistons();
+    extendBottomPistons();
+  }
+
+  // Extend to second lowest position
+  private void setMiddleLowAngle(){
+    setRetractedAngle();
+    extendSidePistons();
+    extendBottomPistons();
+  }
+
+  // Extend to second highest position
+  private void setMiddleHighAngle(){
+    setRetractedAngle();
+    extendBottomPistons();
+    extendSidePistons();
+  }
+
 
   // Retract bottom pistons
   private void retractBottomPistons(){

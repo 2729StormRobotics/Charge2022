@@ -33,6 +33,26 @@ public final class Constants {
 
     }
 
+    public static final class DriveConstants {
+
+        public static final int kLeftLeaderMotorPort = 0;
+        public static final int kLeftFollowerMotorPort = 0;
+        public static final int kRightLeaderMotorPort = 0;
+        public static final int kRightFollowerMotorPort = 0;
+
+        public static final boolean kLeftLeaderMotorReversedDefault = true;
+        public static final boolean kLeftFollowerMotorReversedDefault = false;
+        public static final boolean kRightLeaderMotorReversedDefault = true;
+        public static final boolean kRightFollowerMotorReversedDefault = false;
+
+        public static final int kCurrentLimit = 0;
+
+
+
+    }
+    
+    
+
     
 
 }

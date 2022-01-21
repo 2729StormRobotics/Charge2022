@@ -9,9 +9,10 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+// import edu.wpi.first.wpilibj.controller.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import static frc.robot.Constants.Drivetrain.*;
+import static frc.robot.Constants.DriveConstants.*;
 
 public class Drivetrain extends SubsystemBase {
 
@@ -67,5 +68,19 @@ public class Drivetrain extends SubsystemBase {
     motor.setIdleMode(IdleMode.kBrake);
     motor.setSmartCurrentLimit(kCurrentLimit);
     motor.setInverted(invert);
+  }
+
+  // Drives Using Tank Drive
+  public void tankDrive(double leftPower, double rightPower, boolean squareInputs){
+    m_drive.tankDrive(leftPower, rightPower, squareInputs);
+  }
+  
+  // Drives Using Arcade Drive
+  public void arcadeDrive(double speed, double turn, boolean squareInputs){
+    m_drive.arcadeDrive(speed, turn, squareInputs);
+  }
+  // Stop All Drive Motors
+  public void stopDrive(){
+    m_drive.tankDrive(0, 0);
   }
 }

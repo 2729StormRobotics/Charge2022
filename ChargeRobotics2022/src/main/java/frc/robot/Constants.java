@@ -34,12 +34,16 @@ public final class Constants {
     }
 
     public static final class DriveConstants {
+        // Get Values For Everything:
+        // Drive ports, current limit, gear ratio, feedforward values, pid values
 
+        // Drive Motor Ports
         public static final int kLeftLeaderMotorPort = 0;
         public static final int kLeftFollowerMotorPort = 0;
         public static final int kRightLeaderMotorPort = 0;
         public static final int kRightFollowerMotorPort = 0;
 
+        // Set If Drive Motors are Reversed
         public static final boolean kLeftLeaderMotorReversedDefault = true;
         public static final boolean kLeftFollowerMotorReversedDefault = false;
         public static final boolean kRightLeaderMotorReversedDefault = true;
@@ -48,6 +52,38 @@ public final class Constants {
         public static final int kCurrentLimit = 0;
 
 
+        // Encoder calculations
+        public static final double kDriveWheelDiameterInches = 6.0;
+        public static final double kGear = 1; // NEED GEAR RATIO!!!!
+    
+        
+        // Calculates the distace per pulse by dividing the circumference by the pulses per revolution
+        public static final double kDriveDistancePerRev = Math.PI * kDriveWheelDiameterInches * kGear;
+        // Encoders are in RPM so this converts to inches/sec
+        public static final double kDriveSpeedPerRev = kDriveDistancePerRev / 60.0; 
+
+
+        // Drive Distance Feedforward Values
+        public static final double kLeftS = 0; // Position
+        public static final double kLeftV = 0; // Velocity
+        public static final double kLeftA = 0; // Acceleration
+
+        public static final double kRightS = 0;
+        public static final double kRightV = 0;
+        public static final double kRightA = 0;
+
+        // Drive Distance PID Values
+        public static final double kLeftP = 0;
+        public static final double kLeftI = 0;
+        public static final double kLeftD = 0;
+
+        public static final double kRightP = 0;
+        public static final double kRightI = 0;
+        public static final double kRightD = 0;
+
+        // Tolerance and Maximums in inches and seconds
+        public static final double kPositionTolerance = 1.0; // Placeholder
+        public static final double kVelocityTolerance = 5.0; //Placeholder
 
     }
     

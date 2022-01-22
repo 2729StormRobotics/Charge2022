@@ -29,8 +29,8 @@ public class Intake extends SubsystemBase {
   }
 
 //run the motor with given speed
-  public void runIntake(double speed) {
-    m_intakeMotor.set(speed);
+  public void runIntake() {
+    m_intakeMotor.set(kIntakeMotorSpeed);
   }
 
 //reverse the motor so that the intake will spit out the ball
@@ -39,7 +39,7 @@ public class Intake extends SubsystemBase {
   }
 //stops the motor of intake
   public void stopIntake() {
-    m_intakeMotor.set(0);
+    m_intakeMotor.set(kIntakeMotorStopSpeed);
   }
 
 // extends the motors so that the intake can reach the ball

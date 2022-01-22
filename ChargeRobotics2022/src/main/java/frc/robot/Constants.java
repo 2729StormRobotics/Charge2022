@@ -23,6 +23,7 @@ public final class Constants {
         // extend/retract
         public static final int kIntakeMotorPort = 4;
         public static final double kIntakeMotorSpeed = 0.56;
+        public static final int kIntakeMotorStopSpeed = 0;
         public static final int kEjectMotorSpeed = -1;
 
         public static final int kIntakeExtendChannel = 0;

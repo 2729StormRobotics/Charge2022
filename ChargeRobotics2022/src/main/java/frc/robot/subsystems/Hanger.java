@@ -54,7 +54,7 @@ public class Hanger extends SubsystemBase {
     motor.restoreFactoryDefaults(); // Resets the motors to default settings
     motor.setIdleMode(IdleMode.kBrake); // Sets the motor to brake mode when idle
     motor.setInverted(invert); // Invert the motor if needed
-    encoderInit(motor.getEncoder());
+    encoderInit(motor.getEncoder()); // Initialize the encoder
   }
 
   /**
@@ -87,14 +87,14 @@ public class Hanger extends SubsystemBase {
   }
 
   /**
-   * Drives the hanger motor so that the elevator rises using a constant speed
+   * Drives the hanger motor so that the elevator rises using a set constant speed
    */
   public void climbUp() {
     climb(kClimbUpSpeed);
   }
 
   /**
-   * Drives the hanger motor so that the elevator descends using a constant speed
+   * Drives the hanger motor so that the elevator descends using a set constant speed
    */
   public void climbDown() {
     climb(kClimbDownSpeed);

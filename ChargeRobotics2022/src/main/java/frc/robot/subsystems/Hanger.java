@@ -10,14 +10,14 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.SparkMaxRelativeEncoder;
 
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
-
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Hanger extends SubsystemBase {
-
   private final CANSparkMax m_hangerMotor;
 
   private final RelativeEncoder m_encoder;
@@ -33,13 +33,12 @@ public class Hanger extends SubsystemBase {
     m_hangerMotor = new CANSparkMax(kHangerMotorPort, MotorType.kBrushless);
     motorInit(m_hangerMotor, kMotorInverted);
 
-    m_encoder = m_hangerMotor.getEncoder();
+    m_encoder = m_hangerMotor.getEncoder(SparkMaxRelativeEncoder.Type.kQuadrature, 4096);
 
-    m_pawlPiston = new Solenoid(kPawlPistonChannel);
+    m_pawlPiston = new Solenoid(PneumaticsModuleType.CTREPCM, kPawlPistonChannel);
     m_pawlPiston.set(kPawlPistonDisabled);
 
     shuffleboardInit();
-
   }
 
   

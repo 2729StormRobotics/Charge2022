@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
  * numerical or boolean
@@ -51,5 +53,47 @@ public final class Constants {
         public static final boolean kPawlPistonDisabled = true;
 
     }
+
+
+    public static final class IntakeConstants {
+        //real nums needed for:
+        // motor port
+        // motor Intake/Reject speed
+        // extend/retract
+        public static final int kIntakeMotorPort = 4;
+        public static final double kIntakeMotorSpeed = 0.56;
+        public static final int kIntakeMotorStopSpeed = 0;
+        public static final int kEjectMotorSpeed = -1;
+
+        public static final int kIntakeExtendChannel = 0;
+        public static final int kIntakeRetractChannel = 0;
+        public static final Value kIntakeExtendValue = Value.kForward;
+        public static final Value kIntakeRetractValue = Value.kReverse;
+       
+
+    }
+
+    public static final class DriveConstants {
+
+        public static final int kLeftLeaderMotorPort = 0;
+        public static final int kLeftFollowerMotorPort = 0;
+        public static final int kRightLeaderMotorPort = 0;
+        public static final int kRightFollowerMotorPort = 0;
+
+        public static final boolean kLeftLeaderMotorReversedDefault = true;
+        public static final boolean kLeftFollowerMotorReversedDefault = false;
+        public static final boolean kRightLeaderMotorReversedDefault = true;
+        public static final boolean kRightFollowerMotorReversedDefault = false;
+
+        public static final int kCurrentLimit = 0;
+
+
+
+    }
+    
+    
+
+    
+
 
 }

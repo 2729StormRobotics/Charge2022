@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
 /**
@@ -34,6 +35,43 @@ public final class Constants {
 
     }
 
+
+    public static final class ShooterConstants{
+
+        public static final int kMotorPort = 0;
+        public static final double kMotorSpeed = 0;
+
+        public static final int kBottomExtendedChannel = 0;
+        public static final int kBottomRetractedChannel = 0;
+        public static final int kSideExtendedChannel = 0;      
+        public static final int kSideRetractedChannel = 0;
+        
+        public static final Value kPistonExtendedValue = Value.kForward;
+        public static final Value kPistonRetractedValue = Value.kReverse;
+        public static final PneumaticsModuleType kPistonModuleType = PneumaticsModuleType.REVPH;
+
+        public static final double kVelocityConversion = 0;
+
+        public static final double kHubShotSpeed = 0;
+        public static final double kMiddleShotSpeed = 0;
+        public static final double kCloseLaunchPadShotSpeed = 0;
+        public static final double kFarLaunchPadShotSpeed = 0;
+
+        // Used to calculate the feedforward
+        public static final double kS = 0; // static constant
+        public static final double kV = 0; // velocity constant
+        public static final double kA = 0; // accelaration constant
+     
+        // PID values to maintain speed 
+        public static final double kP = 0; // proportional constant
+        public static final double kI = 0; // integral constant 
+        public static final double kD = 0; // derivative constant
+        public static final double kIz = 0; // integral zone
+        public static final double kFF = 0; // feed forward constant
+        public static final double kMinOutput = 0;
+        public static final double kMaxOutput = 0;
+    }
+
     public static final class DriveConstants {
 
         public static final int kLeftLeaderMotorPort = 0;
@@ -53,6 +91,7 @@ public final class Constants {
     }
     
     
+
 
     
 

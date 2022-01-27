@@ -97,17 +97,17 @@ public class Drivetrain extends SubsystemBase {
   }
 
   // Reset Left Encoder
-  private void leftEncoderReset(){
+  public void leftEncoderReset(){
     encoderReset(m_leftEncoder);
   }
 
   // Reset Right Encoder
-  private void rightEncoderReset(){
+  public void rightEncoderReset(){
     encoderReset(m_rightEncoder);
   }
 
   // Reset all Encoders 
-  private void allEncodersReset(){
+  public void resetAllEncoders(){
     encoderReset(m_leftEncoder);
     encoderReset(m_rightEncoder);
   }

@@ -4,8 +4,6 @@
 
 package frc.robot.subsystems;
 
-import com.kauailabs.navx.frc.AHRS;
-import com.kauailabs.navx.frc.AHRS.SerialDataType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
@@ -14,12 +12,8 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.wpilibj.ADIS16448_IMU;
-import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-// import edu.wpi.first.wpilibj.controller.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 import static frc.robot.Constants.DriveConstants.*;
 
 public class Drivetrain extends SubsystemBase {
@@ -44,7 +38,6 @@ public class Drivetrain extends SubsystemBase {
   private final SparkMaxPIDController m_leftPIDController;
   private final SparkMaxPIDController m_rightPIDController;
 
-  private final AHRS m_navX;
 
   public Drivetrain() {
 
@@ -78,8 +71,8 @@ public class Drivetrain extends SubsystemBase {
     m_leftPIDController = m_leftLeaderMotor.getPIDController();
     m_rightPIDController = m_rightLeaderMotor.getPIDController();
 
-    m_navX = new AHRS(SPI.Port.);
-}
+
+  }
 
   @Override
   public void periodic() {
@@ -174,6 +167,7 @@ public class Drivetrain extends SubsystemBase {
     m_rightPIDController.setP(kRightP);
     m_rightPIDController.setI(kRightI);
     m_rightPIDController.setD(kRightD);
+  
   }
 
   // Combine Right and Left Distance PID Values

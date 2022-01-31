@@ -16,35 +16,32 @@ import static frc.robot.Constants.DriveConstants.*;
 public class DrivePointTurn extends PIDCommand {
   /** Creates a new DrivePointTurn. */
 
-  public DrivePointTurn(double setAngle, NavX navX, Drivetrain drivetrain) {
+
+  public DrivePointTurn(double deltaAngle, NavX navX, Drivetrain drivetrain) {
     super(
         // The controller that the command will use
-        new PIDController(kLeftP, kLeftI, kLeftD),
+        new PIDController(kTurnP, kTurnI, kTurnD),
         // This should return the measurement
         () -> navX.getAngleNavX(),
         // This should return the setpoint (can also be a constant)
-        () -> setAngle,
+        // adds the change in angle to the current angle and sets so it is between -180 and 180
+        () -> (((navX.getAngleNavX() + deltaAngle)) % 360) - 180,
         // This uses the output
         output -> {
           // Use the output here
+            drivetrain.arcadeDrive(0, output, true);
 
-          // if the desired angle is greater than the current angle then turn right
-          //if the desired angle is less than the current angle then turn left
-          // *may need to change the direction*
-          if (setAngle > navX.getAngleNavX()) {
-            drivetrain.tankDrive(output, -output, true);
-          }
-          else if (setAngle < navX.getAngleNavX()) {
-            drivetrain.tankDrive(-output, output, true);
-          }
         });
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(navX, drivetrain);
     // Configure additional PID options by calling `getController` here.
+    getController().setTolerance(kAngleTolerance, kTurnSpeedTolerance);
+    getController().enableContinuousInput(-180, 180);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return getController().atSetpoint();
   }
 }

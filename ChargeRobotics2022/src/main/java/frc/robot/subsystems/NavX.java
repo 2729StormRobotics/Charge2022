@@ -29,7 +29,7 @@ public class NavX extends SubsystemBase {
 
   }
 
-  public double getAngleNavX() {
-    return m_navX.getAngle();
+  public float getAngleNavX() {
+    return m_navX.getYaw();
   }
 }

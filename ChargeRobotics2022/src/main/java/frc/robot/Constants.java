@@ -113,7 +113,7 @@ public final class Constants {
 
     public static final class DriveConstants {
         // Get Values For Everything:
-        // Drive ports, current limit, gear ratio, feedforward values, pid values
+        // Drive ports, current limit, gear ratio, feedforward values, pid values (for both), navX Port, 
 
         // Drive Motor Ports
         public static final int kLeftLeaderMotorPort = 0;
@@ -159,9 +159,25 @@ public final class Constants {
         public static final double kRightI = 0;
         public static final double kRightD = 0;
 
-        // Tolerance and Maximums in inches and seconds
+        // Drive Distance Tolerance and Maximums in inches and seconds
         public static final double kPositionTolerance = 1.0; // Placeholder
         public static final double kVelocityTolerance = 5.0; //Placeholder
+
+
+        //NavX Port
+        public static final int kNavXPort = 0; 
+
+        //Point Turn PID Values
+        public static final double kTurnP = 0;
+        public static final double kTurnI = 0;
+        public static final double kTurnD = 0;
+
+        //Point Turn Tolerances in degrees and seconds
+        public static final double kAngleTolerance = 1.0; //Placeholder
+        public static final double kTurnSpeedTolerance = 1.0; //Placeholder
+
+
+
 
     }
     

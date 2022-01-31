@@ -72,6 +72,17 @@ public final class Constants {
         public static final double kMaxOutput = 0;
     }
 
+    public static final class VisionConstants{
+        public static final double k_limelightHeight = 0;
+        public static final double k_limelightAngle = 0;
+
+        public static final double k_upperTargetHeight = 0;
+
+        public static final int k_defaultPipeline = 0;
+        
+        public static final double k_horizontalRange = 0; // How far off from the crosshair the target can be to be centered on the x-axis
+    }
+
     public static final class DriveConstants {
         // Get Values For Everything:
         // Drive ports, current limit, gear ratio, feedforward values, pid values

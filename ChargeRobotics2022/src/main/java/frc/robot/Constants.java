@@ -73,14 +73,14 @@ public final class Constants {
     }
 
     public static final class VisionConstants{
-        public static final double k_limelightHeight = 0;
-        public static final double k_limelightAngle = 0;
+        public static final double klimelightHeight = 0;
+        public static final double klimelightAngle = 0;
 
-        public static final double k_upperTargetHeight = 0;
+        public static final double kupperTargetHeight = 0;
 
-        public static final int k_defaultPipeline = 0;
+        public static final int kdefaultPipeline = 0;
         
-        public static final double k_horizontalRange = 0; // How far off from the crosshair the target can be to be centered on the x-axis
+        public static final double khorizontalRange = 0; // How far off from the crosshair the target can be to be centered on the x-axis
     }
 
     public static final class DriveConstants {

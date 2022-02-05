@@ -12,25 +12,28 @@ import static frc.robot.Constants.VisionConstants.*;
 
 public class Vision extends SubsystemBase {
 
-
   // Creates a new table to access shuffleboard
   private final NetworkTable m_limelightTable;
-  private final NetworkTableEntry m_targetDetected;
+  
   private final NetworkTableEntry m_targetDistance;
+  private final NetworkTableEntry m_targetDetected;
 
-  private double m_xOffset; // horizontal offset from crosshair to target 
-  private double m_yOffset; // vertical offset from crosshair to target
+  private double m_xOffset; // horizontal offset from crosshair to target (-27 degrees to 27 degrees)
+  private double m_yOffset; // vertical offset from crosshair to target (-20.5 degrees to 20.5 degrees)
   private double m_percentArea; // target area
-  private double m_targetValue; // whether the limelight has an valid targets 
+  private double m_targetValue; // whether the limelight has an valid targets (0 or 1)
 
   /** Creates a new Vision. */
   public Vision() {
     // Instantiate the network table
-    m_limelightTable = NetworkTableInstance.getDefault().getTable("Limelight");
+    m_limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
 
-    m_targetDetected = m_limelightTable.getEntry("Target Dected");
+    // Initialize the network table entries for target distance and target detected
     m_targetDistance = m_limelightTable.getEntry("Target Distance");
+    m_targetDetected = m_limelightTable.getEntry("Target Detected");
 
+    // Set the limelight to default pipeline 
+    setPipeline(kdefaultPipeline);
   }
 
   public boolean isTargetDetected(){
@@ -39,30 +42,53 @@ public class Vision extends SubsystemBase {
 
   public boolean isHorizontallyAligned()
   {
-    return (isTargetDetected() && m_xOffset > -k_horizontalRange && m_xOffset < k_horizontalRange);
+    return (isTargetDetected() && m_xOffset < khorizontalRange && m_xOffset > -khorizontalRange);
+  }
+
+  // Returns the distance along the floor from the robot to the target on the upper hub 
+  public double getHorizontalDistanceToUpperHub(){
+    return ( (kupperTargetHeight - klimelightHeight) / Math.tan(Math.toRadians(getTargetAngle())) );
   }
 
   public double getTargetAngle(){
-    return (k_limelightAngle + m_yOffset);
+    return (klimelightAngle + m_yOffset);
   }
 
   public double getTargetArea(){
     return m_percentArea;
   }
 
-  // Returns the distance along the floor from the robot to the target on the upper hub 
-  public double getHorizontalDistanceToUpperHub(){
-    return ( (k_upperTargetHeight - k_limelightHeight) / Math.tan(Math.toRadians(getTargetAngle())));
+  // Sets which pipeline to use on the limelight 
+  public void setPipeline(int pipeline){
+    if (pipeline < 0){
+      pipeline = 0;
+    }
+    else if (pipeline > 9){
+      pipeline = 9;
+    }
+
+    m_limelightTable.getEntry("pipeline").setNumber(pipeline);
+  }
+
+  // Returns the value of the pipeline to the network table
+  public double getPipeline(){
+    return m_limelightTable.getEntry("Pipeline").getDouble(0.0);
   }
 
   public void turnOnLED(){
-    m_limelightTable.getEntry("LED Mode").setNumber(1);
+    m_limelightTable.getEntry("LED Mode").setNumber(3);
   }
+
   public void turnOffLED(){
-    m_limelightTable.getEntry("LED Mode").setNumber(0);
+    m_limelightTable.getEntry("LED Mode").setNumber(1);
   }
 
   public void updateLimeLight(){
+    m_xOffset = m_limelightTable.getEntry("tx").getDouble(0.0);
+    m_yOffset = m_limelightTable.getEntry("ty").getDouble(0.0);
+    m_percentArea = m_limelightTable.getEntry("ta").getDouble(0.0);
+    m_targetValue = m_limelightTable.getEntry("tv").getDouble(0.0);
+
     m_targetDistance.setDouble(getHorizontalDistanceToUpperHub());
     m_targetDetected.setBoolean(isTargetDetected());
   }

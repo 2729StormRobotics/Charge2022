@@ -81,6 +81,13 @@ public final class Constants {
         public static final int kdefaultPipeline = 0;
         
         public static final double khorizontalRange = 0; // How far off from the crosshair the target can be to be centered on the x-axis
+
+        // Alignment constants for the limelight
+        public static final double kAutoAlignP = 0.0;
+        public static final double kAutoAlignI = 0.0;
+        public static final double kAutoAlignD = 0.01;
+        public static final double kAutoAlignTolerance = 0.0;
+        public static final double kAutoAlignSpeedTolerance = 0.0;
     }
 
     public static final class DriveConstants {

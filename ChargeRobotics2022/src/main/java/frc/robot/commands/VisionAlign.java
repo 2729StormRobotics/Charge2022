@@ -5,14 +5,24 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.PIDCommand;
 
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Vision;
+
 import static frc.robot.Constants.VisionConstants.*;
 
-public class VisionAlign extends CommandBase {
+public class VisionAlign extends PIDCommand {
   /** Creates a new VisionAlign. */
-  public VisionAlign() {
+  private final Drivetrain m_drivetrain;
+  private final Vision m_vision;
+  
+  public VisionAlign(Drivetrain drivetrain, Vision vision) {
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(m_drivetrain);
+    addRequirements(m_vision);
+
+    super(newPIDController(), 0, null);
   }
 
   // Called when the command is initially scheduled.

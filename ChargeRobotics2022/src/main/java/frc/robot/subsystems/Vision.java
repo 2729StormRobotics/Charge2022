@@ -36,6 +36,22 @@ public class Vision extends SubsystemBase {
     setPipeline(kdefaultPipeline);
   }
 
+  public double getXOffset(){
+    return m_xOffset;
+  }
+
+  public double getYOffset(){
+    return m_yOffset;
+  }
+
+  public double getpercentArea(){
+    return m_percentArea;
+  }
+
+  public double getTargetValue(){
+    return m_targetValue;
+  }
+  
   public boolean isTargetDetected(){
     return (m_targetValue > 0.0);
   }

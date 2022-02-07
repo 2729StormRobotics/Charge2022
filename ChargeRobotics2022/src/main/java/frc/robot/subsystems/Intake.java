@@ -21,7 +21,6 @@ public class Intake extends SubsystemBase {
 //creates a new intake
   public Intake() {
     m_intakeMotor = new CANSparkMax(kIntakeMotorPort, MotorType.kBrushless);
-    
 
     m_intakePistons = new DoubleSolenoid(PneumaticsModuleType.REVPH, kIntakeExtendChannel, kIntakeRetractChannel);
     m_intakePistons.toggle();

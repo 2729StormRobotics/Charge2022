@@ -39,6 +39,12 @@ public class Index extends SubsystemBase {
      //may have to add ball retraction
   }
 
+  public void ejectIndex() {
+    m_lowerIndexMotor.set(kEjectIndexMotorSpeed);
+    m_upperIndexMotor.set(kEjectIndexMotorSpeed);
+  }
+
+
   public void stopIndexMotors(boolean stopLower) {
     m_lowerIndexMotor.set(stopLower ? kIndexMotorStopSpeed:kLowerIndexMotorSpeed);
     m_upperIndexMotor.set(stopLower ? kUpperIndexMotorSpeed:kIndexMotorStopSpeed);
@@ -49,6 +55,7 @@ public class Index extends SubsystemBase {
     m_upperIndexMotor.set(kIndexMotorStopSpeed);
   }
 
+  
   public boolean getLowerBeamBrakerStatus() {
     return m_lowerBeamBraker.get();
   }
@@ -57,6 +64,7 @@ public class Index extends SubsystemBase {
     return m_upperBeamBraker.get();
   }
 
+  
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

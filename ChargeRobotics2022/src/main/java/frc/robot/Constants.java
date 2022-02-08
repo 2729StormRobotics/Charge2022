@@ -50,6 +50,7 @@ public final class Constants {
         public static final int kLowerIndexMotorSpeed = 0;
         public static final int kUpperIndexMotorSpeed = 0;
         public static final int kIndexMotorStopSpeed = 0;
+        public static final int kEjectIndexMotorSpeed = -1;
 
     }
 

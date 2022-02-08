@@ -7,11 +7,11 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Index;
 
-public class IndexLower extends CommandBase {
+public class IndexRun extends CommandBase {
   private final Index m_index;
-  
-  /** Creates a new IndexLower. */
-  public IndexLower(Index subsystem) {
+  /** This command runs the indexes and has a boolean for whether or not to run the upper, lower, or both motors */
+  /** Creates a new IndexRun. */
+  public IndexRun(Index subsystem) {
     m_index = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_index);
@@ -30,6 +30,10 @@ public class IndexLower extends CommandBase {
   public void execute() {
     if(!m_index.getLowerBeamBrakerStatus()) {
     m_index.stopIndexMotors(true);
+
+    if (!m_index.getUpperBeamBrakerStatus()) {
+      m_index.stopIndexMotors();
+    }
     }
   }
 

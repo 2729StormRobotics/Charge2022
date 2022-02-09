@@ -30,14 +30,14 @@ public class IndexUpper extends CommandBase {
   @Override
   public void execute() {
     if (!m_index.getUpperBeamBrakerStatus()) {
-      m_index.stopIndexMotors();
+      m_index.stopIndexMotors(false);
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_index.stopIndexMotors();
+    m_index.stopIndexMotors(false);
   }
 
   // Returns true when the command should end.

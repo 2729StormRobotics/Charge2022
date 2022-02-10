@@ -38,23 +38,25 @@ public final class Constants {
         // Drive ports, current limit, gear ratio, feedforward values, pid values (for both), navX Port, 
 
         // Drive Motor Ports
-        public static final int kLeftLeaderMotorPort = 0;
+        public static final int kLeftLeaderMotorPort = 9;
         public static final int kLeftFollowerMotorPort = 0;
-        public static final int kRightLeaderMotorPort = 0;
+        public static final int kRightLeaderMotorPort = 1;
         public static final int kRightFollowerMotorPort = 0;
 
         // Set If Drive Motors are Reversed
-        public static final boolean kLeftLeaderMotorReversedDefault = true;
+        public static final boolean kLeftLeaderMotorReversedDefault = false;
         public static final boolean kLeftFollowerMotorReversedDefault = false;
         public static final boolean kRightLeaderMotorReversedDefault = true;
-        public static final boolean kRightFollowerMotorReversedDefault = false;
+        public static final boolean kRightFollowerMotorReversedDefault = true;
 
-        public static final int kCurrentLimit = 0;
+        public static final int kCurrentLimit = 0; // NEED TO SET
 
 
         // Encoder calculations
         public static final double kDriveWheelDiameterInches = 6.0;
-        public static final double kGear = 1; // NEED GEAR RATIO!!!!
+        public static final double kGear = 10.75; 
+        //Testbot Gear ratio- 10.75 : 1
+        //Real Robot Gear Ratio- 12 : 1
     
         
         // Calculates the distace per pulse by dividing the circumference by the pulses per revolution
@@ -73,11 +75,11 @@ public final class Constants {
         public static final double kRightA = 0;
 
         // Drive Distance PID Values
-        public static final double kLeftP = .1;
+        public static /*final*/ double kLeftP = .01;
         public static final double kLeftI = 0;
         public static final double kLeftD = 0;
 
-        public static final double kRightP = 0;
+        public static /*final*/ double kRightP = .01;
         public static final double kRightI = 0;
         public static final double kRightD = 0;
 
@@ -99,7 +101,9 @@ public final class Constants {
         public static final double kTurnSpeedTolerance = 1.0; //Placeholder
 
 
-
+        // Driver Controller Ports
+        public static final int kDriverControllerPort = 0;
+        public static final int kOperatorControllerPort = 1;
 
     }
     

@@ -23,8 +23,8 @@ public class Drivetrain extends SubsystemBase {
   // Declare Motor Variables
   private final CANSparkMax m_leftLeaderMotor;
   private final CANSparkMax m_rightLeaderMotor;
-  private final CANSparkMax m_leftFollowerMotor;
-  private final CANSparkMax m_rightFollowerMotor;
+  // private final CANSparkMax m_leftFollowerMotor;
+  // private final CANSparkMax m_rightFollowerMotor;
 
   // Declare Encoder Variables
   private final RelativeEncoder m_leftEncoder;
@@ -44,18 +44,18 @@ public class Drivetrain extends SubsystemBase {
     // Set Motor Ports and Motor Type
     m_leftLeaderMotor = new CANSparkMax(kLeftLeaderMotorPort, MotorType.kBrushless);
     m_rightLeaderMotor = new CANSparkMax(kRightLeaderMotorPort, MotorType.kBrushless);
-    m_leftFollowerMotor = new CANSparkMax(kLeftFollowerMotorPort, MotorType.kBrushless);
-    m_rightFollowerMotor = new CANSparkMax(kRightFollowerMotorPort, MotorType.kBrushless);
+    // m_leftFollowerMotor = new CANSparkMax(kLeftFollowerMotorPort, MotorType.kBrushless);
+    // m_rightFollowerMotor = new CANSparkMax(kRightFollowerMotorPort, MotorType.kBrushless);
 
     // Initialize Motors
     motorInit(m_leftLeaderMotor, kLeftLeaderMotorReversedDefault);
     motorInit(m_rightLeaderMotor, kRightLeaderMotorReversedDefault);
-    motorInit(m_leftFollowerMotor, kLeftFollowerMotorReversedDefault);
-    motorInit(m_rightFollowerMotor, kRightFollowerMotorReversedDefault);
+    // motorInit(m_leftFollowerMotor, kLeftFollowerMotorReversedDefault);
+    // motorInit(m_rightFollowerMotor, kRightFollowerMotorReversedDefault);
 
     // Set Motor Followers
-    m_leftFollowerMotor.follow(m_leftLeaderMotor);
-    m_rightFollowerMotor.follow(m_rightLeaderMotor);
+    // m_leftFollowerMotor.follow(m_leftLeaderMotor);
+    // m_rightFollowerMotor.follow(m_rightLeaderMotor);
 
     // Set Encoder to Leader Motor Encoder
     m_leftEncoder = m_leftLeaderMotor.getEncoder();
@@ -137,7 +137,7 @@ public class Drivetrain extends SubsystemBase {
     return m_rightEncoder.getVelocity();
   }
 
-  private double getAverageVelocity(){
+  public double getAverageVelocity(){
     return (getLeftDistance() + getRightDistance()) / 2;
   }
 

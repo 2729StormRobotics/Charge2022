@@ -4,13 +4,15 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.DriveDistance;
+import frc.robot.commands.DriveManually;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import static frc.robot.Constants.DriveConstants.*;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -19,8 +21,14 @@ import edu.wpi.first.wpilibj2.command.Command;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+    // The robot's subsystems and commands are defined here...
+
   private final Drivetrain m_drivetrain;
-  // The robot's subsystems and commands are defined here...
+  
+  private final XboxController m_driver = new XboxController(kDriverControllerPort);
+  private final XboxController m_operator = new XboxController(kOperatorControllerPort);
+  
+
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
@@ -30,6 +38,11 @@ public class RobotContainer {
 
     m_drivetrain = new Drivetrain(); 
 
+    //Drive Manually for this only uses triggerdrive so the first two parameters are needed the other two are not
+
+    m_drivetrain.setDefaultCommand(
+       new DriveManually(() -> m_driver.getRightX(), () -> m_driver.getRightY(),
+          () -> m_driver.getLeftY(), () -> m_driver.getLeftY(), m_drivetrain));
 
     // Configure the button bindings
     configureButtonBindings();
@@ -45,12 +58,15 @@ public class RobotContainer {
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
+   
    * @return the command to run in autonomous
    */
+
+
+
   public Command getAutonomousCommand() {
     
     // An ExampleCommand will run in autonomous
-    return new DriveDistance(12, m_drivetrain);
+    return new DriveDistance(10, m_drivetrain);
   }
 }

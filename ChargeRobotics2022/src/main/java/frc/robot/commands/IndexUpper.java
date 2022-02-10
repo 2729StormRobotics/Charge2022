@@ -19,6 +19,7 @@ public class IndexUpper extends CommandBase {
   }
 
   // Called when the command is initially scheduled.
+  //run both motors
   @Override
   public void initialize() {
     m_index.runLowerIndexMotor();
@@ -27,17 +28,19 @@ public class IndexUpper extends CommandBase {
 
 
   // Called every time the scheduler runs while the command is scheduled.
+  //stop both motors if the upper beam 'breaks'
   @Override
   public void execute() {
     if (!m_index.getUpperBeamBrakerStatus()) {
-      m_index.stopIndexMotors(false);
+      m_index.stopIndexMotors();
     }
   }
 
   // Called once the command ends or is interrupted.
+  //stop both motors
   @Override
   public void end(boolean interrupted) {
-    m_index.stopIndexMotors(false);
+    m_index.stopIndexMotors();
   }
 
   // Returns true when the command should end.

@@ -21,11 +21,10 @@ public class IndexLower extends CommandBase {
   @Override
   public void initialize() {
     m_index.runLowerIndexMotor();
-    m_index.runUpperIndexMotor();
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.
+  //stop the lower motor if the lower beam 'breaks'
   @Override
   public void execute() {
     if(!m_index.getLowerBeamBrakerStatus()) {
@@ -34,6 +33,7 @@ public class IndexLower extends CommandBase {
   }
 
   // Called once the command ends or is interrupted.
+  //stop the lower motor
   @Override
   public void end(boolean interrupted) {
     m_index.stopIndexMotors(true);

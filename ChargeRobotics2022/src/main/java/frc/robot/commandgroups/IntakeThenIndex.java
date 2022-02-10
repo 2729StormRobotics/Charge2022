@@ -21,26 +21,26 @@ public class IntakeThenIndex extends SequentialCommandGroup {
   private final Intake m_intake;
   private final Index m_index;
 
-  private CommandBase firstIndexCommand;
-  private CommandBase secondIndexCommand;
+  private CommandBase indexCommand;
 
   /** Creates a new IntakeThenIndex. */
+
   public IntakeThenIndex(Intake intake, Index index) {
 
     m_intake = intake;
     m_index = index;
-
+    // If the lower beam breaker is open, index to the lower position.
     if (index.getLowerBeamBrakerStatus()) {
-      firstIndexCommand = new IndexLower(m_index);
-      secondIndexCommand = new IndexStop(m_index);
+      indexCommand = new IndexLower(m_index);
     }
+    // If the upper beam breaker is open, index to the upper position.
     if (index.getUpperBeamBrakerStatus()) {
-      secondIndexCommand = new IndexUpper(m_index);
+      indexCommand = new IndexUpper(m_index);
     }
 
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new IntakeRun(m_intake), firstIndexCommand, secondIndexCommand);
+    addCommands(new IntakeRun(m_intake), indexCommand);
   }
 
 @Override

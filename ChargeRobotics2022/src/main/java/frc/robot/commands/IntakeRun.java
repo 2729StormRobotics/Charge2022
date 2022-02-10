@@ -24,18 +24,21 @@ public class IntakeRun extends CommandBase {
   }
 
   // Called every time the scheduler runs while the command is scheduled.
+  //Runs the Intake.
   @Override
   public void execute() {
     m_intake.runIntake();
   }
 
   // Called once the command ends or is interrupted.
+  //Stops the intake.
   @Override
   public void end(boolean interrupted) {
     m_intake.stopIntake();
   }
 
   // Returns true when the command should end.
+  //Command is finished.
   @Override
   public boolean isFinished() {
     return false;

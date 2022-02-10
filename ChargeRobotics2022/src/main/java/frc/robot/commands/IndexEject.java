@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Index;
 
 
+
 public class IndexEject extends CommandBase {
   private final Index m_index;
   /** Creates a new IndexEject. */
@@ -21,6 +22,7 @@ public class IndexEject extends CommandBase {
  
 
   // Called when the command is initially scheduled.
+  //reverses index motors
   @Override
   public void initialize() {
    m_index.ejectIndex();
@@ -32,6 +34,7 @@ public class IndexEject extends CommandBase {
   public void execute() {}
 
   // Called once the command ends or is interrupted.
+  //stops both upper and lower motors
   @Override
   public void end(boolean interrupted) {
     m_index.stopIndexMotors();

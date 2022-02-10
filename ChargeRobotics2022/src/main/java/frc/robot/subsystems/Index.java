@@ -18,7 +18,11 @@ public class Index extends SubsystemBase {
   private final CANSparkMax m_upperIndexMotor;
   private final DigitalInput m_lowerBeamBraker;
   private final DigitalInput m_upperBeamBraker;
-  /** Creates a new Index. */
+  /**
+  Creates a new Index.
+  The index system has two motors and two beam brakers.
+  */
+
   public Index() {
 
     m_lowerIndexMotor = new CANSparkMax(kLowerIndexMotorPort, MotorType.kBrushless);
@@ -28,38 +32,39 @@ public class Index extends SubsystemBase {
 
   }
 
+  //run lower motor
   public void runLowerIndexMotor() {
     m_lowerIndexMotor.set(kLowerIndexMotorSpeed);
-    //may have to add ball retraction
   }
 
-
+  //run upper motor
   public void runUpperIndexMotor() {
     m_upperIndexMotor.set(kUpperIndexMotorSpeed);
-     //may have to add ball retraction
   }
 
+  //reverse both motors
   public void ejectIndex() {
     m_lowerIndexMotor.set(kEjectIndexMotorSpeed);
     m_upperIndexMotor.set(kEjectIndexMotorSpeed);
   }
 
-
+  //stop one motor(stopLower = true for left and false for right)
   public void stopIndexMotors(boolean stopLower) {
     m_lowerIndexMotor.set(stopLower ? kIndexMotorStopSpeed:kLowerIndexMotorSpeed);
     m_upperIndexMotor.set(stopLower ? kUpperIndexMotorSpeed:kIndexMotorStopSpeed);
   }
 
+  //stop both motors
   public void stopIndexMotors() {
     m_lowerIndexMotor.set(kIndexMotorStopSpeed);
     m_upperIndexMotor.set(kIndexMotorStopSpeed);
   }
 
-  
+  //returns true if the beam is not broken
   public boolean getLowerBeamBrakerStatus() {
     return m_lowerBeamBraker.get();
   }
-
+  
   public boolean getUpperBeamBrakerStatus() {
     return m_upperBeamBraker.get();
   }

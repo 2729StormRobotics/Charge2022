@@ -5,13 +5,17 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.DriveDistance;
 import frc.robot.commands.DriveManually;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.TankDriveDistance;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import static frc.robot.Constants.DriveConstants.*;
+
+import java.util.TreeMap;
 
 
 /**
@@ -28,7 +32,6 @@ public class RobotContainer {
   private final XboxController m_driver = new XboxController(kDriverControllerPort);
   private final XboxController m_operator = new XboxController(kOperatorControllerPort);
   
-
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
@@ -67,6 +70,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     
     // An ExampleCommand will run in autonomous
-    return new DriveDistance(10, m_drivetrain);
+    return new TankDriveDistance(m_drivetrain, .3, 36);
   }
+
 }

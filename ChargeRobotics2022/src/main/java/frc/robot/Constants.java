@@ -75,11 +75,11 @@ public final class Constants {
         public static final double kRightA = 0;
 
         // Drive Distance PID Values
-        public static /*final*/ double kLeftP = .01;
+        public static /*final*/ double kLeftP = .1;
         public static final double kLeftI = 0;
         public static final double kLeftD = 0;
 
-        public static /*final*/ double kRightP = .01;
+        public static /*final*/ double kRightP = .1;
         public static final double kRightI = 0;
         public static final double kRightD = 0;
 

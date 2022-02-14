@@ -13,6 +13,8 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.DriveConstants.*;
 
@@ -31,6 +33,8 @@ public class Drivetrain extends SubsystemBase {
   private final RelativeEncoder m_rightEncoder;
 
   private final DifferentialDrive m_drive;
+
+
 
   private final SimpleMotorFeedforward m_leftFeedforward;
   private final SimpleMotorFeedforward m_rightFeedforward;
@@ -113,12 +117,12 @@ public class Drivetrain extends SubsystemBase {
   }
 
   // Get the position of the left encoders
-  private double getLeftDistance(){
+  public double getLeftDistance(){
     return m_leftEncoder.getPosition();
   }
 
   // Get the position of the right encoders
-  private double getRightDistance(){
+  public double getRightDistance(){
     return m_rightEncoder.getPosition();
   }
 
@@ -138,18 +142,22 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public double getAverageVelocity(){
-    return (getLeftDistance() + getRightDistance()) / 2;
+    return (getLeftSpeed() + getRightSpeed()) / 2;
   }
 
 
   // Drives Using Tank Drive
   public void tankDrive(double leftPower, double rightPower, boolean squareInputs){
     m_drive.tankDrive(leftPower, rightPower, squareInputs);
+
   }
   
   // Drives Using Arcade Drive
   public void arcadeDrive(double speed, double turn, boolean squareInputs){
     m_drive.arcadeDrive(speed, turn, squareInputs);
+
+    SmartDashboard.putNumber("forward power", speed);
+
   }
   // Stop All Drive Motors
   public void stopDrive(){
@@ -175,4 +183,11 @@ public class Drivetrain extends SubsystemBase {
     setLeftDistancePID();
     setRightDistancePID();
   }
+
+  public void dashboardInit(){
+    // LiveWindow.addActuator("drivetrain", "Drivetrain", m_drive.drivetrain.getPIDController());
+
+  }
+
+
 }

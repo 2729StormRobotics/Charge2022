@@ -8,10 +8,13 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.DriveDistance;
 import frc.robot.commands.DriveManually;
+import frc.robot.commands.DrivePointTurn;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.TankDriveDistance;
+import frc.robot.commands.TankPointTurn;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.NavX;
 import edu.wpi.first.wpilibj2.command.Command;
 import static frc.robot.Constants.DriveConstants.*;
 
@@ -28,6 +31,7 @@ public class RobotContainer {
     // The robot's subsystems and commands are defined here...
 
   private final Drivetrain m_drivetrain;
+  private final NavX m_navX;
   
   private final XboxController m_driver = new XboxController(kDriverControllerPort);
   private final XboxController m_operator = new XboxController(kOperatorControllerPort);
@@ -40,6 +44,7 @@ public class RobotContainer {
   public RobotContainer() {
 
     m_drivetrain = new Drivetrain(); 
+    m_navX = new NavX();
 
     //Drive Manually for this only uses triggerdrive so the first two parameters are needed the other two are not
 
@@ -70,7 +75,8 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     
     // An ExampleCommand will run in autonomous
-    return new TankDriveDistance(m_drivetrain, .3, 36);
+
+    return new DrivePointTurn(90, m_navX, m_drivetrain);
   }
 
 }

@@ -31,10 +31,10 @@ public class DriveDistance extends PIDCommand {
           // drivetrain.arcadeDrive(-output, 0, false);
           drivetrain.resetAllEncoders();
 
-          System.out.println("initial");
-          System.out.println("right dist:  " + drivetrain.getRightDistance());
-          System.out.println("left dist:  " + drivetrain.getLeftDistance());
-          System.out.println("avg dist:  " + drivetrain.getAverageDistance());
+          // System.out.println("initial");
+          // System.out.println("right dist:  " + drivetrain.getRightDistance());
+          // System.out.println("left dist:  " + drivetrain.getLeftDistance());
+          // System.out.println("avg dist:  " + drivetrain.getAverageDistance());
          
 
           drivetrain.tankDrive(output, output, true);
@@ -43,10 +43,10 @@ public class DriveDistance extends PIDCommand {
           
           System.out.println("output " + output);
           
-          System.out.println("final");
-          System.out.println("right dist:  " + drivetrain.getRightDistance());
-          System.out.println("left dist:  " + drivetrain.getLeftDistance());
-          System.out.println("avg dist:  " + drivetrain.getAverageDistance());
+          // System.out.println("final");
+          // System.out.println("right dist:  " + drivetrain.getRightDistance());
+          // System.out.println("left dist:  " + drivetrain.getLeftDistance());
+          // System.out.println("avg dist:  " + drivetrain.getAverageDistance());
           
         });
     // Use addRequirements() here to declare subsystem dependencies.

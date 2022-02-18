@@ -12,6 +12,8 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -41,6 +43,9 @@ public class Drivetrain extends SubsystemBase {
 
   private final SparkMaxPIDController m_leftPIDController;
   private final SparkMaxPIDController m_rightPIDController;
+
+  private final DifferentialDriveKinematics m_kinematics;
+
 
 
   public Drivetrain() {
@@ -75,6 +80,11 @@ public class Drivetrain extends SubsystemBase {
     m_leftPIDController = m_leftLeaderMotor.getPIDController();
     m_rightPIDController = m_rightLeaderMotor.getPIDController();
 
+    m_kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(22.));
+
+
+
+
 
   }
 
@@ -91,9 +101,12 @@ public class Drivetrain extends SubsystemBase {
     motor.setInverted(invert);
   }
 
-  private void encoderInit(RelativeEncoder encoder) {
-    encoder.setPositionConversionFactor(kDriveDistancePerRev);
-    encoder.setVelocityConversionFactor(kDriveSpeedPerRev);
+  public void encoderInit() {
+    m_leftEncoder.setPositionConversionFactor(kDriveDistancePerRev);
+    m_leftEncoder.setVelocityConversionFactor(kDriveSpeedPerRev);
+
+    m_rightEncoder.setPositionConversionFactor(kDriveDistancePerRev);
+    m_rightEncoder.setVelocityConversionFactor(kDriveSpeedPerRev);
   }
   // Reset Encoder
   private void encoderReset(RelativeEncoder encoder){
@@ -128,7 +141,26 @@ public class Drivetrain extends SubsystemBase {
 
   // Averages the left and right encoder distance
   public double getAverageDistance(){
-    return (getLeftDistance() + getRightDistance()) / 2;
+   double distLeft = getLeftDistance();
+   double distRight = getRightDistance();
+   
+   encoderInit();
+   printPositionConversionFactor();   
+   
+   
+   System.out.println("Left:  " + distLeft);
+    System.out.println("Right:  " + distRight);
+    System.out.println("velocity:  " + getAverageVelocity());
+    
+  
+    return (distLeft + distRight) / 2;
+
+  }
+
+  // feedback of encoder conversion factor on the Driver Station Console
+  public void printPositionConversionFactor() {
+    System.out.println("Left Conversion Factor:  " + m_leftEncoder.getPositionConversionFactor());
+    System.out.println("Right Conversion Factor:  " + m_rightEncoder.getPositionConversionFactor());
   }
 
   // Get the velocity of the left encoder
@@ -148,6 +180,8 @@ public class Drivetrain extends SubsystemBase {
 
   // Drives Using Tank Drive
   public void tankDrive(double leftPower, double rightPower, boolean squareInputs){
+    // double outputLeft = m_leftPIDController.calculate(getLeftSpeed(), setpoint);
+    // double outputRight = pid.calculate(encoder.getDistance(), setpoint);
     m_drive.tankDrive(leftPower, rightPower, squareInputs);
 
   }
@@ -184,10 +218,7 @@ public class Drivetrain extends SubsystemBase {
     setRightDistancePID();
   }
 
-  public void dashboardInit(){
-    // LiveWindow.addActuator("drivetrain", "Drivetrain", m_drive.drivetrain.getPIDController());
-
-  }
-
+  
+  
 
 }

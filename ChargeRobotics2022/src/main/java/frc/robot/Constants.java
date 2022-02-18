@@ -60,7 +60,7 @@ public final class Constants {
     
         
         // Calculates the distace per pulse by dividing the circumference by the pulses per revolution
-        public static final double kDriveDistancePerRev = Math.PI * kDriveWheelDiameterInches * kGear;
+        public static final double kDriveDistancePerRev = Math.PI * kDriveWheelDiameterInches / kGear;
         // Encoders are in RPM so this converts to inches/sec
         public static final double kDriveSpeedPerRev = kDriveDistancePerRev / 60.0; 
 
@@ -92,13 +92,15 @@ public final class Constants {
         public static final int kNavXPort = 0; 
 
         //Point Turn PID Values
-        public static final double kTurnP = 0;
+        public static final double kTurnP = .005;
         public static final double kTurnI = 0;
         public static final double kTurnD = 0;
 
         //Point Turn Tolerances in degrees and seconds
         public static final double kAngleTolerance = 1.0; //Placeholder
         public static final double kTurnSpeedTolerance = 1.0; //Placeholder
+
+        public static final double kTurnAngleToInches = (22.75 * Math.PI) / 360;
 
 
         // Driver Controller Ports

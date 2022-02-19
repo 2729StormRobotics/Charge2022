@@ -7,7 +7,6 @@ package frc.robot.commandgroups;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.IndexLower;
-import frc.robot.commands.IndexStop;
 import frc.robot.commands.IndexUpper;
 import frc.robot.commands.IntakeRun;
 import frc.robot.subsystems.Index;

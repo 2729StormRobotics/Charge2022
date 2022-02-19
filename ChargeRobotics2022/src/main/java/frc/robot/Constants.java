@@ -68,8 +68,10 @@ public final class Constants {
         public static final int kIntakeMotorStopSpeed = 0;
         public static final int kEjectMotorSpeed = -1;
 
-        public static final int kIntakeExtendChannel = 0;
-        public static final int kIntakeRetractChannel = 0;
+        public static final int kLeftIntakeExtendChannel = 0;
+        public static final int kLeftIntakeRetractChannel = 0;
+        public static final int kRightIntakeExtendChannel = 0;
+        public static final int kRightIntakeRetractChannel = 0;
         public static final Value kIntakeExtendValue = Value.kForward;
         public static final Value kIntakeRetractValue = Value.kReverse;
        

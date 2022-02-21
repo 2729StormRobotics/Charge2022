@@ -13,7 +13,6 @@ import frc.robot.subsystems.Intake;
 public class IntakeExtend extends InstantCommand {
 
   private final Intake m_intake;
-
   public IntakeExtend(Intake subsystem) {
     m_intake = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -21,6 +20,7 @@ public class IntakeExtend extends InstantCommand {
   }
 
   // Called when the command is initially scheduled.
+  //Extends the Intake.
   @Override
   public void initialize() {
     m_intake.extendIntake();

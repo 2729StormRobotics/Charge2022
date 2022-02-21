@@ -21,6 +21,7 @@ public class IntakeRetract extends InstantCommand {
   }
 
   // Called when the command is initially scheduled.
+  //Retracts the intake.
   @Override
   public void initialize() {
     m_intake.retractIntake();

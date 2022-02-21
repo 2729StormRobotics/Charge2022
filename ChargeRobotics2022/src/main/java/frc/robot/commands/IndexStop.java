@@ -5,24 +5,23 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Index;
 
+public class IndexStop extends CommandBase {
+  private final Index m_index;
 
-public class IntakeEject extends CommandBase {
-  private final Intake m_intake;
-  /** Creates a new IntakeEject. */
-  public IntakeEject(Intake subsystem) {
-     m_intake = subsystem;
-
+  /** Creates a new IndexStop. */
+  public IndexStop(Index subsystem) {
+    m_index = subsystem;
+    
+    addRequirements(m_index);
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_intake);
   }
 
   // Called when the command is initially scheduled.
-  //Ejects the Intake.
   @Override
   public void initialize() {
-   m_intake.ejectIntake();
+    m_index.stopIndexMotors();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -31,9 +30,7 @@ public class IntakeEject extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    m_intake.stopIntake();
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override

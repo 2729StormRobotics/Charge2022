@@ -5,6 +5,8 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.subsystems.Drivetrain;
 import static frc.robot.Constants.DriveConstants.*;
@@ -26,14 +28,37 @@ public class DriveDistance extends PIDCommand {
         // This uses the output
         output -> {
           // Use the output here
-          drivetrain.arcadeDrive(-output, 0, false);
+          // drivetrain.arcadeDrive(-output, 0, false);
+          drivetrain.resetAllEncoders();
+
+          // System.out.println("initial");
+          // System.out.println("right dist:  " + drivetrain.getRightDistance());
+          // System.out.println("left dist:  " + drivetrain.getLeftDistance());
+          // System.out.println("avg dist:  " + drivetrain.getAverageDistance());
+         
+
+          drivetrain.tankDrive(output, output, true);
+          // SmartDashboard.putNumber("output", output);
+          
+          
+          System.out.println("output " + output);
+          
+          // System.out.println("final");
+          // System.out.println("right dist:  " + drivetrain.getRightDistance());
+          // System.out.println("left dist:  " + drivetrain.getLeftDistance());
+          // System.out.println("avg dist:  " + drivetrain.getAverageDistance());
+          
         });
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drivetrain);
 
     // Configure additional PID options by calling `getController` here.
     getController().setTolerance(kPositionTolerance, kVelocityTolerance);
-    drivetrain.resetAllEncoders();
+
+    System.out.println("pos err:  " + getController().getPositionError());
+    System.out.println("vel err:  " + getController().getVelocityError());
+
+    //drivetrain.resetAllEncoders();
 
   }
 
@@ -41,6 +66,9 @@ public class DriveDistance extends PIDCommand {
 // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    // SmartDashboard.putNumber("poition error", getController().getPositionError());
+    // SmartDashboard.putNumber("velocity error", getController().getVelocityError());
+
     return getController().atSetpoint();
   }
 }

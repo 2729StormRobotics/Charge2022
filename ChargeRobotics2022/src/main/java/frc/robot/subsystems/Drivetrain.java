@@ -12,7 +12,11 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.DriveConstants.*;
 
@@ -23,8 +27,8 @@ public class Drivetrain extends SubsystemBase {
   // Declare Motor Variables
   private final CANSparkMax m_leftLeaderMotor;
   private final CANSparkMax m_rightLeaderMotor;
-  private final CANSparkMax m_leftFollowerMotor;
-  private final CANSparkMax m_rightFollowerMotor;
+  // private final CANSparkMax m_leftFollowerMotor;
+  // private final CANSparkMax m_rightFollowerMotor;
 
   // Declare Encoder Variables
   private final RelativeEncoder m_leftEncoder;
@@ -32,11 +36,16 @@ public class Drivetrain extends SubsystemBase {
 
   private final DifferentialDrive m_drive;
 
+
+
   private final SimpleMotorFeedforward m_leftFeedforward;
   private final SimpleMotorFeedforward m_rightFeedforward;
 
   private final SparkMaxPIDController m_leftPIDController;
   private final SparkMaxPIDController m_rightPIDController;
+
+  private final DifferentialDriveKinematics m_kinematics;
+
 
 
   public Drivetrain() {
@@ -44,18 +53,18 @@ public class Drivetrain extends SubsystemBase {
     // Set Motor Ports and Motor Type
     m_leftLeaderMotor = new CANSparkMax(kLeftLeaderMotorPort, MotorType.kBrushless);
     m_rightLeaderMotor = new CANSparkMax(kRightLeaderMotorPort, MotorType.kBrushless);
-    m_leftFollowerMotor = new CANSparkMax(kLeftFollowerMotorPort, MotorType.kBrushless);
-    m_rightFollowerMotor = new CANSparkMax(kRightFollowerMotorPort, MotorType.kBrushless);
+    // m_leftFollowerMotor = new CANSparkMax(kLeftFollowerMotorPort, MotorType.kBrushless);
+    // m_rightFollowerMotor = new CANSparkMax(kRightFollowerMotorPort, MotorType.kBrushless);
 
     // Initialize Motors
     motorInit(m_leftLeaderMotor, kLeftLeaderMotorReversedDefault);
     motorInit(m_rightLeaderMotor, kRightLeaderMotorReversedDefault);
-    motorInit(m_leftFollowerMotor, kLeftFollowerMotorReversedDefault);
-    motorInit(m_rightFollowerMotor, kRightFollowerMotorReversedDefault);
+    // motorInit(m_leftFollowerMotor, kLeftFollowerMotorReversedDefault);
+    // motorInit(m_rightFollowerMotor, kRightFollowerMotorReversedDefault);
 
     // Set Motor Followers
-    m_leftFollowerMotor.follow(m_leftLeaderMotor);
-    m_rightFollowerMotor.follow(m_rightLeaderMotor);
+    // m_leftFollowerMotor.follow(m_leftLeaderMotor);
+    // m_rightFollowerMotor.follow(m_rightLeaderMotor);
 
     // Set Encoder to Leader Motor Encoder
     m_leftEncoder = m_leftLeaderMotor.getEncoder();
@@ -70,6 +79,11 @@ public class Drivetrain extends SubsystemBase {
     // Get PIDController From SparkMax
     m_leftPIDController = m_leftLeaderMotor.getPIDController();
     m_rightPIDController = m_rightLeaderMotor.getPIDController();
+
+    m_kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(22.));
+
+
+
 
 
   }
@@ -87,9 +101,12 @@ public class Drivetrain extends SubsystemBase {
     motor.setInverted(invert);
   }
 
-  private void encoderInit(RelativeEncoder encoder) {
-    encoder.setPositionConversionFactor(kDriveDistancePerRev);
-    encoder.setVelocityConversionFactor(kDriveSpeedPerRev);
+  public void encoderInit() {
+    m_leftEncoder.setPositionConversionFactor(kDriveDistancePerRev);
+    m_leftEncoder.setVelocityConversionFactor(kDriveSpeedPerRev);
+
+    m_rightEncoder.setPositionConversionFactor(kDriveDistancePerRev);
+    m_rightEncoder.setVelocityConversionFactor(kDriveSpeedPerRev);
   }
   // Reset Encoder
   private void encoderReset(RelativeEncoder encoder){
@@ -113,18 +130,37 @@ public class Drivetrain extends SubsystemBase {
   }
 
   // Get the position of the left encoders
-  private double getLeftDistance(){
+  public double getLeftDistance(){
     return m_leftEncoder.getPosition();
   }
 
   // Get the position of the right encoders
-  private double getRightDistance(){
+  public double getRightDistance(){
     return m_rightEncoder.getPosition();
   }
 
   // Averages the left and right encoder distance
   public double getAverageDistance(){
-    return (getLeftDistance() + getRightDistance()) / 2;
+   double distLeft = getLeftDistance();
+   double distRight = getRightDistance();
+   
+   encoderInit();
+   printPositionConversionFactor();   
+   
+   
+   System.out.println("Left:  " + distLeft);
+    System.out.println("Right:  " + distRight);
+    System.out.println("velocity:  " + getAverageVelocity());
+    
+  
+    return (distLeft + distRight) / 2;
+
+  }
+
+  // feedback of encoder conversion factor on the Driver Station Console
+  public void printPositionConversionFactor() {
+    System.out.println("Left Conversion Factor:  " + m_leftEncoder.getPositionConversionFactor());
+    System.out.println("Right Conversion Factor:  " + m_rightEncoder.getPositionConversionFactor());
   }
 
   // Get the velocity of the left encoder
@@ -137,19 +173,25 @@ public class Drivetrain extends SubsystemBase {
     return m_rightEncoder.getVelocity();
   }
 
-  private double getAverageVelocity(){
-    return (getLeftDistance() + getRightDistance()) / 2;
+  public double getAverageVelocity(){
+    return (getLeftSpeed() + getRightSpeed()) / 2;
   }
 
 
   // Drives Using Tank Drive
   public void tankDrive(double leftPower, double rightPower, boolean squareInputs){
+    // double outputLeft = m_leftPIDController.calculate(getLeftSpeed(), setpoint);
+    // double outputRight = pid.calculate(encoder.getDistance(), setpoint);
     m_drive.tankDrive(leftPower, rightPower, squareInputs);
+
   }
   
   // Drives Using Arcade Drive
   public void arcadeDrive(double speed, double turn, boolean squareInputs){
     m_drive.arcadeDrive(speed, turn, squareInputs);
+
+    SmartDashboard.putNumber("forward power", speed);
+
   }
   // Stop All Drive Motors
   public void stopDrive(){
@@ -175,4 +217,8 @@ public class Drivetrain extends SubsystemBase {
     setLeftDistancePID();
     setRightDistancePID();
   }
+
+  
+  
+
 }

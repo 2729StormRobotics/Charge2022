@@ -25,18 +25,23 @@ public class DrivePointTurn extends PIDCommand {
         () -> navX.getAngleNavX(),
         // This should return the setpoint (can also be a constant)
         // adds the change in angle to the current angle and sets so it is between -180 and 180
-        () -> (((navX.getAngleNavX() + deltaAngle)) % 360) - 180,
+        () -> (deltaAngle % 360) - 180,
         // This uses the output
         output -> {
           // Use the output here
-            drivetrain.arcadeDrive(0, output, true);
+          System.out.println("output:  " + output);  
+          
+          drivetrain.arcadeDrive(0, output, true);
+
 
         });
+   
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(navX, drivetrain);
     // Configure additional PID options by calling `getController` here.
     getController().setTolerance(kAngleTolerance, kTurnSpeedTolerance);
     getController().enableContinuousInput(-180, 180);
+
   }
 
   // Returns true when the command should end.

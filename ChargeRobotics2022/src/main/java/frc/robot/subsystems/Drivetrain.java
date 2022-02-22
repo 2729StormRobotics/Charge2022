@@ -16,9 +16,16 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.DriveConstants.*;
+
+import java.util.Map;
+import java.util.function.DoubleSupplier;
 
 public class Drivetrain extends SubsystemBase {
 
@@ -46,6 +53,9 @@ public class Drivetrain extends SubsystemBase {
 
   private final DifferentialDriveKinematics m_kinematics;
 
+  private final ShuffleboardTab m_drivetrainTab;
+  private final ShuffleboardLayout m_drivetrainLayout;
+   
 
 
   public Drivetrain() {
@@ -82,7 +92,12 @@ public class Drivetrain extends SubsystemBase {
 
     m_kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(22.));
 
+    
+    m_drivetrainTab= Shuffleboard.getTab("drivetrainTab");
+    m_drivetrainLayout = m_drivetrainTab.getLayout("Left Motor Power", BuiltInLayouts.kList)
+    .withProperties(Map.of("Lable position", "TOP"));
 
+    shuffleboardInit();
 
 
 
@@ -190,7 +205,7 @@ public class Drivetrain extends SubsystemBase {
   public void arcadeDrive(double speed, double turn, boolean squareInputs){
     m_drive.arcadeDrive(speed, turn, squareInputs);
 
-    SmartDashboard.putNumber("forward power", speed);
+    
 
   }
   // Stop All Drive Motors
@@ -217,7 +232,17 @@ public class Drivetrain extends SubsystemBase {
     setLeftDistancePID();
     setRightDistancePID();
   }
+  
+  public void shuffleboardInit(){
 
+  DoubleSupplier leftSpeed = new DoubleSupplier(){
+    @Override
+    public double getAsDouble() {return getLeftSpeed();}
+  };
+
+  m_drivetrainLayout.addNumber("Left Motor Power", leftSpeed);
+  //SmartDashboard.updateValues();
+}
   
   
 

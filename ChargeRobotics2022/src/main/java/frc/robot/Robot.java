@@ -5,11 +5,9 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.subsystems.Drivetrain;
-import static frc.robot.Constants.DriveConstants.*;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -21,8 +19,6 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
 
-  private Drivetrain m_drivetrain;
-  private final XboxController m_driver = new XboxController(kDriverControllerPort);
 
 
   private RobotContainer m_robotContainer;

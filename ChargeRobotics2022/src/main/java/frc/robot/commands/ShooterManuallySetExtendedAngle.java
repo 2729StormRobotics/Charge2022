@@ -21,7 +21,7 @@ public class ShooterManuallySetExtendedAngle extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_shooter.setExtendedAngle();
+    m_shooter.extendPistons();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

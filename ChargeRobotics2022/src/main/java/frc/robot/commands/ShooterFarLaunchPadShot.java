@@ -7,6 +7,8 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Shooter;
 
+import static frc.robot.Constants.ShooterConstants.*;
+
 public class ShooterFarLaunchPadShot extends CommandBase {
   private final Shooter m_shooter;
   /** Creates a new ShooterFarLaunchPadShot. */
@@ -20,8 +22,8 @@ public class ShooterFarLaunchPadShot extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_shooter.setRetractedAngle();
-    m_shooter.revFarLaunchPadShot();
+    m_shooter.extendPistons();
+    m_shooter.m_setpoint = kFarLaunchPadMotorSpeed;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -35,6 +37,9 @@ public class ShooterFarLaunchPadShot extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    if (m_shooter.m_encoder.getVelocity() >= m_shooter.m_setpoint){
+      return true;
+    }
     return false;
   }
 }

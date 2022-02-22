@@ -62,11 +62,14 @@ public final class Constants {
         motor port
         motor Intake/Reject speed
         extend/retract
+        currentLimit
         */
         public static final int kIntakeMotorPort = 4;
         public static final double kIntakeMotorSpeed = 0.56;
         public static final int kIntakeMotorStopSpeed = 0;
         public static final int kEjectMotorSpeed = -1;
+
+        public static final int kCurrentLimit = 0;
 
         public static final int kLeftIntakeExtendChannel = 0;
         public static final int kLeftIntakeRetractChannel = 0;
@@ -85,15 +88,20 @@ public final class Constants {
         motor ports
         beam braker ports
         motor speeds
+        currentLimit
         */
         public static final int kLowerIndexMotorPort = 0;
         public static final int kUpperIndexMotorPort = 0;
+
         public static final int kLowerIndexBeamBrakerPort = 0;
         public static final int kUpperIndexBeamBrakerPort = 0;
+
         public static final int kLowerIndexMotorSpeed = 0;
         public static final int kUpperIndexMotorSpeed = 0;
         public static final int kIndexMotorStopSpeed = 0;
         public static final int kEjectIndexMotorSpeed = -1;
+
+        public static final int kCurrentLimit = 0;
 
     }
 

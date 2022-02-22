@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -30,6 +31,15 @@ public class Index extends SubsystemBase {
     m_lowerBeamBraker = new DigitalInput(kLowerIndexBeamBrakerPort);
     m_upperBeamBraker = new DigitalInput(kUpperIndexBeamBrakerPort);
 
+    motorInit(m_lowerIndexMotor);
+    motorInit(m_upperIndexMotor);
+
+  }
+
+  private void motorInit(CANSparkMax motor) {
+    motor.restoreFactoryDefaults(); 
+    motor.setIdleMode(IdleMode.kBrake);
+    motor.setSmartCurrentLimit(kCurrentLimit);
   }
 
   //run lower motor

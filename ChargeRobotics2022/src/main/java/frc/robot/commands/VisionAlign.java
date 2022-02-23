@@ -30,6 +30,9 @@ public class VisionAlign extends PIDCommand {
         // This uses the output
         output -> {
           // Use the output here
+          if (vision.isTargetDetected()){
+            drivetrain.arcadeDrive(0, output, false);
+          }
         });
 
     m_vision = vision;
@@ -40,11 +43,12 @@ public class VisionAlign extends PIDCommand {
     addRequirements(m_drivetrain);
 
     // Configure additional PID options by calling `getController` here.
+    getController().setTolerance(kAutoAlignTolerance, kAutoAlignSpeedTolerance);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return getController().atSetpoint() || !m_vision.isTargetDetected();
   }
 }

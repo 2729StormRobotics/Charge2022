@@ -151,8 +151,8 @@ public final class Constants {
         public static final double kAutoAlignP = 0.0;
         public static final double kAutoAlignI = 0.0;
         public static final double kAutoAlignD = 0.01;
-        public static final double kAutoAlignTolerance = 0.0;
-        public static final double kAutoAlignSpeedTolerance = 0.0;
+        public static final double kAutoAlignTolerance = 1.0;
+        public static final double kAutoAlignSpeedTolerance = 1.0;
     }
 
     public static final class DriveConstants {

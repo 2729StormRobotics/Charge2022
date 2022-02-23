@@ -41,9 +41,10 @@ private double m_currentSpeed = 0;
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // use the tank drivemethod and scale it down by 0.5x
+    // use the tank drive method and scale it down by 0.5x
     m_drivetrain.arcadeDrive(m_forwardSpeed.getAsDouble() * 0.5, m_leftSpeed.getAsDouble() * 0.5, true);
 
+    
     m_currentSpeed = m_drivetrain.getAverageVelocity();
   }
 

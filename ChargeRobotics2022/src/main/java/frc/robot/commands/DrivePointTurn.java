@@ -24,6 +24,7 @@ public class DrivePointTurn extends PIDCommand {
         // This should return the measurement
         () -> navX.getAngleNavX(),
         // This should return the setpoint (can also be a constant)
+        
         // adds the change in angle to the current angle and sets so it is between -180 and 180
         () -> (deltaAngle % 360) - 180,
         // This uses the output
@@ -39,7 +40,11 @@ public class DrivePointTurn extends PIDCommand {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(navX, drivetrain);
     // Configure additional PID options by calling `getController` here.
+
+    // Setting the tolerances for the angle and the speed
     getController().setTolerance(kAngleTolerance, kTurnSpeedTolerance);
+    
+    // uses the shortest way to get to desired angle
     getController().enableContinuousInput(-180, 180);
 
   }
@@ -47,6 +52,8 @@ public class DrivePointTurn extends PIDCommand {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+
+    //Command is finished when the robot reaches the desired angle
     return getController().atSetpoint();
   }
 }

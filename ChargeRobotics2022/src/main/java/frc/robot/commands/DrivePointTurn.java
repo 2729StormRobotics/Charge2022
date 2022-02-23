@@ -22,6 +22,8 @@ public class DrivePointTurn extends PIDCommand {
         // The controller that the command will use
         new PIDController(kTurnP, kTurnI, kTurnD),
         // This should return the measurement
+
+        // gets the angle reading from the navX
         () -> navX.getAngleNavX(),
         // This should return the setpoint (can also be a constant)
         

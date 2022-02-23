@@ -10,12 +10,10 @@ import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.DriveConstants.*;
@@ -147,13 +145,11 @@ public class Drivetrain extends SubsystemBase {
    encoderInit();
    printPositionConversionFactor();   
    
-   
    System.out.println("Left:  " + distLeft);
-    System.out.println("Right:  " + distRight);
-    System.out.println("velocity:  " + getAverageVelocity());
-    
-  
-    return (distLeft + distRight) / 2;
+   System.out.println("Right:  " + distRight);
+   System.out.println("velocity:  " + getAverageVelocity());
+     
+   return (distLeft + distRight) / 2;
 
   }
 
@@ -173,6 +169,7 @@ public class Drivetrain extends SubsystemBase {
     return m_rightEncoder.getVelocity();
   }
 
+  // Get the average velocity
   public double getAverageVelocity(){
     return (getLeftSpeed() + getRightSpeed()) / 2;
   }

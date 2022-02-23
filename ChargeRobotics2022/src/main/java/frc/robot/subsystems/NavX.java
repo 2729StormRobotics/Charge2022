@@ -32,12 +32,14 @@ public class NavX extends SubsystemBase {
 
   }
 
+  // Gets the angle from the navX
   public float getAngleNavX() {
     System.out.println(m_navX.getYaw());
     return m_navX.getYaw();
 
   }
 
+  // Resets the angle reading
   public void resetYawNavX(){
     m_navX.zeroYaw();
     System.out.println("YAW IS ZEROED");

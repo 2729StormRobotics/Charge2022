@@ -39,6 +39,7 @@ public class TankPointTurn extends CommandBase {
   @Override
   public void initialize() {
 
+    // Initializes the encoders
     m_drivetrain.encoderInit();
     m_drivetrain.resetAllEncoders();
 
@@ -49,6 +50,8 @@ public class TankPointTurn extends CommandBase {
   @Override
   public void execute() {
   
+    // Sets the left motor to the negative speed multiplied by the sign of the inputed angle
+    // Sets the right motor to the speed multiplied by the sign of the inputed angle
     m_drivetrain.tankDrive(m_speed * Math.signum(m_angle) * -1, m_speed * Math.signum(m_angle), false);   
 
   }
@@ -60,7 +63,10 @@ public class TankPointTurn extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+  
    
+    // Command is finished when the right distance is greater than the inches the right side needs to go if the angle is positive
+    // If the angle is negative (or positive with a negative speed) then the command is finished when the right distance is less than the negative desired inches
     if ( m_angle * m_speed > 0  ) {
       return  m_drivetrain.getRightDistance() >= (m_angle * kTurnAngleToInches);
     }

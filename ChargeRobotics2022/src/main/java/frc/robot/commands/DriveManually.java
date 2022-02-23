@@ -42,15 +42,16 @@ private double m_currentSpeed = 0;
   @Override
   public void execute() {
     // use the tank drive method and scale it down by 0.5x
-    m_drivetrain.arcadeDrive(m_forwardSpeed.getAsDouble() * 0.5, m_leftSpeed.getAsDouble() * 0.5, true);
+    m_drivetrain.tankDrive(m_forwardSpeed.getAsDouble() * 0.5, m_leftSpeed.getAsDouble() * 0.5, true);
 
-    
+    // sets the current speed to the average velocity 
     m_currentSpeed = m_drivetrain.getAverageVelocity();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    
     m_currentSpeed = 0;
     m_drivetrain.stopDrive();
   }

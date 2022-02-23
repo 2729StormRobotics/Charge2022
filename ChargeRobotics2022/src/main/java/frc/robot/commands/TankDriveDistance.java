@@ -15,7 +15,8 @@ public class TankDriveDistance extends CommandBase {
 
 
   public TankDriveDistance(Drivetrain subsystem, double speed, double distance) {
-    // Use addRequirements() here to declare subsystem dependencies.
+   // Use addRequirements() here to declare subsystem dependencies.
+   
    m_drivetrain = subsystem;
    m_speed = speed; 
    m_distance = distance;
@@ -26,6 +27,8 @@ public class TankDriveDistance extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+
+    // initializes and resets all encoders
     m_drivetrain.encoderInit();
      m_drivetrain.resetAllEncoders();
 
@@ -33,13 +36,13 @@ public class TankDriveDistance extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-  m_drivetrain.tankDrive(m_speed, m_speed, false);   
+    // sets the tank drive speeds to the inputed speeds
+    m_drivetrain.tankDrive(m_speed, m_speed, false);   
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("COMMAND FINSIHED!!");
 
   }
     
@@ -48,6 +51,7 @@ public class TankDriveDistance extends CommandBase {
   @Override
   public boolean isFinished() {
 
+    // Command is finished when the travelled distance is greater than or equal to the inputted distance
    return m_drivetrain.getAverageDistance() >= m_distance;
   }
 }

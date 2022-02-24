@@ -21,16 +21,17 @@ public class Shooter extends SubsystemBase {
   
   private final CANSparkMax m_motor;
 
-  public final RelativeEncoder m_encoder;
+  private final RelativeEncoder m_encoder;
 
   private final DoubleSolenoid m_piston1;
   private final DoubleSolenoid m_piston2;
 
-
   private final SimpleMotorFeedforward m_feedForward;
   private final PIDController m_pidController;
 
-  public double m_setpoint;
+  private double m_setpoint;
+
+  private boolean m_pistonsExtended;
   
   /** Creates a new Shooter. */
   public Shooter() {
@@ -61,6 +62,8 @@ public class Shooter extends SubsystemBase {
     pidInit();
 
     m_feedForward = new SimpleMotorFeedforward(kS, kV, kA);
+
+    m_pistonsExtended = false;
 }
 
   // Intialize the motor
@@ -73,6 +76,18 @@ public class Shooter extends SubsystemBase {
   // Stops the motor
   public void stopMotor(){
     m_motor.set(0);
+  }
+
+  public double getSetpoint(){
+    return m_setpoint;
+  }
+
+  public void setSetpoint(double setpoint){
+    m_setpoint = setpoint;
+  }
+
+  public double getVelocity(){
+    return m_encoder.getVelocity();
   }
 
   // Intialize the encoders
@@ -93,14 +108,22 @@ public class Shooter extends SubsystemBase {
 
   // Retracts the pisons
   public void retractPistons(){
-    m_piston1.set(kPistonRetractedValue);
-    m_piston2.set(kPistonRetractedValue);
+    if (m_pistonsExtended){
+      m_piston1.set(kPistonRetractedValue);
+      m_piston2.set(kPistonRetractedValue);
+
+      m_pistonsExtended = false;
+    }  
   }
 
   // Extends the pistons
   public void extendPistons(){
-    m_piston1.set(kPistonExtendedValue);
-    m_piston2.set(kPistonExtendedValue);
+    if (!m_pistonsExtended){
+      m_piston1.set(kPistonExtendedValue);
+      m_piston2.set(kPistonExtendedValue);
+
+      m_pistonsExtended = true;
+    }
   }
 
   // Set PID coefficients for the PID Controller to use 

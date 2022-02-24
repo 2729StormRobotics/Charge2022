@@ -23,7 +23,7 @@ public class ShooterCloseLaunchPadShot extends CommandBase {
   @Override
   public void initialize() {
     m_shooter.extendPistons();
-    m_shooter.m_setpoint = kCloseLaunchPadMotorSpeed;
+    m_shooter.setSetpoint(kCloseLaunchPadMotorSpeed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -37,9 +37,6 @@ public class ShooterCloseLaunchPadShot extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (m_shooter.m_encoder.getVelocity() >= m_shooter.m_setpoint){
-      return true;
-    }
-    return false;
+    return (m_shooter.getVelocity() >= m_shooter.getSetpoint());
   }
 }

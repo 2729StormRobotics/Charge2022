@@ -37,6 +37,9 @@ public final class Constants {
 
         // Port number for the hanger motor
         public static final int kHangerMotorPort = 0;
+        public static final int kLeftHangerMotor = 1;
+        public static final int kRightHangerMotor = 4;
+
         // Boolean to track whether the motor needs to be inverted
         public static final boolean kMotorInverted = false;
 
@@ -63,7 +66,7 @@ public final class Constants {
         motor Intake/Reject speed
         extend/retract
         */
-        public static final int kIntakeMotorPort = 4;
+        public static final int kIntakeMotorPort = 5;
         public static final double kIntakeMotorSpeed = 0.56;
         public static final int kIntakeMotorStopSpeed = 0;
         public static final int kEjectMotorSpeed = -1;
@@ -139,10 +142,10 @@ public final class Constants {
         // Drive ports, current limit, gear ratio, feedforward values, pid values (for both), navX Port, 
 
         // Drive Motor Ports
-        public static final int kLeftLeaderMotorPort = 0;
-        public static final int kLeftFollowerMotorPort = 0;
-        public static final int kRightLeaderMotorPort = 0;
-        public static final int kRightFollowerMotorPort = 0;
+        public static final int kLeftLeaderMotorPort = 8;
+        public static final int kLeftFollowerMotorPort = 2;
+        public static final int kRightLeaderMotorPort = 6;
+        public static final int kRightFollowerMotorPort = 3;
 
         // Set If Drive Motors are Reversed
         public static final boolean kLeftLeaderMotorReversedDefault = true;

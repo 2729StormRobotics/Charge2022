@@ -36,6 +36,8 @@ public class Vision extends SubsystemBase {
     setPipeline(kdefaultPipeline);
   }
 
+  // Returns the horizontal offset to the target ()
+  
   public double getXOffset(){
     return m_xOffset;
   }

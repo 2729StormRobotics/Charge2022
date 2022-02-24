@@ -18,9 +18,11 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Hanger extends SubsystemBase {
-  private final CANSparkMax m_hangerMotor;
+  private final CANSparkMax m_hangerMotorLeft;
+  private final CANSparkMax m_hangerMotorRight;
 
-  private final RelativeEncoder m_encoder;
+  private final RelativeEncoder m_encoderLeft;
+  private final RelativeEncoder m_encoderRight;
 
   private final Solenoid m_pawlPiston;
   private boolean m_retracted = true;
@@ -30,10 +32,16 @@ public class Hanger extends SubsystemBase {
    * 
    */
   public Hanger() {
-    m_hangerMotor = new CANSparkMax(kHangerMotorPort, MotorType.kBrushless);
-    motorInit(m_hangerMotor, kMotorInverted);
+    m_hangerMotorLeft = new CANSparkMax(kHangerMotorPort, MotorType.kBrushless);
+    motorInit(m_hangerMotorLeft, kMotorInverted);
 
-    m_encoder = m_hangerMotor.getEncoder(SparkMaxRelativeEncoder.Type.kQuadrature, 4096);
+    m_hangerMotorRight = new CANSparkMax(kHangerMotorPort, MotorType.kBrushless);
+    motorInit(m_hangerMotorRight, kMotorInverted);
+
+
+    m_encoderLeft = m_hangerMotorLeft.getEncoder(SparkMaxRelativeEncoder.Type.kQuadrature, 4096);
+    m_encoderRight = m_hangerMotorRight.getEncoder(SparkMaxRelativeEncoder.Type.kQuadrature, 4096);
+
 
     m_pawlPiston = new Solenoid(PneumaticsModuleType.CTREPCM, kPawlPistonChannel);
     m_pawlPiston.set(kPawlPistonDisabled);
@@ -81,7 +89,8 @@ public class Hanger extends SubsystemBase {
    * @param speed The motor speed at which to run the hanger
    */
   public void climb(double speed) {
-    m_hangerMotor.set(speed);
+    m_hangerMotorLeft.set(speed);
+    m_hangerMotorRight.set(speed);
   }
 
   /**
@@ -106,21 +115,48 @@ public class Hanger extends SubsystemBase {
   }
 
   /**
-   * Get the current height
+   * Get the current height of the left side
    * 
    * @return The current height, in inches
    */
-  private double getHeight() {
-    return m_encoder.getPosition();
+  private double getHeightLeft() {
+    return m_encoderLeft.getPosition();
   }
 
   /**
-   * Get the current speed
+   * Get the current height of the right side
+   * 
+   * @return The current height, in inches
+   */
+  private double getHeightRight() {
+    return m_encoderRight.getPosition();
+  }
+
+  /**
+   * Get the average of the left and right sides
+   * 
+   * @return The current average height, in inches
+   */
+  private double getHeightAverage(){
+    return (getHeightLeft() + getHeightRight()) / 2;
+  }
+
+  /**
+   * Get the current left speed
    * 
    * @return The current speed, in inches per second
    */
-  private double getSpeed() {
-    return m_encoder.getVelocity();
+  private double getSpeedLeft() {
+    return m_encoderLeft.getVelocity();
+  }
+
+  /**
+   * Get the current right speed
+   * 
+   * @return The current speed, in inches per second
+   */
+  private double getSpeedRight() {
+    return m_encoderRight.getVelocity();
   }
 
   /**
@@ -129,7 +165,7 @@ public class Hanger extends SubsystemBase {
    * @return true if the current height is above its maximum
    */
   public boolean atMaxHeight() {
-    return getHeight() > kMaxHeight;
+    return getHeightLeft() > kMaxHeight && getHeightRight() > kMaxHeight;
   }
 
   /**
@@ -138,7 +174,7 @@ public class Hanger extends SubsystemBase {
    * @return true if the current height is below its minimum
    */
   public boolean atMinHeight() {
-    return getHeight() < 0;
+    return getHeightAverage() < 0;
   }
 
   /**
@@ -164,7 +200,7 @@ private void shuffleboardInit(){
 
   @Override
   public void periodic() {
-    if (getHeight() > 1) {
+    if (getHeightAverage() > 1) {
       m_retracted = false;
     } else {
       m_retracted = true;

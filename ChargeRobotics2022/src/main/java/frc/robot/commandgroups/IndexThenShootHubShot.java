@@ -6,6 +6,7 @@ package frc.robot.commandgroups;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.IndexRunUpper;
+import frc.robot.commands.ShooterHubShot;
 import frc.robot.commands.IndexRunLower;
 import frc.robot.subsystems.Index;
 import frc.robot.subsystems.Shooter;
@@ -18,25 +19,25 @@ public class IndexThenShootHubShot extends SequentialCommandGroup {
   private final Index m_index;
   private final Shooter m_shooter;
 
-  /** Creates a new IndexThenShootCloseLaunchPadShot. */
+  /** Creates a new IndexThenShootHubShot. */
+  //revs up the motor to the speed required for a hub shot
+  //if the index contains cargo in the upper position, feed it to the shooter
+  //rev up the motor again
+  //if the index contains cargo in the lower position, move it to the upper and then feed to shooter
   public IndexThenShootHubShot(Index index, Shooter shooter) {
     m_index = index;
     m_shooter = shooter;
 
-    // addCommands(new ShooterCloseLaunchPadShot(m_shooter));
     if (!m_index.getUpperBeamBrakerStatus()) {
-      addCommands(new IndexRunUpper(m_index));
+      addCommands(new ShooterHubShot(m_shooter), new IndexRunUpper(m_index));
     }
-    // addCommands(new ShooterCloseLaunchPadShot(m_shooter));
+    
     if (!m_index.getLowerBeamBrakerStatus()) {
-      addCommands(new IndexRunLower(m_index), new IndexRunUpper(m_index));
+      addCommands(new ShooterHubShot(m_shooter), new IndexRunLower(m_index), new IndexRunUpper(m_index));
     }
   }
 
   @Override
-  public void end(boolean interrupted) {
-      m_index.stopIndexMotors();
-      m_shooter.stopMotor();
-  }
+  public void end(boolean interrupted) {}
 
 }

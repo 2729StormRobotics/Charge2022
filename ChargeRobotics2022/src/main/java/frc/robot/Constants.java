@@ -104,7 +104,10 @@ public final class Constants {
     public static final class ShooterConstants{
 
         public static final int kMotorPort = 0;
-        public static final double kMotorSpeed = 0;
+
+        public static final double kHubShotMotorSpeed = 0;
+        public static final double kCloseLaunchPadMotorSpeed = 0;
+        public static final double kFarLaunchPadMotorSpeed = 0;
 
         public static final int kBottomExtendedChannel = 0;
         public static final int kBottomRetractedChannel = 0;

@@ -7,10 +7,10 @@ package frc.robot.subsystems;
 // import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -23,16 +23,15 @@ public class Shooter extends SubsystemBase {
 
   private final RelativeEncoder m_encoder;
 
-  private final DoubleSolenoid m_bottomAnglePiston1;
-  private final DoubleSolenoid m_bottomAnglePiston2;
-  private final DoubleSolenoid m_sideAnglePiston1;
-  private final DoubleSolenoid m_sideAnglePiston2;
-
-  private boolean m_bottomPistonsExtended;
-  private boolean m_sidePistonsExtended;
+  private final DoubleSolenoid m_piston1;
+  private final DoubleSolenoid m_piston2;
 
   private final SimpleMotorFeedforward m_feedForward;
-  private final SparkMaxPIDController m_pidController;
+  private final PIDController m_pidController;
+
+  private double m_setpoint;
+
+  private boolean m_pistonsExtended;
   
   /** Creates a new Shooter. */
   public Shooter() {
@@ -40,14 +39,12 @@ public class Shooter extends SubsystemBase {
     // Instantiate the motor
     m_motor = new CANSparkMax(kMotorPort, MotorType.kBrushless);
 
-    // Instantiate the encoders
+    // Instantiate the encoder
     m_encoder = m_motor.getEncoder();
 
     // Instantiate the pistons
-    m_bottomAnglePiston1 = new DoubleSolenoid(kPistonModuleType, kBottomExtendedChannel, kBottomRetractedChannel);
-    m_bottomAnglePiston2 = new DoubleSolenoid(kPistonModuleType, kBottomExtendedChannel, kBottomRetractedChannel);
-    m_sideAnglePiston1 = new DoubleSolenoid(kPistonModuleType, kSideExtendedChannel, kSideRetractedChannel);
-    m_sideAnglePiston2 = new DoubleSolenoid(kPistonModuleType, kSideExtendedChannel, kSideRetractedChannel);
+    m_piston1 = new DoubleSolenoid(kPistonModuleType, kBottomExtendedChannel, kBottomRetractedChannel);
+    m_piston2 = new DoubleSolenoid(kPistonModuleType, kBottomExtendedChannel, kBottomRetractedChannel);
 
     // Initialize the motor
     motorInit(m_motor);
@@ -55,17 +52,18 @@ public class Shooter extends SubsystemBase {
     // Initialize the pistons 
     pistonInit();
 
-    // Determine if bottom and side pistons are extended or retracted
-    m_bottomPistonsExtended = false;
-    m_sidePistonsExtended = false;
+    // Initialize the setpoint 
+    m_setpoint = 0;
 
     // Initialize the PID controller for the motor controller.
-    m_pidController = m_motor.getPIDController();
+    m_pidController = new PIDController(kP, kI, kD);
 
-     // Initialize pid coefficients
+    // Initialize the PID coefficients
     pidInit();
 
     m_feedForward = new SimpleMotorFeedforward(kS, kV, kA);
+
+    m_pistonsExtended = false;
 }
 
   // Intialize the motor
@@ -75,14 +73,21 @@ public class Shooter extends SubsystemBase {
     encoderInit(motor.getEncoder());
   }
 
-  // Runs the motor
-  public void runMotor(){
-    m_motor.set(kMotorSpeed);
-  } 
-
   // Stops the motor
   public void stopMotor(){
     m_motor.set(0);
+  }
+
+  public double getSetpoint(){
+    return m_setpoint;
+  }
+
+  public void setSetpoint(double setpoint){
+    m_setpoint = setpoint;
+  }
+
+  public double getVelocity(){
+    return m_encoder.getVelocity();
   }
 
   // Intialize the encoders
@@ -98,113 +103,26 @@ public class Shooter extends SubsystemBase {
   
   // Intialize the pistons to be retracted
   private void pistonInit(){
-    retractSidePistons();
-    retractBottomPistons();
+    retractPistons();
   }
 
-  // Retract bottom pistons
-  private void retractBottomPistons(){
-    m_bottomAnglePiston1.set(kPistonRetractedValue);
-    m_bottomAnglePiston2.set(kPistonRetractedValue);
-    m_bottomPistonsExtended = false;
+  // Retracts the pisons
+  public void retractPistons(){
+    if (m_pistonsExtended){
+      m_piston1.set(kPistonRetractedValue);
+      m_piston2.set(kPistonRetractedValue);
+
+      m_pistonsExtended = false;
+    }  
   }
 
-  // Extends bottom pistons
-  private void extendBottomPistons(){
-    m_bottomAnglePiston1.set(kPistonExtendedValue);
-    m_bottomAnglePiston2.set(kPistonExtendedValue);
-    m_bottomPistonsExtended = true;
-  }
+  // Extends the pistons
+  public void extendPistons(){
+    if (!m_pistonsExtended){
+      m_piston1.set(kPistonExtendedValue);
+      m_piston2.set(kPistonExtendedValue);
 
-  // Retract side pistons
-  private void retractSidePistons(){
-    m_sideAnglePiston1.set(kPistonRetractedValue);
-    m_sideAnglePiston2.set(kPistonRetractedValue);
-    m_sidePistonsExtended = false;
-  }
-
-  // Extend side pistons
-  private void extendSidePistons(){
-    m_sideAnglePiston1.set(kPistonExtendedValue);
-    m_sideAnglePiston2.set(kPistonExtendedValue);
-    m_sidePistonsExtended = true;
-  }
-
-  // Retract to lowest position 
-  public void setRetractedAngle(){
-    // retractSidePistons();
-    // retractBottomPistons();
-
-    if (!m_bottomPistonsExtended && m_sidePistonsExtended){ // if pistons are in middle high position
-      retractSidePistons();
-    }
-    else if (m_bottomPistonsExtended && !m_sidePistonsExtended){ // if pistons are in extended position 
-      retractBottomPistons();
-    }
-    else if (m_bottomPistonsExtended && m_sidePistonsExtended){ // if pistons are in middle low positions
-      retractBottomPistons();
-      retractSidePistons();
-    }
-  }
-  
-  // Extend to highest position
-  public void setExtendedAngle(){    
-    // retractSidePistons();
-    // extendBottomPistons();
-
-    if (!m_bottomPistonsExtended && !m_sidePistonsExtended){ // if pistons are in retracted position 
-      extendBottomPistons();
-    }
-    else if (!m_bottomPistonsExtended && m_sidePistonsExtended){ // if pistons are in middle high position
-      retractSidePistons();
-      extendBottomPistons();
-    }
-    else if (m_bottomPistonsExtended && m_sidePistonsExtended){ // if pistons are in middle low position 
-      retractSidePistons();
-    }
-  }
-
-  // Extend to second lowest position
-  public void setMiddleLowAngle(){
-    // setRetractedAngle();
-    // extendSidePistons();
-    // extendBottomPistons();
-
-    if (!m_bottomPistonsExtended && !m_sidePistonsExtended){ // if pistons are in retracted position 
-      extendSidePistons();
-      extendBottomPistons();
-    }
-    else if (!m_bottomPistonsExtended && m_sidePistonsExtended){ // if pistons are in middle high position
-      retractSidePistons();
-      extendSidePistons();
-      extendBottomPistons();
-    }
-    else if (m_bottomPistonsExtended && !m_sidePistonsExtended){ // if pistons are in extended position
-      retractBottomPistons();
-      extendSidePistons();
-      extendBottomPistons();
-    }
-  }
-
-  // Extend to second highest position
-  public void setMiddleHighAngle(){
-    // setRetractedAngle();
-    // extendBottomPistons();
-    // extendSidePistons();
-
-    if (!m_bottomPistonsExtended && !m_sidePistonsExtended){ // if pistons are in retracted position
-      extendBottomPistons();
-      extendSidePistons();
-      retractBottomPistons();
-    }
-    else if (m_bottomPistonsExtended && !m_sidePistonsExtended){ // if pistons are in extended position
-      extendSidePistons();
-      retractBottomPistons();
-    }
-    else if (m_bottomPistonsExtended && m_sidePistonsExtended){ // if pistons are in middle low position
-      retractSidePistons();
-      extendSidePistons();
-      retractBottomPistons();
+      m_pistonsExtended = true;
     }
   }
 
@@ -216,12 +134,12 @@ public class Shooter extends SubsystemBase {
     m_pidController.setI(kI); 
     // Set the derivative constant
     m_pidController.setD(kD); 
-    // Set the integral zone, which is the maximum error for the integral gain to take effect
-    m_pidController.setIZone(kIz);
-    // Set the feed forward constant  
-    m_pidController.setFF(kFF);
-    // Set the output range
-    m_pidController.setOutputRange(kMinOutput, kMaxOutput);
+    // // Set the integral zone, which is the maximum error for the integral gain to take effect
+    // m_pidController.setIZone(kIz);
+    // // Set the feed forward constant  
+    // m_pidController.setFF(kFF);
+    // // Set the output range
+    // m_pidController.setOutputRange(kMinOutput, kMaxOutput);
   }
 
   public void pidAdjust() {
@@ -230,6 +148,7 @@ public class Shooter extends SubsystemBase {
     m_pidController.setD(kD);
   }
 
+  /*
   // Set the motor controller to set the PID controller 
   public void revToSpeed(double speed) {
     double feedforward = m_feedForward.calculate(speed);
@@ -241,11 +160,6 @@ public class Shooter extends SubsystemBase {
     revToSpeed(kHubShotSpeed);
   }
 
-  // Sets the motor for the middle shot
-  public void revMiddleShot(){
-    revToSpeed(kMiddleShotSpeed);
-  }
-
   // Sets the motor for the close launch pad shot
   public void revCloseLaunchPadShot(){
     revToSpeed(kCloseLaunchPadShotSpeed);
@@ -255,11 +169,12 @@ public class Shooter extends SubsystemBase {
   public void revFarLaunchPadShot(){
     revToSpeed(kFarLaunchPadShotSpeed);
   }
+  */
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    m_motor.set(m_pidController.calculate(m_encoder.getVelocity()));
   }
-
 
 }

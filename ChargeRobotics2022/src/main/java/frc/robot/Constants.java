@@ -145,10 +145,6 @@ public final class Constants {
         // Drive ports, current limit, gear ratio, feedforward values, pid values (for both), navX Port, 
 
         // Drive Motor Ports
-        public static final int kLeftLeaderMotorPort = 9;
-        public static final int kLeftFollowerMotorPort = 0;
-        public static final int kRightLeaderMotorPort = 1;
-        public static final int kRightFollowerMotorPort = 0;
 
         public static final int kLeftLeaderMotorPort = 8;
         public static final int kLeftFollowerMotorPort = 2;

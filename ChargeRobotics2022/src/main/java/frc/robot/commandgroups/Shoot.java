@@ -7,6 +7,7 @@ package frc.robot.commandgroups;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.IndexMoveUp;
 import frc.robot.commands.IndexUpperOut;
+import frc.robot.commands.ShooterSetSetpoint;
 import frc.robot.commands.ShooterShoot;
 import frc.robot.subsystems.Index;
 import frc.robot.subsystems.Intake;
@@ -20,8 +21,11 @@ public class Shoot extends SequentialCommandGroup {
   /** Creates a new Shoot. */
   public Shoot(Index index, Shooter shooter, double speed) {
     if (index.hasUpperBall() && index.hasLowerBall()) {
-      addCommands(new ShooterShoot(shooter, speed), new IndexUpperOut(index),
-      new ShooterShoot(shooter, speed), new IndexMoveUp(index), new IndexUpperOut(index));
+      addCommands(new ShooterShoot(shooter, speed), new IndexUpperOut(index), new ShooterShoot(shooter, speed), new IndexMoveUp(index), new IndexUpperOut(index), new ShooterSetSetpoint(shooter, 0));
+    } else if (index.hasUpperBall()) {
+      addCommands(new ShooterShoot(shooter, speed), new IndexUpperOut(index), new ShooterSetSetpoint(shooter, 0));
+    } else if (index.hasLowerBall()) {
+      addCommands(new ShooterShoot(shooter, speed), new IndexMoveUp(index), new IndexUpperOut(index), new ShooterSetSetpoint(shooter, 0));
     }
   }
 }

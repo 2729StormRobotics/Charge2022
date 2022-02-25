@@ -145,7 +145,7 @@ public final class Constants {
 
         public static final int kdefaultPipeline = 0;
         
-        public static final double khorizontalRange = 0; // How far off from the crosshair the target can be to be centered on the x-axis
+        public static final double khorizontalRange = 1.5; // How far off from the crosshair the target can be to be centered on the x-axis
 
         // Alignment constants for the limelight
         public static final double kAutoAlignP = 0.0;

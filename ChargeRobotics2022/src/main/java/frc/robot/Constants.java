@@ -4,33 +4,140 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
 /**
- * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
- * constants. This class should not be used for any other purpose. All constants should be declared
+ * The Constants class provides a convenient place for teams to hold robot-wide
+ * numerical or boolean
+ * constants. This class should not be used for any other purpose. All constants
+ * should be declared
  * globally (i.e. public static). Do not put anything functional in this class.
  *
- * <p>It is advised to statically import this class (or one of its inner classes) wherever the
+ * <p>
+ * It is advised to statically import this class (or one of its inner classes)
+ * wherever the
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+    public static final class HangerConstants {
+        // These are all temporary fill-in values
+
+        // Gearing for calculations, given in output turns per motor turn
+        private static final double kGearing = 0.0;
+        // Diameter of the pulley in inches
+        private static final double kPulleyDiameter = 0.0;
+        // Circumference of the pulley in inches
+        public static final double kPulleyCircumference = Math.PI * kPulleyDiameter;
+
+        // Distance per rotation determined by multiplying pulley circumference by the gearing
+        public static final double kDistancePerRotation = kPulleyCircumference * kGearing;
+        // Speed per rotation determined by dividing distance per rotation by 60 seconds
+        public static final double kSpeedPerRotation = kDistancePerRotation / 60;
+
+        // Port number for the hanger motor
+        public static final int kHangerMotorPort = 0;
+        public static final int kLeftHangerMotor = 1;
+        public static final int kRightHangerMotor = 4;
+
+        // Boolean to track whether the motor needs to be inverted
+        public static final boolean kMotorInverted = false;
+
+        // Constant speed at which the hanger motor will rotate to extend the elevator
+        public static final double kClimbUpSpeed = 0.0;
+        // Constant speed at which the hanger motor will rotate to retract the elevator
+        public static final double kClimbDownSpeed = 0.0;
+        // The maximum extension of the elevator
+        public static final double kMaxHeight = 0.0;
+
+        // Port numberfor the pawl piston
+        public static final int kPawlPistonChannel = 0;
+        // Booleans for when the piston is enabled or disabled to make the code more readable
+        public static final boolean kPawlPistonEnabled = false;
+        public static final boolean kPawlPistonDisabled = true;
+
+    }
+
 
     public static final class IntakeConstants {
-        //real nums needed for:
-        // motor port
-        // motor Intake/Reject speed
-        // extend/retract
-        public static final int kIntakeMotorPort = 4;
+        /*
+        real nums needed for:
+        motor port
+        motor Intake/Reject speed
+        extend/retract
+        */
+        public static final int kIntakeMotorPort = 5;
         public static final double kIntakeMotorSpeed = 0.56;
+        public static final int kIntakeMotorStopSpeed = 0;
         public static final int kEjectMotorSpeed = -1;
 
-        public static final int kIntakeExtendChannel = 0;
-        public static final int kIntakeRetractChannel = 0;
+        public static final int kLeftIntakeExtendChannel = 0;
+        public static final int kLeftIntakeRetractChannel = 0;
+        public static final int kRightIntakeExtendChannel = 0;
+        public static final int kRightIntakeRetractChannel = 0;
         public static final Value kIntakeExtendValue = Value.kForward;
         public static final Value kIntakeRetractValue = Value.kReverse;
        
 
+    }
+
+
+    public static final class IndexConstants {
+        /*
+        real nums needed for:
+        motor ports
+        beam braker ports
+        motor speeds
+        */
+        public static final int kLowerIndexMotorPort = 0;
+        public static final int kUpperIndexMotorPort = 0;
+        public static final int kLowerIndexBeamBrakerPort = 0;
+        public static final int kUpperIndexBeamBrakerPort = 0;
+        public static final int kLowerIndexMotorSpeed = 0;
+        public static final int kUpperIndexMotorSpeed = 0;
+        public static final int kIndexMotorStopSpeed = 0;
+        public static final int kEjectIndexMotorSpeed = -1;
+
+    }
+
+
+    public static final class ShooterConstants{
+
+        public static final int kMotorPort = 0;
+
+        public static final double kHubShotMotorSpeed = 0;
+        public static final double kCloseLaunchPadMotorSpeed = 0;
+        public static final double kFarLaunchPadMotorSpeed = 0;
+
+        public static final int kBottomExtendedChannel = 0;
+        public static final int kBottomRetractedChannel = 0;
+        public static final int kSideExtendedChannel = 0;      
+        public static final int kSideRetractedChannel = 0;
+        
+        public static final Value kPistonExtendedValue = Value.kForward;
+        public static final Value kPistonRetractedValue = Value.kReverse;
+        public static final PneumaticsModuleType kPistonModuleType = PneumaticsModuleType.REVPH;
+
+        public static final double kVelocityConversion = 0;
+
+        public static final double kHubShotSpeed = 0;
+        public static final double kMiddleShotSpeed = 0;
+        public static final double kCloseLaunchPadShotSpeed = 0;
+        public static final double kFarLaunchPadShotSpeed = 0;
+
+        // Used to calculate the feedforward
+        public static final double kS = 0; // static constant
+        public static final double kV = 0; // velocity constant
+        public static final double kA = 0; // accelaration constant
+     
+        // PID values to maintain speed 
+        public static final double kP = 0; // proportional constant
+        public static final double kI = 0; // integral constant 
+        public static final double kD = 0; // derivative constant
+        public static final double kIz = 0; // integral zone
+        public static final double kFF = 0; // feed forward constant
+        public static final double kMinOutput = 0;
+        public static final double kMaxOutput = 0;
     }
 
     public static final class DriveConstants {
@@ -42,6 +149,12 @@ public final class Constants {
         public static final int kLeftFollowerMotorPort = 0;
         public static final int kRightLeaderMotorPort = 1;
         public static final int kRightFollowerMotorPort = 0;
+
+        public static final int kLeftLeaderMotorPort = 8;
+        public static final int kLeftFollowerMotorPort = 2;
+        public static final int kRightLeaderMotorPort = 6;
+        public static final int kRightFollowerMotorPort = 3;
+
 
         // Set If Drive Motors are Reversed
         public static final boolean kLeftLeaderMotorReversedDefault = false;
@@ -111,6 +224,5 @@ public final class Constants {
     
     
 
-    
 
 }

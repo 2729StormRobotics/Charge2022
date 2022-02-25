@@ -4,39 +4,53 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Index;
 
-/** An example command that uses an example subsystem. */
-public class ExampleCommand extends CommandBase {
-  private final ExampleSubsystem m_subsystem;
+public class IndexUpper extends CommandBase {
 
-  /**
-   * Creates a new ExampleCommand.
-   *
-   * @param subsystem The subsystem used by this command.
-   */
-  public ExampleCommand(ExampleSubsystem subsystem) {
-    m_subsystem = subsystem;
+  private final Index m_index;
+
+  /** Creates a new IndexUpper. */
+  public IndexUpper(Index subsystem) {
+    m_index = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_subsystem);
+    addRequirements(m_index);
   }
 
   // Called when the command is initially scheduled.
+  //run both motors
   @Override
-  public void initialize() {}
+  public void initialize() {
+    m_index.runLowerIndexMotor();
+    m_index.runUpperIndexMotor();
+  }
+
 
   // Called every time the scheduler runs while the command is scheduled.
+  //stop both motors if the upper beam 'breaks'
   @Override
-  public void execute() {}
+  public void execute() {
+    if (!m_index.getUpperBeamBrakerStatus()) {
+      m_index.stopIndexMotors();
+    }
+  }
 
   // Called once the command ends or is interrupted.
+  //stop both motors
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_index.stopIndexMotors();
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return false;
   }
+
+ 
+
+
+
 }

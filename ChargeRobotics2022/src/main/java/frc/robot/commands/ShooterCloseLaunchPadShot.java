@@ -4,27 +4,27 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Shooter;
 
-/** An example command that uses an example subsystem. */
-public class ExampleCommand extends CommandBase {
-  private final ExampleSubsystem m_subsystem;
+import static frc.robot.Constants.ShooterConstants.*;
 
-  /**
-   * Creates a new ExampleCommand.
-   *
-   * @param subsystem The subsystem used by this command.
-   */
-  public ExampleCommand(ExampleSubsystem subsystem) {
-    m_subsystem = subsystem;
+public class ShooterCloseLaunchPadShot extends CommandBase {
+  private final Shooter m_shooter;
+  /** Creates a new ShooterCloseLaunchPadShot. */
+  public ShooterCloseLaunchPadShot(Shooter subsystem) {
+    m_shooter = subsystem;
+
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_subsystem);
+    addRequirements(m_shooter);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    m_shooter.extendPistons();
+    m_shooter.setSetpoint(kCloseLaunchPadMotorSpeed);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -37,6 +37,6 @@ public class ExampleCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return (m_shooter.getVelocity() >= m_shooter.getSetpoint());
   }
 }

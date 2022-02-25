@@ -9,10 +9,15 @@ import java.util.logging.Handler;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.PS4Controller.Axis;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import frc.robot.commandgroups.IntakeAndIndex;
 import frc.robot.commands.DriveManually;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.IntakeEject;
 import frc.robot.commands.ShooterCloseLaunchPadShot;
+import frc.robot.commands.ShooterFarLaunchPadShot;
+import frc.robot.commands.ShooterHubShot;
 import frc.robot.commands.ShooterPrepHubShot;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
@@ -22,6 +27,7 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 import static frc.robot.Constants.ButtonBindingConstants.*;
 
@@ -58,6 +64,8 @@ public class RobotContainer {
         m_drivetrain.setDefaultCommand(
             new DriveManually(() -> m_driver.getRightX(), () -> m_driver.getRightY(),
               () -> m_driver.getLeftY(), () -> m_driver.getLeftY(), m_drivetrain));
+
+        
     
     // Configure the button bindings
     configureButtonBindings();
@@ -74,9 +82,16 @@ public class RobotContainer {
     new JoystickButton(m_operator, Button.kRightStick.value).whenPressed(new ShooterPrepHubShot(m_shooter));
 
    // new JoystickButton(m_operator, Button.kLeftkLeftBumper).whenPressed(new Flush);
+  //  new JoystickButton(m_operator, Button.kA.value).whenPressed(new );
+    new JoystickButton(m_operator, Button.kB.value).whenPressed(new ShooterCloseLaunchPadShot(m_shooter));
+    new JoystickButton(m_operator, Button.kX.value).whenPressed(new ShooterFarLaunchPadShot(m_shooter));
+    new JoystickButton(m_operator, Button.kY.value).whenPressed(new ShooterHubShot(m_shooter));
+
+    new JoystickButton(m_operator, Button.kRightBumper.value).whenPressed(new IntakeEject(m_intake));
+    new Trigger(() -> (m_driver.getLeftTriggerAxis() > 0.01)).whenActive(new IntakeAndIndex(m_intake, m_index));
 
 
-    );
+    
 
   }
     
@@ -87,6 +102,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_autoCommand;
+    return new ExampleCommand(new ExampleSubsystem());
   }
 }

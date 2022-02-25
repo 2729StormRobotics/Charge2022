@@ -14,7 +14,6 @@ import com.revrobotics.SparkMaxRelativeEncoder;
 
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
-
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Hanger extends SubsystemBase {
@@ -22,7 +21,7 @@ public class Hanger extends SubsystemBase {
   private final CANSparkMax m_hangerMotorRight;
 
   private final RelativeEncoder m_encoderLeft;
-  private final RelativeEncoder m_encoderRight;
+  private final RelativeEncoder m_encoderRight;  
 
   private final Solenoid m_pawlPiston;
   private boolean m_retracted = true;
@@ -38,9 +37,11 @@ public class Hanger extends SubsystemBase {
     m_hangerMotorRight = new CANSparkMax(kHangerMotorPort, MotorType.kBrushless);
     motorInit(m_hangerMotorRight, kMotorInverted);
 
+    m_hangerMotorLeft.follow(m_hangerMotorRight, true);
 
     m_encoderLeft = m_hangerMotorLeft.getEncoder(SparkMaxRelativeEncoder.Type.kQuadrature, 4096);
     m_encoderRight = m_hangerMotorRight.getEncoder(SparkMaxRelativeEncoder.Type.kQuadrature, 4096);
+
 
 
     m_pawlPiston = new Solenoid(PneumaticsModuleType.CTREPCM, kPawlPistonChannel);
@@ -89,7 +90,6 @@ public class Hanger extends SubsystemBase {
    * @param speed The motor speed at which to run the hanger
    */
   public void climb(double speed) {
-    m_hangerMotorLeft.set(speed);
     m_hangerMotorRight.set(speed);
   }
 
@@ -119,7 +119,7 @@ public class Hanger extends SubsystemBase {
    * 
    * @return The current height, in inches
    */
-  private double getHeightLeft() {
+  public double getHeightLeft() {
     return m_encoderLeft.getPosition();
   }
 
@@ -128,7 +128,7 @@ public class Hanger extends SubsystemBase {
    * 
    * @return The current height, in inches
    */
-  private double getHeightRight() {
+  public double getHeightRight() {
     return m_encoderRight.getPosition();
   }
 
@@ -137,7 +137,7 @@ public class Hanger extends SubsystemBase {
    * 
    * @return The current average height, in inches
    */
-  private double getHeightAverage(){
+  public double getHeightAverage(){
     return (getHeightLeft() + getHeightRight()) / 2;
   }
 
@@ -146,7 +146,7 @@ public class Hanger extends SubsystemBase {
    * 
    * @return The current speed, in inches per second
    */
-  private double getSpeedLeft() {
+  public double getSpeedLeft() {
     return m_encoderLeft.getVelocity();
   }
 
@@ -155,7 +155,7 @@ public class Hanger extends SubsystemBase {
    * 
    * @return The current speed, in inches per second
    */
-  private double getSpeedRight() {
+  public double getSpeedRight() {
     return m_encoderRight.getVelocity();
   }
 

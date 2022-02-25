@@ -37,8 +37,9 @@ public class HangManually extends CommandBase {
     } else if (m_hanger.atMinHeight() && -m_speed < 0){ // May need to adjust the sign on m_speed
       m_hanger.stopClimb();
       m_hanger.engagePawlPiston();
-    } else if (Math.abs(m_hanger.getHeightLeft() - m_hanger.getHeightRight()) > kHeightDifferenceTolerance){
-
+    } else if (Math.abs(m_hanger.getHeightLeft() - m_hanger.getHeightRight()) > 6.0 /* the tolerance*/){
+      m_hanger.stopClimb();
+      m_hanger.engagePawlPiston();
     }else {
       m_hanger.disengagePawlPiston();
       m_hanger.climb(m_speed);

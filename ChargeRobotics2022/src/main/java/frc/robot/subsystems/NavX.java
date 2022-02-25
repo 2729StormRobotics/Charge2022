@@ -6,8 +6,8 @@ package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
-
-
+import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class NavX extends SubsystemBase {
@@ -15,7 +15,10 @@ public class NavX extends SubsystemBase {
       public final AHRS m_navX;
 
   public NavX() {
-    m_navX = new AHRS(SPI.Port.kMXP);
+    m_navX = new AHRS(SerialPort.Port.kUSB2);
+
+    m_navX.zeroYaw();
+    System.out.println("ZERO NavX");
 
 
   }
@@ -29,7 +32,20 @@ public class NavX extends SubsystemBase {
 
   }
 
+  // Gets the angle from the navX
   public float getAngleNavX() {
+    System.out.println(m_navX.getYaw());
     return m_navX.getYaw();
+
   }
+
+  // Resets the angle reading
+  public void resetYawNavX(){
+    m_navX.zeroYaw();
+    System.out.println("YAW IS ZEROED");
+  }
+
 }
+
+}
+

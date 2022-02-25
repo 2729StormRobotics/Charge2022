@@ -103,7 +103,8 @@ public class Shooter extends SubsystemBase {
   
   // Intialize the pistons to be retracted
   private void pistonInit(){
-    retractPistons();
+    m_piston1.set(kPistonRetractedValue);
+    m_piston2.set(kPistonRetractedValue);
   }
 
   // Retracts the pisons

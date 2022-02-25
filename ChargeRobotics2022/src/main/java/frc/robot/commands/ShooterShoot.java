@@ -7,22 +7,26 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Shooter;
 
-public class ShooterShootCargo extends CommandBase {
+import static frc.robot.Constants.ShooterConstants.*;
 
-  /** Creates a new ShooterShootCargo. */
+public class ShooterShoot extends CommandBase {
   private final Shooter m_shooter;
+  private final double m_motorSpeed;
 
-  public ShooterShootCargo(Shooter subsystem) {
+  /** Creates a new ShooterShoot. */
+  public ShooterShoot(Shooter subsystem, double motorSpeed) {
     m_shooter = subsystem;
+    m_motorSpeed = motorSpeed;
 
-    // Declare subsystem dependencies.
+    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_shooter);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_shooter.runMotor();
+    m_shooter.extendPistons();
+    m_shooter.setSetpoint(m_motorSpeed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -36,6 +40,6 @@ public class ShooterShootCargo extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return (m_shooter.getVelocity() >= m_shooter.getSetpoint());
   }
 }

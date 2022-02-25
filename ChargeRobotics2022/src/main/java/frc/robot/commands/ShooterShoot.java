@@ -40,6 +40,6 @@ public class ShooterShoot extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (m_shooter.getVelocity() >= m_shooter.getSetpoint());
+    return (m_shooter.getVelocity() >= m_shooter.getSetpoint() && m_shooter.getVelocity() <= m_shooter.getSetpoint() + kMotorOvershoot);
   }
 }

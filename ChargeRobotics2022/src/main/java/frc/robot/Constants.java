@@ -112,6 +112,9 @@ public final class Constants {
         public static final double kFF = 0; // feed forward constant
         public static final double kMinOutput = 0;
         public static final double kMaxOutput = 0;
+
+        // How much overspeed the motor can be in order for a shoot command to finish
+        public static final double kMotorOvershoot = 0.0;
     }
 
     public static final class DriveConstants {

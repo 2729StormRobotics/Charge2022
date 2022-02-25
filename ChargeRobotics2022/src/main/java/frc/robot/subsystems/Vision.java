@@ -36,12 +36,12 @@ public class Vision extends SubsystemBase {
     setPipeline(kdefaultPipeline);
   }
 
-  // Returns the horizontal offset to the target ()
-  
+  // Returns the horizontal offset to the target 
   public double getXOffset(){
     return m_xOffset;
   }
 
+  // Returns the vertical offset to the target 
   public double getYOffset(){
     return m_yOffset;
   }
@@ -65,7 +65,7 @@ public class Vision extends SubsystemBase {
 
   // Returns the distance along the floor from the robot to the target on the upper hub 
   public double getHorizontalDistanceToUpperHub(){
-    return ( (kupperTargetHeight - klimelightHeight) / Math.tan(Math.toRadians(getTargetAngle())) );
+    return ( (kUpperTargetHeight - klimelightHeight) / Math.tan(Math.toRadians(getTargetAngle())) );
   }
 
   public double getTargetAngle(){

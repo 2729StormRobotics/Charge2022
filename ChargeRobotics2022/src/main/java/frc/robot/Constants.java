@@ -141,7 +141,7 @@ public final class Constants {
         public static final double klimelightHeight = 0;
         public static final double klimelightAngle = 0;
 
-        public static final double kupperTargetHeight = 0;
+        public static final double kUpperTargetHeight = 104; // 8'8"
 
         public static final int kdefaultPipeline = 0;
         
@@ -150,7 +150,7 @@ public final class Constants {
         // Alignment constants for the limelight
         public static final double kAutoAlignP = 0.0;
         public static final double kAutoAlignI = 0.0;
-        public static final double kAutoAlignD = 0.01;
+        public static final double kAutoAlignD = 0.0;
         public static final double kAutoAlignTolerance = 1.0;
         public static final double kAutoAlignSpeedTolerance = 1.0;
     }

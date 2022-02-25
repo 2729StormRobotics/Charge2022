@@ -75,7 +75,7 @@ public class Shooter extends SubsystemBase {
 
   // Stops the motor
   public void stopMotor(){
-    m_motor.set(0);
+    setSetpoint(0.0);
   }
 
   public double getSetpoint(){

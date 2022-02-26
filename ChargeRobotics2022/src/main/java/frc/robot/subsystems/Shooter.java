@@ -17,7 +17,8 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class Shooter extends PIDSubsystem {
 
-  private final CANSparkMax m_motor;
+  private final CANSparkMax m_leftMotor;
+  private final CANSparkMax m_rightMotor;
 
   private final RelativeEncoder m_encoder;
 
@@ -31,17 +32,18 @@ public class Shooter extends PIDSubsystem {
         new PIDController(kP, kI, kD));
 
     // Instantiate the motor
-    m_motor = new CANSparkMax(kMotorPort, MotorType.kBrushless);
+    m_leftMotor = new CANSparkMax(kLeftMotorPort, MotorType.kBrushless);
+    m_rightMotor = new CANSparkMax(kRightMotorPort, MotorType.kBrushless);
 
     // Instantiate the encoder
-    m_encoder = m_motor.getEncoder();
+    m_encoder = m_leftMotor.getEncoder();
 
-    // Instantiate the pistons
+    // Instantiate the pLeftistons
     m_piston1 = new DoubleSolenoid(kPistonModuleType, kBottomExtendedChannel, kBottomRetractedChannel);
     m_piston2 = new DoubleSolenoid(kPistonModuleType, kBottomExtendedChannel, kBottomRetractedChannel);
 
     // Initialize the motor
-    motorInit(m_motor);
+    motorInit(m_leftMotor);
 
     // Initialize the pistons
     pistonInit();
@@ -68,10 +70,10 @@ public class Shooter extends PIDSubsystem {
 
   // Stops the motor
   public void stopMotor(){
-    m_motor.set(0);
+    m_leftMotor.set(0);
   }
 
-  // Intialize the pistons to be retracted
+  // ILeftntialize the pistons to be retracted
   private void pistonInit(){
     retractPistons();
   }
@@ -95,12 +97,12 @@ public class Shooter extends PIDSubsystem {
   @Override
   public void useOutput(double output, double setpoint) {
     // Use the output here
-    m_motor.set(output);
+    m_leftMotor.set(output);
 
   }
 
   @Override
-  public double getMeasurement() {
+ public double getMeasurement() {
     // Return the process variable measurement here
     return m_encoder.getVelocity();
   }

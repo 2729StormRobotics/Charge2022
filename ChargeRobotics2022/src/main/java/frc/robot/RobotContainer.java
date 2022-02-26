@@ -49,28 +49,28 @@ public class RobotContainer {
   private final XboxController m_operator = new XboxController(DriveConstants.kOperatorControllerPort);
 
   private final Drivetrain m_drivetrain;
-  // private final Hanger m_hanger;
-  //private final Index m_index;
-  //private final Intake m_intake;
-  //private final Shooter m_shooter;
-  // private final Vision m_vision;
+  private final Hanger m_hanger;
+  private final Index m_index;
+  private final Intake m_intake;
+  private final Shooter m_shooter;
+  private final Vision m_vision;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
     m_drivetrain = new Drivetrain();
-    // m_hanger = new Hanger();
-    // m_index = new Index();
-    // m_intake = new Intake();
-    // m_shooter = new Shooter();
-    // m_vision = new Vision();
-    //
+    m_hanger = new Hanger();
+    m_index = new Index();
+    m_intake = new Intake();
+    m_shooter = new Shooter();
+    m_vision = new Vision();
+
 
     m_drivetrain.setDefaultCommand(
         new TankDriveManually(() -> m_driver.getLeftY(), () -> m_driver.getRightY(), m_drivetrain));
 
-    // SmartDashboard.putData(m_shooter);
-    //
+    SmartDashboard.putData(m_shooter);
+    
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -82,20 +82,20 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    // new JoystickButton(m_operator, Button.kLeftStick.value).whenPressed(new ShooterPrepHubShot(m_shooter));
-    // new JoystickButton(m_operator, Button.kRightStick.value).whenPressed(new ShooterHubShot(m_shooter));
+    new JoystickButton(m_operator, Button.kLeftStick.value).whenPressed(new ShooterPrepHubShot(m_shooter));
+    new JoystickButton(m_operator, Button.kRightStick.value).whenPressed(new ShooterHubShot(m_shooter));
 
-    // // new JoystickButton(m_operator, Button.kLeftkLeftBumper).whenPressed(new Flush);
+    // new JoystickButton(m_operator, Button.kLeftkLeftBumper).whenPressed(new Flush);
     
-    // // change speed parameter for PointTurnUsingLimelight
-    // new JoystickButton(m_operator, Button.kA.value).whenPressed(new PointTurnUsingLimelight(0.01, m_vision, m_drivetrain));
-    // new JoystickButton(m_operator, Button.kB.value).whenPressed(new ShooterShoot(m_shooter, Constants.ShooterConstants.kCloseLaunchPadMotorSpeed));
-    // new JoystickButton(m_operator, Button.kX.value).whenPressed(new ShooterShoot(m_shooter, Constants.ShooterConstants.kFarLaunchPadMotorSpeed));
-    // new JoystickButton(m_operator, Button.kY.value).whenPressed(new ShooterHubShot(m_shooter));
+    // change speed parameter for PointTurnUsingLimelight
+    new JoystickButton(m_operator, Button.kA.value).whenPressed(new PointTurnUsingLimelight(0.01, m_vision, m_drivetrain));
+    new JoystickButton(m_operator, Button.kB.value).whenPressed(new ShooterShoot(m_shooter, Constants.ShooterConstants.kCloseLaunchPadMotorSpeed));
+    new JoystickButton(m_operator, Button.kX.value).whenPressed(new ShooterShoot(m_shooter, Constants.ShooterConstants.kFarLaunchPadMotorSpeed));
+    new JoystickButton(m_operator, Button.kY.value).whenPressed(new ShooterHubShot(m_shooter));
 
-    // new JoystickButton(m_operator, Button.kRightBumper.value).whenPressed(new IntakeEject(m_intake));
-    // new Trigger(() -> (m_operator.getLeftTriggerAxis() > 0.01)).whenActive(new IntakeAndIndex(m_intake, m_index));
-    //
+    new JoystickButton(m_operator, Button.kRightBumper.value).whenPressed(new IntakeEject(m_intake));
+    new Trigger(() -> (m_operator.getLeftTriggerAxis() > 0.01)).whenActive(new IntakeAndIndex(m_intake, m_index));
+    
   }
     
   /**

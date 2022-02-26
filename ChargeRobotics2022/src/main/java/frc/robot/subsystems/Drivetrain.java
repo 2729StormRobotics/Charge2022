@@ -11,6 +11,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -42,6 +43,7 @@ public class Drivetrain extends SubsystemBase {
   private final SparkMaxPIDController m_leftPIDController;
   private final SparkMaxPIDController m_rightPIDController;
 
+   private final ADIS16470_IMU m_imu;
   private final DifferentialDriveKinematics m_kinematics;
 
 
@@ -78,9 +80,9 @@ public class Drivetrain extends SubsystemBase {
     m_leftPIDController = m_leftLeaderMotor.getPIDController();
     m_rightPIDController = m_rightLeaderMotor.getPIDController();
 
+    m_imu = new ADIS16470_IMU();
+
     m_kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(22.));
-
-
 
 
 
@@ -194,28 +196,14 @@ public class Drivetrain extends SubsystemBase {
   public void stopDrive(){
     m_drive.tankDrive(0, 0);
   }
-  // Set Distance PID Values for Left Motors
-  public void setLeftDistancePID(){
-    m_leftPIDController.setP(kLeftP);
-    m_leftPIDController.setI(kLeftI);
-    m_leftPIDController.setD(kLeftD);
+  
+  public void resetGyro(){
+    m_imu.reset();
   }
 
-    // Set Distance PID Values for Right Motors
-  public void setRightDistancePID(){
-    m_rightPIDController.setP(kRightP);
-    m_rightPIDController.setI(kRightI);
-    m_rightPIDController.setD(kRightD);
-  
+  public double getRobotAngle(){
+    m_imu.reset();
+    return m_imu.getAngle();
   }
-
-  // Combine Right and Left Distance PID Values
-  public void setDistancePID(){
-    setLeftDistancePID();
-    setRightDistancePID();
-  }
-
-  
-  
 
 }

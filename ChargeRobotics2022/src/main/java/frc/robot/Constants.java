@@ -35,13 +35,17 @@ public final class Constants {
         // Speed per rotation determined by dividing distance per rotation by 60 seconds
         public static final double kSpeedPerRotation = kDistancePerRotation / 60;
 
-        // Port number for the hanger motor
-        public static final int kHangerMotorPort = 0;
-        public static final int kLeftHangerMotor = 1;
-        public static final int kRightHangerMotor = 4;
 
-        // Boolean to track whether the motor needs to be inverted
-        public static final boolean kMotorInverted = false;
+        // Port number for the left hanger motor
+        public static final int kHangerMotorLeftPort = 1;
+        //Port number for the right hanger motor
+        public static final int kHangerMotorRightPort = 4;
+        // Boolean to track whether the left motor needs to be inverted
+        public static final boolean kMotorLeftInverted = false;
+        // Boolean to track whether the right motor needs to be inverted
+        public static final boolean kMotorRightInverted = false;
+
+
 
         // Constant speed at which the hanger motor will rotate to extend the elevator
         public static final double kClimbUpSpeed = 0.0;
@@ -89,12 +93,14 @@ public final class Constants {
         beam braker ports
         motor speeds
         */
+
         public static final int kLowerIndexMotorPort = 12;
         public static final int kUpperIndexMotorPort = 13;
         public static final int kLowerIndexBeamBrakerPort = 1;
         public static final int kUpperIndexBeamBrakerPort = 3;
         public static final int kLowerIndexMotorSpeed = 1;
         public static final int kUpperIndexMotorSpeed = 1;
+
         public static final int kIndexMotorStopSpeed = 0;
         public static final int kEjectIndexMotorSpeed = -1;
 
@@ -138,6 +144,24 @@ public final class Constants {
         public static final double kFF = 0; // feed forward constant
         public static final double kMinOutput = 0;
         public static final double kMaxOutput = 0;
+    }
+
+    public static final class VisionConstants{
+        public static final double klimelightHeight = 0;
+        public static final double klimelightAngle = 0;
+
+        public static final double kUpperTargetHeight = 104; // 8'8"
+
+        public static final int kdefaultPipeline = 0;
+        
+        public static final double khorizontalRange = 1.5; // How far off from the crosshair the target can be to be centered on the x-axis
+
+        // Alignment constants for the limelight
+        public static final double kAutoAlignP = 0.0;
+        public static final double kAutoAlignI = 0.0;
+        public static final double kAutoAlignD = 0.0;
+        public static final double kAutoAlignTolerance = 1.0;
+        public static final double kAutoAlignSpeedTolerance = 1.0;
     }
 
     public static final class DriveConstants {
@@ -184,13 +208,9 @@ public final class Constants {
         public static final double kRightA = 0;
 
         // Drive Distance PID Values
-        public static /*final*/ double kLeftP = .1;
-        public static final double kLeftI = 0;
-        public static final double kLeftD = 0;
-
-        public static /*final*/ double kRightP = .1;
-        public static final double kRightI = 0;
-        public static final double kRightD = 0;
+        public static final double kP = 0;
+        public static final double kI = 0;
+        public static final double kD = 0;
 
         // Drive Distance Tolerance and Maximums in inches and seconds
         public static final double kPositionTolerance = 1.0; // Placeholder

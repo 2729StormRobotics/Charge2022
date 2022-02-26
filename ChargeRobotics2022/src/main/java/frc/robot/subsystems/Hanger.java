@@ -31,11 +31,11 @@ public class Hanger extends SubsystemBase {
    * 
    */
   public Hanger() {
-    m_hangerMotorLeft = new CANSparkMax(kHangerMotorPort, MotorType.kBrushless);
-    motorInit(m_hangerMotorLeft, kMotorInverted);
+    m_hangerMotorLeft = new CANSparkMax(kHangerMotorLeftPort, MotorType.kBrushless);
+    motorInit(m_hangerMotorLeft, kMotorLeftInverted);
 
-    m_hangerMotorRight = new CANSparkMax(kHangerMotorPort, MotorType.kBrushless);
-    motorInit(m_hangerMotorRight, kMotorInverted);
+    m_hangerMotorRight = new CANSparkMax(kHangerMotorRightPort, MotorType.kBrushless);
+    motorInit(m_hangerMotorRight, kMotorRightInverted);
 
     m_hangerMotorLeft.follow(m_hangerMotorRight, true);
 

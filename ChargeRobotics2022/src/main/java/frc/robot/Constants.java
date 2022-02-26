@@ -35,10 +35,15 @@ public final class Constants {
         // Speed per rotation determined by dividing distance per rotation by 60 seconds
         public static final double kSpeedPerRotation = kDistancePerRotation / 60;
 
-        // Port number for the hanger motor
-        public static final int kHangerMotorPort = 0;
-        // Boolean to track whether the motor needs to be inverted
-        public static final boolean kMotorInverted = false;
+        // Port number for the left hanger motor
+        public static final int kHangerMotorLeftPort = 1;
+        //Port number for the right hanger motor
+        public static final int kHangerMotorRightPort = 4;
+        // Boolean to track whether the left motor needs to be inverted
+        public static final boolean kMotorLeftInverted = false;
+        // Boolean to track whether the right motor needs to be inverted
+        public static final boolean kMotorRightInverted = false;
+
 
         // Constant speed at which the hanger motor will rotate to extend the elevator
         public static final double kClimbUpSpeed = 0.0;

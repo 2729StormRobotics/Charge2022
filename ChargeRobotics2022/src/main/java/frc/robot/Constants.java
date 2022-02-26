@@ -117,8 +117,6 @@ public final class Constants {
 
         public static final int kBottomExtendedChannel = 0;
         public static final int kBottomRetractedChannel = 0;
-        public static final int kSideExtendedChannel = 0;      
-        public static final int kSideRetractedChannel = 0;
         
         public static final Value kPistonExtendedValue = Value.kForward;
         public static final Value kPistonRetractedValue = Value.kReverse;

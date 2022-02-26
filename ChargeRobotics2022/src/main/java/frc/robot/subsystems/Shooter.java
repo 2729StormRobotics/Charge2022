@@ -4,67 +4,62 @@
 
 package frc.robot.subsystems;
 
-// import com.revrobotics.CANEncoder;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj2.command.PIDSubsystem;
+
+import static frc.robot.Constants.ShooterConstants.*;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+public class Shooter extends PIDSubsystem {
 
-import static frc.robot.Constants.ShooterConstants.*;
-
-public class Shooter extends SubsystemBase {
-  
-  private final CANSparkMax m_motor;
+  private final CANSparkMax m_leftMotor;
+  private final CANSparkMax m_rightMotor;
 
   private final RelativeEncoder m_encoder;
 
   private final DoubleSolenoid m_piston1;
   private final DoubleSolenoid m_piston2;
 
-  private final SimpleMotorFeedforward m_feedForward;
-  private final PIDController m_pidController;
-
-  private double m_setpoint;
-
-  private boolean m_pistonsExtended;
-  
-  /** Creates a new Shooter. */
+  /** Creates a new Shooter2. */
   public Shooter() {
+    super(
+        // The PIDController used by the subsystem
+        new PIDController(kP, kI, kD));
 
     // Instantiate the motor
-    m_motor = new CANSparkMax(kMotorPort, MotorType.kBrushless);
+    m_leftMotor = new CANSparkMax(kLeftMotorPort, MotorType.kBrushless);
+    m_rightMotor = new CANSparkMax(kRightMotorPort, MotorType.kBrushless);
 
     // Instantiate the encoder
-    m_encoder = m_motor.getEncoder();
+    m_encoder = m_leftMotor.getEncoder();
 
-    // Instantiate the pistons
+    // Instantiate the pLeftistons
     m_piston1 = new DoubleSolenoid(kPistonModuleType, kBottomExtendedChannel, kBottomRetractedChannel);
     m_piston2 = new DoubleSolenoid(kPistonModuleType, kBottomExtendedChannel, kBottomRetractedChannel);
 
     // Initialize the motor
-    motorInit(m_motor);
+    motorInit(m_leftMotor);
 
-    // Initialize the pistons 
+    // Initialize the pistons
     pistonInit();
+  }
 
-    // Initialize the setpoint 
-    m_setpoint = 0;
-
-    // Initialize the PID controller for the motor controller.
-    m_pidController = new PIDController(kP, kI, kD);
-
-    // Initialize the PID coefficients
-    pidInit();
-
-    m_feedForward = new SimpleMotorFeedforward(kS, kV, kA);
-
-    m_pistonsExtended = false;
+  // Intialize the encoders
+  private void encoderInit(RelativeEncoder encoder){
+    m_encoder.setVelocityConversionFactor(kVelocityConversion); // Sets encoder units to be the desired ones
+    resetEncoder(encoder); 
 }
+
+// Reset encoder distance
+  private void resetEncoder(RelativeEncoder encoder){
+    encoder.setPosition(0);
+}
+
 
   // Intialize the motor
   private void motorInit(CANSparkMax motor){
@@ -75,106 +70,40 @@ public class Shooter extends SubsystemBase {
 
   // Stops the motor
   public void stopMotor(){
-    m_motor.set(0);
+    m_leftMotor.set(0);
   }
 
-  public double getSetpoint(){
-    return m_setpoint;
-  }
-
-  public void setSetpoint(double setpoint){
-    m_setpoint = setpoint;
-  }
-
-  public double getVelocity(){
-    return m_encoder.getVelocity();
-  }
-
-  // Intialize the encoders
-    private void encoderInit(RelativeEncoder encoder){
-      m_encoder.setVelocityConversionFactor(kVelocityConversion); // Sets encoder units to be the desired ones
-      resetEncoder(encoder); 
-  }
-  
-  // Reset encoder distance
-    private void resetEncoder(RelativeEncoder encoder){
-      encoder.setPosition(0);
-  }
-  
-  // Intialize the pistons to be retracted
+  // ILeftntialize the pistons to be retracted
   private void pistonInit(){
     retractPistons();
   }
 
   // Retracts the pisons
   public void retractPistons(){
-    if (m_pistonsExtended){
       m_piston1.set(kPistonRetractedValue);
-      m_piston2.set(kPistonRetractedValue);
-
-      m_pistonsExtended = false;
-    }  
+      m_piston2.set(kPistonRetractedValue); 
   }
 
   // Extends the pistons
   public void extendPistons(){
-    if (!m_pistonsExtended){
       m_piston1.set(kPistonExtendedValue);
-      m_piston2.set(kPistonExtendedValue);
-
-      m_pistonsExtended = true;
-    }
+      m_piston2.set(kPistonExtendedValue);    
   }
 
-  // Set PID coefficients for the PID Controller to use 
-  private void pidInit(){
-    // Set the proportional constant
-    m_pidController.setP(kP); 
-    // Set the integral constant
-    m_pidController.setI(kI); 
-    // Set the derivative constant
-    m_pidController.setD(kD); 
-    // // Set the integral zone, which is the maximum error for the integral gain to take effect
-    // m_pidController.setIZone(kIz);
-    // // Set the feed forward constant  
-    // m_pidController.setFF(kFF);
-    // // Set the output range
-    // m_pidController.setOutputRange(kMinOutput, kMaxOutput);
+  public boolean atSetpoint() {
+    return m_controller.atSetpoint();
   }
-
-  public void pidAdjust() {
-    m_pidController.setP(kP);
-    m_pidController.setI(kI);
-    m_pidController.setD(kD);
-  }
-
-  /*
-  // Set the motor controller to set the PID controller 
-  public void revToSpeed(double speed) {
-    double feedforward = m_feedForward.calculate(speed);
-    m_pidController.setReference(speed, CANSparkMax.ControlType.kVelocity, 0, feedforward);
-  }
-
-  // Sets the motor for the hub shot
-  public void revHubShot(){
-    revToSpeed(kHubShotSpeed);
-  }
-
-  // Sets the motor for the close launch pad shot
-  public void revCloseLaunchPadShot(){
-    revToSpeed(kCloseLaunchPadShotSpeed);
-  }
-
-  // Sets the motor for the long launch pad shot
-  public void revFarLaunchPadShot(){
-    revToSpeed(kFarLaunchPadShotSpeed);
-  }
-  */
 
   @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-    m_motor.set(m_pidController.calculate(m_encoder.getVelocity()));
+  public void useOutput(double output, double setpoint) {
+    // Use the output here
+    m_leftMotor.set(output);
+
   }
 
+  @Override
+ public double getMeasurement() {
+    // Return the process variable measurement here
+    return m_encoder.getVelocity();
+  }
 }

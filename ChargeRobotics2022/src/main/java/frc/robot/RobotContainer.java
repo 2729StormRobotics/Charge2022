@@ -22,6 +22,7 @@ import frc.robot.commands.PointTurnUsingLimelight;
 import frc.robot.commands.ShooterHubShot;
 import frc.robot.commands.ShooterPrepHubShot;
 import frc.robot.commands.ShooterShoot;
+import frc.robot.commands.TankDriveManually;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Hanger;
@@ -66,8 +67,7 @@ public class RobotContainer {
     m_vision = new Vision();
 
     m_drivetrain.setDefaultCommand(
-        new DriveManually(() -> m_driver.getRightX(), () -> m_driver.getRightY(),
-          () -> m_driver.getLeftY(), () -> m_driver.getLeftY(), m_drivetrain));
+        new TankDriveManually(() -> m_driver.getLeftY(), () -> m_driver.getRightY(), m_drivetrain));
 
     SmartDashboard.putData(m_shooter);
     

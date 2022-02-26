@@ -39,8 +39,8 @@ public class Hanger extends SubsystemBase {
 
     m_hangerMotorLeft.follow(m_hangerMotorRight, true);
 
-    m_encoderLeft = m_hangerMotorLeft.getEncoder(SparkMaxRelativeEncoder.Type.kQuadrature, 4096);
-    m_encoderRight = m_hangerMotorRight.getEncoder(SparkMaxRelativeEncoder.Type.kQuadrature, 4096);
+    m_encoderLeft = m_hangerMotorLeft.getEncoder();
+    m_encoderRight = m_hangerMotorRight.getEncoder();
 
 
 

@@ -49,7 +49,7 @@ public class RobotContainer {
   private final XboxController m_operator = new XboxController(DriveConstants.kOperatorControllerPort);
 
   private final Drivetrain m_drivetrain;
-  private final Hanger m_hanger;
+  // private final Hanger m_hanger;
   private final Index m_index;
   private final Intake m_intake;
   private final Shooter m_shooter;
@@ -59,7 +59,7 @@ public class RobotContainer {
   public RobotContainer() {
 
     m_drivetrain = new Drivetrain();
-    m_hanger = new Hanger();
+    // m_hanger = new Hanger();
     m_index = new Index();
     m_intake = new Intake();
     m_shooter = new Shooter();

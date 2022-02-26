@@ -4,15 +4,18 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.Shooter;
 
 import static frc.robot.Constants.ShooterConstants.*;
 
-public class ShooterHubShot extends CommandBase {
+// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
+// information, see:
+// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
+public class ShooterPrepHubShot extends InstantCommand {
   private final Shooter m_shooter;
-  /** Creates a new ShooterHubShot. */
-  public ShooterHubShot(Shooter subsystem) {    
+
+  public ShooterPrepHubShot(Shooter subsystem) {
     m_shooter = subsystem;
     
     // Use addRequirements() here to declare subsystem dependencies.
@@ -23,20 +26,6 @@ public class ShooterHubShot extends CommandBase {
   @Override
   public void initialize() {
     m_shooter.retractPistons();
-    m_shooter.setSetpoint(kHubShotSpeed);
-  }
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {}
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {}
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return (m_shooter.getVelocity() >= m_shooter.getSetpoint());
+    m_shooter.setSetpoint(kHubShotMotorSpeed);
   }
 }

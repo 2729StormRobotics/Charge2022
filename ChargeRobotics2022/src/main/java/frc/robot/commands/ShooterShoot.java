@@ -5,52 +5,41 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Index;
+import frc.robot.subsystems.Shooter;
 
-public class IndexUpper extends CommandBase {
+import static frc.robot.Constants.ShooterConstants.*;
 
-  private final Index m_index;
+public class ShooterShoot extends CommandBase {
+  private final Shooter m_shooter;
+  private final double m_motorSpeed;
 
-  /** Creates a new IndexUpper. */
-  public IndexUpper(Index subsystem) {
-    m_index = subsystem;
+  /** Creates a new ShooterShoot. */
+  public ShooterShoot(Shooter subsystem, double motorSpeed) {
+    m_shooter = subsystem;
+    m_motorSpeed = motorSpeed;
+
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_index);
+    addRequirements(m_shooter);
   }
 
   // Called when the command is initially scheduled.
-  //run both motors
   @Override
   public void initialize() {
-    m_index.runLowerIndexMotor();
-    m_index.runUpperIndexMotor();
+    m_shooter.extendPistons();
+    m_shooter.setSetpoint(m_motorSpeed);
   }
-
 
   // Called every time the scheduler runs while the command is scheduled.
-  //stop both motors if the upper beam 'breaks'
   @Override
-  public void execute() {
-    if (!m_index.getUpperBeamBrakerStatus()) {
-      m_index.stopIndexMotors();
-    }
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
-  //stop both motors
   @Override
-  public void end(boolean interrupted) {
-    m_index.stopIndexMotors();
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return (m_shooter.getVelocity() >= m_shooter.getSetpoint());
   }
-
- 
-
-
-
 }

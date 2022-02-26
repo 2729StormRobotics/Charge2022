@@ -5,23 +5,22 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Index;
+import frc.robot.subsystems.Shooter;
 
-public class IndexStop extends CommandBase {
-  private final Index m_index;
+public class ShooterStopMotor extends CommandBase {
+  private final Shooter m_shooter;
+  /** Creates a new ShooterStopMotor. */
+  public ShooterStopMotor(Shooter subsystem) {
+    m_shooter = subsystem;
 
-  /** Creates a new IndexStop. */
-  public IndexStop(Index subsystem) {
-    m_index = subsystem;
-    
-    addRequirements(m_index);
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(m_shooter);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_index.stopIndexMotors();
+    m_shooter.setSetpoint(0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

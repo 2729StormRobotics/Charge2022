@@ -26,8 +26,6 @@ public class Intake extends SubsystemBase {
 
     m_leftIntakePiston = new DoubleSolenoid(PneumaticsModuleType.REVPH, kLeftIntakeExtendChannel, kLeftIntakeRetractChannel);
     m_rightIntakePiston = new DoubleSolenoid(PneumaticsModuleType.REVPH, kRightIntakeExtendChannel, kRightIntakeRetractChannel);
-    m_leftIntakePiston.toggle();
-    m_rightIntakePiston.toggle();
    
     motorInit(m_intakeMotor);
 

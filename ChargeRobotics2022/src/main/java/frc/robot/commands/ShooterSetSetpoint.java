@@ -5,25 +5,28 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class IntakeRetract extends InstantCommand {
-  
-  private final Intake m_intake;
+public class ShooterSetSetpoint extends InstantCommand {
+  private final Shooter m_shooter;
+  private final double m_motorSpeed;
 
-  public IntakeRetract(Intake subsystem) {
-    m_intake = subsystem;
+  public ShooterSetSetpoint(Shooter subsystem, double motorSpeed) {
+    m_shooter = subsystem;
+    m_motorSpeed = motorSpeed;
+
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_intake);
+    addRequirements(m_shooter);
+    
   }
 
   // Called when the command is initially scheduled.
-  //Retracts the intake.
   @Override
   public void initialize() {
-    m_intake.retractIntake();
+    m_shooter.extendPistons();
+    m_shooter.setSetpoint(m_motorSpeed);
   }
 }

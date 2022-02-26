@@ -5,25 +5,29 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.subsystems.Index;
 import frc.robot.subsystems.Intake;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class IntakeRetract extends InstantCommand {
-  
-  private final Intake m_intake;
+public class IntakeIndexStop extends InstantCommand {
 
-  public IntakeRetract(Intake subsystem) {
-    m_intake = subsystem;
+  private final Intake m_intake;
+  private final Index m_index;
+
+  public IntakeIndexStop(Intake intake, Index index) {
+    m_intake = intake;
+    m_index = index;
+
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_intake);
+    addRequirements(m_intake, m_index);
   }
 
   // Called when the command is initially scheduled.
-  //Retracts the intake.
   @Override
   public void initialize() {
-    m_intake.retractIntake();
+    m_intake.stopIntake();
+    m_index.stopIndexMotors();
   }
 }

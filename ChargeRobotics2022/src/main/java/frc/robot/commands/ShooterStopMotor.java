@@ -7,12 +7,10 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Shooter;
 
-import static frc.robot.Constants.ShooterConstants.*;
-
-public class ShooterFarLaunchPadShot extends CommandBase {
+public class ShooterStopMotor extends CommandBase {
   private final Shooter m_shooter;
-  /** Creates a new ShooterFarLaunchPadShot. */
-  public ShooterFarLaunchPadShot(Shooter subsystem) {
+  /** Creates a new ShooterStopMotor. */
+  public ShooterStopMotor(Shooter subsystem) {
     m_shooter = subsystem;
 
     // Use addRequirements() here to declare subsystem dependencies.
@@ -22,8 +20,7 @@ public class ShooterFarLaunchPadShot extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_shooter.extendPistons();
-    m_shooter.setSetpoint(kFarLaunchPadMotorSpeed);
+    m_shooter.setSetpoint(0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -37,6 +34,6 @@ public class ShooterFarLaunchPadShot extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (m_shooter.getVelocity() >= m_shooter.getSetpoint());
+    return false;
   }
 }

@@ -10,7 +10,7 @@ import frc.robot.subsystems.Intake;
 
 public class IntakeEject extends CommandBase {
   private final Intake m_intake;
-  /** Creates a new IntakeReject. */
+  /** Creates a new IntakeEject. */
   public IntakeEject(Intake subsystem) {
      m_intake = subsystem;
 
@@ -19,6 +19,7 @@ public class IntakeEject extends CommandBase {
   }
 
   // Called when the command is initially scheduled.
+  //Ejects the Intake.
   @Override
   public void initialize() {
    m_intake.ejectIntake();

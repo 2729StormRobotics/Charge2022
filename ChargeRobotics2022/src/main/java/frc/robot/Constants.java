@@ -140,6 +140,24 @@ public final class Constants {
         public static final double kMaxOutput = 0;
     }
 
+    public static final class VisionConstants{
+        public static final double klimelightHeight = 0;
+        public static final double klimelightAngle = 0;
+
+        public static final double kUpperTargetHeight = 104; // 8'8"
+
+        public static final int kdefaultPipeline = 0;
+        
+        public static final double khorizontalRange = 1.5; // How far off from the crosshair the target can be to be centered on the x-axis
+
+        // Alignment constants for the limelight
+        public static final double kAutoAlignP = 0.0;
+        public static final double kAutoAlignI = 0.0;
+        public static final double kAutoAlignD = 0.0;
+        public static final double kAutoAlignTolerance = 1.0;
+        public static final double kAutoAlignSpeedTolerance = 1.0;
+    }
+
     public static final class DriveConstants {
         // Get Values For Everything:
         // Drive ports, current limit, gear ratio, feedforward values, pid values (for both), navX Port, 

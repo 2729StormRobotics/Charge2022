@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commandgroups.IntakeAndIndex;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.IndexLowerIn;
 import frc.robot.commands.IntakeEject;
 import frc.robot.commands.PointTurnUsingLimelight;
 import frc.robot.commands.ShooterHubShot;
@@ -70,7 +71,7 @@ public class RobotContainer {
         new TankDriveManually(() -> m_driver.getLeftY(), () -> m_driver.getRightY(), m_drivetrain));
 
     SmartDashboard.putData(m_shooter);
-    
+    //
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -88,7 +89,8 @@ public class RobotContainer {
     // new JoystickButton(m_operator, Button.kLeftkLeftBumper).whenPressed(new Flush);
     
     // change speed parameter for PointTurnUsingLimelight
-    new JoystickButton(m_operator, Button.kA.value).whenPressed(new PointTurnUsingLimelight(0.01, m_vision, m_drivetrain));
+    // new JoystickButton(m_operator, Button.kA.value).whenPressed(new PointTurnUsingLimelight(0.01, m_vision, m_drivetrain));
+    new JoystickButton(m_operator, Button.kA.value).whileHeld(new IndexLowerIn(m_index));
     new JoystickButton(m_operator, Button.kB.value).whenPressed(new ShooterShoot(m_shooter, Constants.ShooterConstants.kCloseLaunchPadMotorSpeed));
     new JoystickButton(m_operator, Button.kX.value).whenPressed(new ShooterShoot(m_shooter, Constants.ShooterConstants.kFarLaunchPadMotorSpeed));
     new JoystickButton(m_operator, Button.kY.value).whenPressed(new ShooterHubShot(m_shooter));

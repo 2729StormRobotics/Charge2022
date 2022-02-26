@@ -92,8 +92,8 @@ public final class Constants {
         motor speeds
         */
 
-        public static final int kLowerIndexMotorPort = 10;
-        public static final int kUpperIndexMotorPort = 11;
+        public static final int kLowerIndexMotorPort = 8;
+        public static final int kUpperIndexMotorPort = 2;
         public static final int kLowerIndexBeamBrakerPort = 1;
         public static final int kUpperIndexBeamBrakerPort = 3;
         public static final int kLowerIndexMotorSpeed = 1;
@@ -167,8 +167,8 @@ public final class Constants {
 
         // Drive Motor Ports
 
-        public static final int kLeftLeaderMotorPort = 8;
-        public static final int kLeftFollowerMotorPort = 2;
+        public static final int kLeftLeaderMotorPort = 10;
+        public static final int kLeftFollowerMotorPort = 11;
         public static final int kRightLeaderMotorPort = 6;
         public static final int kRightFollowerMotorPort = 3;
 

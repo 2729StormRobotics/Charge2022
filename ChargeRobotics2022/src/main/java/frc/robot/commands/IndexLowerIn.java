@@ -38,6 +38,7 @@ public class IndexLowerIn extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_index.hasLowerBall();
+    // return m_index.hasLowerBall();
+    return false;
   }
 }

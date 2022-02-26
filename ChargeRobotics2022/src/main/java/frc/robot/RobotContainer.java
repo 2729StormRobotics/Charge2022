@@ -7,6 +7,7 @@ package frc.robot;
 
 import java.util.logging.Handler;
 
+import edu.wpi.first.util.sendable.SendableRegistry;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -66,6 +67,8 @@ public class RobotContainer {
     m_shooter = new Shooter();
     m_vision = new Vision();
 
+    SendableRegistry.setName(m_shooter, "shooter", "shooter");
+
 
     m_drivetrain.setDefaultCommand(
         new TankDriveManually(() -> m_driver.getLeftY(), () -> m_driver.getRightY(), m_drivetrain));
@@ -90,13 +93,13 @@ public class RobotContainer {
     
     // change speed parameter for PointTurnUsingLimelight
     // new JoystickButton(m_operator, Button.kA.value).whenPressed(new PointTurnUsingLimelight(0.01, m_vision, m_drivetrain));
-    new JoystickButton(m_operator, Button.kA.value).whileHeld(new IndexLowerIn(m_index));
-    new JoystickButton(m_operator, Button.kB.value).whenPressed(new ShooterShoot(m_shooter, Constants.ShooterConstants.kCloseLaunchPadMotorSpeed));
+    new JoystickButton(m_driver, Button.kA.value).whileHeld(new IntakeAndIndex(m_intake, m_index));
+    new JoystickButton(m_driver, Button.kB.value).whenPressed(new ShooterShoot(m_shooter, Constants.ShooterConstants.kCloseLaunchPadMotorSpeed));
     new JoystickButton(m_operator, Button.kX.value).whenPressed(new ShooterShoot(m_shooter, Constants.ShooterConstants.kFarLaunchPadMotorSpeed));
     new JoystickButton(m_operator, Button.kY.value).whenPressed(new ShooterHubShot(m_shooter));
 
     new JoystickButton(m_operator, Button.kRightBumper.value).whenPressed(new IntakeEject(m_intake));
-    new Trigger(() -> (m_operator.getLeftTriggerAxis() > 0.01)).whenActive(new IntakeAndIndex(m_intake, m_index));
+    new Trigger(() -> (m_driver.getLeftTriggerAxis() > 0.01)).whenActive(new IntakeAndIndex(m_intake, m_index));
     
   }
     

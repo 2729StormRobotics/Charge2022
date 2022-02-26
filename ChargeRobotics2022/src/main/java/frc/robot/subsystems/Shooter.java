@@ -29,7 +29,7 @@ public class Shooter extends PIDSubsystem {
   public Shooter() {
     super(
         // The PIDController used by the subsystem
-        new PIDController(kP, kI, kD));
+        new PIDController(0.01, kI, kD));
 
     // Instantiate the motor
     m_leftMotor = new CANSparkMax(kLeftMotorPort, MotorType.kBrushless);

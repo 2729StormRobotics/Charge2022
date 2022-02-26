@@ -40,7 +40,7 @@ public class PointTurnGyroTank extends CommandBase {
   @Override
   public void execute() {
 
-    m_drivetrain.tankDrive(m_speed * Math.signum(m_angle) *-1, m_speed * Math.signum(m_angle), false);
+    m_drivetrain.tankDrive(m_speed * Math.signum(m_angle), m_speed * Math.signum(m_angle) * -1, false);
   }
 
   // Called once the command ends or is interrupted.

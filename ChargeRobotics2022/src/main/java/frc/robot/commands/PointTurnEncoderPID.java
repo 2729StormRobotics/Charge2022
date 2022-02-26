@@ -13,27 +13,25 @@ import static frc.robot.Constants.DriveConstants.*;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class PointTurnGyroPID extends PIDCommand {
-  /** Creates a new PointTurnEncoderPID. */  
-
-  public PointTurnGyroPID(double angle, double speed, Drivetrain drivetrain) {
+public class PointTurnEncoderPID extends PIDCommand {
+  /** Creates a new PointTurnEncoderPID. */
+  public PointTurnEncoderPID(double angle, Drivetrain drivetrain) {
     super(
         // The controller that the command will use
         new PIDController(kP, kI, kD),
         // This should return the measurement
-        () -> drivetrain.getRobotAngle(),
+        () -> drivetrain.getRightDistance(),
         // This should return the setpoint (can also be a constant)
-        () -> angle,
+        () -> angle * kTurnAngleToInches,
         // This uses the output
         output -> {
           // Use the output here
-          drivetrain.tankDrive(speed * Math.signum(output), speed * Math.signum(output) * -1, false);
-  
+          drivetrain.arcadeDrive(0, output, false);
         });
     // Use addRequirements() here to declare subsystem dependencies.
-    // Configure additional PID options by calling `getController` here.
-
     addRequirements(drivetrain);
+
+    // Configure additional PID options by calling `getController` here.
     getController().setTolerance(kAngleTolerance, kTurnSpeedTolerance);
   }
 

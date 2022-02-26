@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+
 import java.util.logging.Handler;
 
 import edu.wpi.first.wpilibj.GenericHID;
@@ -31,6 +32,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 import static frc.robot.Constants.ButtonBindingConstants.*;
 
+
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -38,6 +40,7 @@ import static frc.robot.Constants.ButtonBindingConstants.*;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+
   // The robot's subsystems and commands are defined here...
   private final XboxController m_driver = new XboxController(kDriverControllerPort);
   private final XboxController m_operator = new XboxController(kOperatorControllerPort);
@@ -50,8 +53,10 @@ public class RobotContainer {
   // private final Vision m_vision;
 
 
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+
 
         m_drivetrain = new Drivetrain();
         m_hanger = new Hanger();
@@ -65,8 +70,8 @@ public class RobotContainer {
             new DriveManually(() -> m_driver.getRightX(), () -> m_driver.getRightY(),
               () -> m_driver.getLeftY(), () -> m_driver.getLeftY(), m_drivetrain));
 
-        
-    
+       
+
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -97,11 +102,18 @@ public class RobotContainer {
     
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
+   
    * @return the command to run in autonomous
    */
+
+
+
   public Command getAutonomousCommand() {
+    
     // An ExampleCommand will run in autonomous
+
     return new ExampleCommand(new ExampleSubsystem());
+
   }
+
 }

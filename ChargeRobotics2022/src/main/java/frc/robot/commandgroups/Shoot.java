@@ -10,7 +10,7 @@ import frc.robot.commands.IndexUpperOut;
 import frc.robot.commands.ShooterSetSetpoint;
 import frc.robot.commands.ShooterShoot;
 import frc.robot.subsystems.Index;
-import frc.robot.subsystems.Shooter3;
+import frc.robot.subsystems.Shooter;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -18,7 +18,7 @@ import frc.robot.subsystems.Shooter3;
 public class Shoot extends SequentialCommandGroup {
 
   /** Creates a new Shoot. */
-  public Shoot(Index index, Shooter3 shooter, double speed) {
+  public Shoot(Index index, Shooter shooter, double speed) {
     if (index.hasUpperBall() && index.hasLowerBall()) {
       addCommands(new ShooterShoot(shooter, speed), new IndexUpperOut(index), new ShooterShoot(shooter, speed), new IndexMoveUp(index), new IndexUpperOut(index), new ShooterSetSetpoint(shooter, 0));
     } else if (index.hasUpperBall()) {

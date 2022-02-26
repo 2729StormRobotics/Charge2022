@@ -6,6 +6,7 @@ package frc.robot.commandgroups;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.IndexLowerInUntilBoth;
+import frc.robot.commands.IndexUpperAndLowerIn;
 import frc.robot.commands.IndexUpperIn;
 import frc.robot.commands.IntakeRun;
 import frc.robot.subsystems.Index;
@@ -25,6 +26,6 @@ public class IntakeAndIndex extends ParallelCommandGroup {
     m_intake = intake;
     m_index = index;
 
-    addCommands(new IntakeRun(m_intake), new IndexUpperIn(m_index), new IndexLowerInUntilBoth(m_index));
+    addCommands(new IntakeRun(m_intake), new IndexUpperAndLowerIn(m_index));
   }
 }

@@ -23,7 +23,7 @@ public class Hanger extends SubsystemBase {
   private final RelativeEncoder m_encoderLeft;
   private final RelativeEncoder m_encoderRight;  
 
-  private final Solenoid m_pawlPiston;
+  // private final Solenoid m_pawlPiston;
   private boolean m_retracted = true;
 
   /**
@@ -44,8 +44,8 @@ public class Hanger extends SubsystemBase {
 
 
 
-    m_pawlPiston = new Solenoid(PneumaticsModuleType.CTREPCM, kPawlPistonChannel);
-    m_pawlPiston.set(kPawlPistonDisabled);
+    // m_pawlPiston = new Solenoid(PneumaticsModuleType.CTREPCM, kPawlPistonChannel);
+    // m_pawlPiston.set(kPawlPistonDisabled);
 
     shuffleboardInit();
   }
@@ -181,14 +181,14 @@ public class Hanger extends SubsystemBase {
    * Engages the pawl piston, which locks the elevator at its current extension
    */
   public void engagePawlPiston() {
-    m_pawlPiston.set(kPawlPistonEnabled);
+    // m_pawlPiston.set(kPawlPistonEnabled);
   }
 
   /**
    * Disengages the pawl piston, which locks the elevator at its current extension
    */
   public void disengagePawlPiston() {
-    m_pawlPiston.set(kPawlPistonDisabled);
+    // m_pawlPiston.set(kPawlPistonDisabled);
   }
 
 /**

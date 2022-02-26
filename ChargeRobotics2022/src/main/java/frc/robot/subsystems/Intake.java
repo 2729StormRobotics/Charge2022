@@ -23,8 +23,8 @@ public class Intake extends SubsystemBase {
   public Intake() {
     m_intakeMotor = new CANSparkMax(kIntakeMotorPort, MotorType.kBrushless);
 
-    m_leftIntakePiston = new DoubleSolenoid(PneumaticsModuleType.REVPH, kLeftIntakeExtendChannel, kLeftIntakeRetractChannel);
-    m_rightIntakePiston = new DoubleSolenoid(PneumaticsModuleType.REVPH, kRightIntakeExtendChannel, kRightIntakeRetractChannel);
+    m_leftIntakePiston = new DoubleSolenoid(PneumaticsModuleType.REVPH, kIntakeExtendChannel, kIntakeRetractChannel);
+    m_rightIntakePiston = new DoubleSolenoid(PneumaticsModuleType.REVPH, kIntakeExtendChannel, kIntakeRetractChannel);
    
   }
 

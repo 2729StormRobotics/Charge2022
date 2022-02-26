@@ -67,14 +67,14 @@ public final class Constants {
         extend/retract
         */
         public static final int kIntakeMotorPort = 5;
-        public static final double kIntakeMotorSpeed = 0.56;
+        public static final double kIntakeMotorSpeed = 1;
         public static final int kIntakeMotorStopSpeed = 0;
         public static final int kEjectMotorSpeed = -1;
 
-        public static final int kLeftIntakeExtendChannel = 0;
-        public static final int kLeftIntakeRetractChannel = 0;
-        public static final int kRightIntakeExtendChannel = 0;
-        public static final int kRightIntakeRetractChannel = 0;
+        public static final int kLeftIntakeExtendChannel = 7;
+        public static final int kLeftIntakeRetractChannel = 7;
+        public static final int kRightIntakeExtendChannel = 8;
+        public static final int kRightIntakeRetractChannel = 8;
         public static final Value kIntakeExtendValue = Value.kForward;
         public static final Value kIntakeRetractValue = Value.kReverse;
        
@@ -89,12 +89,12 @@ public final class Constants {
         beam braker ports
         motor speeds
         */
-        public static final int kLowerIndexMotorPort = 0;
-        public static final int kUpperIndexMotorPort = 0;
-        public static final int kLowerIndexBeamBrakerPort = 0;
-        public static final int kUpperIndexBeamBrakerPort = 0;
-        public static final int kLowerIndexMotorSpeed = 0;
-        public static final int kUpperIndexMotorSpeed = 0;
+        public static final int kLowerIndexMotorPort = 12;
+        public static final int kUpperIndexMotorPort = 13;
+        public static final int kLowerIndexBeamBrakerPort = 1;
+        public static final int kUpperIndexBeamBrakerPort = 3;
+        public static final int kLowerIndexMotorSpeed = 1;
+        public static final int kUpperIndexMotorSpeed = 1;
         public static final int kIndexMotorStopSpeed = 0;
         public static final int kEjectIndexMotorSpeed = -1;
 

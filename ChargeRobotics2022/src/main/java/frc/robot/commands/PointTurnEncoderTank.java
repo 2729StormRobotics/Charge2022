@@ -10,7 +10,7 @@ import static frc.robot.Constants.DriveConstants.*;
 
 
 
-public class TankPointTurn extends CommandBase {
+public class PointTurnEncoderTank extends CommandBase {
   /** Creates a new TankPointTurn. */
 
   private final Drivetrain m_drivetrain;
@@ -23,7 +23,7 @@ public class TankPointTurn extends CommandBase {
  * @param speed
  * @param angle the angle to turn in degrees, positive is counter-clockwise
  */
-  public TankPointTurn(Drivetrain drivetrain, double speed, double angle) {
+  public PointTurnEncoderTank(Drivetrain drivetrain, double speed, double angle) {
     // Use addRequirements() here to declare subsystem dependencies.
 
     m_drivetrain = drivetrain;

@@ -174,13 +174,9 @@ public final class Constants {
         public static final double kRightA = 0;
 
         // Drive Distance PID Values
-        public static final double kLeftP = 0;
-        public static final double kLeftI = 0;
-        public static final double kLeftD = 0;
-
-        public static final double kRightP = 0;
-        public static final double kRightI = 0;
-        public static final double kRightD = 0;
+        public static final double kP = 0;
+        public static final double kI = 0;
+        public static final double kD = 0;
 
         // Drive Distance Tolerance and Maximums in inches and seconds
         public static final double kPositionTolerance = 1.0; // Placeholder

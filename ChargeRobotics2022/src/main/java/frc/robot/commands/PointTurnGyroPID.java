@@ -7,34 +7,34 @@ package frc.robot.commands;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.subsystems.Drivetrain;
+
 import static frc.robot.Constants.DriveConstants.*;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class DriveDistance extends PIDCommand {
-  /** Creates a new DriveDistance. */
+public class PointTurnGyroPID extends PIDCommand {
+  /** Creates a new PointTurnEncoderPID. */  
 
-  public DriveDistance(double distance, Drivetrain drivetrain) {
+  public PointTurnGyroPID(double angle, double speed, Drivetrain drivetrain) {
     super(
         // The controller that the command will use
-        new PIDController(kLeftP, kLeftI, kLeftD),
+        new PIDController(kP, kI, kD),
         // This should return the measurement
-        () -> drivetrain.getAverageDistance(),
+        () -> drivetrain.getRobotAngle(),
         // This should return the setpoint (can also be a constant)
-        distance,
+        () -> angle,
         // This uses the output
         output -> {
           // Use the output here
-          drivetrain.arcadeDrive(-output, 0, false);
+          drivetrain.tankDrive(speed * Math.signum(output) *-1, speed * Math.signum(output), false);
+  
         });
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(drivetrain);
-
     // Configure additional PID options by calling `getController` here.
-    getController().setTolerance(kPositionTolerance, kVelocityTolerance);
-    drivetrain.resetAllEncoders();
 
+    addRequirements(drivetrain);
+    getController().setTolerance(kAngleTolerance, kTurnSpeedTolerance);
   }
 
   // Returns true when the command should end.

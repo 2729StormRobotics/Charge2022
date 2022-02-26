@@ -92,8 +92,8 @@ public final class Constants {
         motor speeds
         */
 
-        public static final int kLowerIndexMotorPort = 12;
-        public static final int kUpperIndexMotorPort = 13;
+        public static final int kLowerIndexMotorPort = 10;
+        public static final int kUpperIndexMotorPort = 11;
         public static final int kLowerIndexBeamBrakerPort = 1;
         public static final int kUpperIndexBeamBrakerPort = 3;
         public static final int kLowerIndexMotorSpeed = 1;
@@ -107,8 +107,8 @@ public final class Constants {
 
     public static final class ShooterConstants{
 
-        public static final int kLeftMotorPort = 11;
-        public static final int kRightMotorPort = 12;
+        public static final int kLeftMotorPort = 12;
+        public static final int kRightMotorPort = 13;
 
         public static final double kHubShotMotorSpeed = 0;
         public static final double kCloseLaunchPadMotorSpeed = 0;

@@ -71,6 +71,7 @@ public class Shooter extends PIDSubsystem {
   // Stops the motor
   public void stopMotor(){
     m_leftMotor.set(0);
+    m_rightMotor.set(0);
   }
 
   // ILeftntialize the pistons to be retracted
@@ -98,7 +99,7 @@ public class Shooter extends PIDSubsystem {
   public void useOutput(double output, double setpoint) {
     // Use the output here
     m_leftMotor.set(output);
-
+    m_rightMotor.set(-output);
   }
 
   @Override

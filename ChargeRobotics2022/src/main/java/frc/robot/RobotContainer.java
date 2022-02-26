@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commandgroups.IntakeAndIndex;
-import frc.robot.commands.DriveManually;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.IntakeEject;
 import frc.robot.commands.PointTurnUsingLimelight;

@@ -10,14 +10,14 @@ import frc.robot.commands.IndexUpperOut;
 import frc.robot.commands.ShooterHubShot;
 import frc.robot.commands.ShooterSetSetpoint;
 import frc.robot.subsystems.Index;
-import frc.robot.subsystems.Shooter3;
+import frc.robot.subsystems.Shooter;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class Dump extends SequentialCommandGroup {
   /** Creates a new Dump. */
-  public Dump(Index index, Shooter3 shooter) {
+  public Dump(Index index, Shooter shooter) {
     if (index.hasUpperBall() && index.hasLowerBall()) {
       addCommands(new ShooterHubShot(shooter), new IndexUpperOut(index), new ShooterHubShot(shooter), new IndexMoveUp(index), new IndexUpperOut(index), new ShooterSetSetpoint(shooter, 0));
     } else if (index.hasUpperBall()) {

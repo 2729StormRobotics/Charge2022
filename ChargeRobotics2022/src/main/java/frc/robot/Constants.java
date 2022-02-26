@@ -75,10 +75,8 @@ public final class Constants {
         public static final int kIntakeMotorStopSpeed = 0;
         public static final int kEjectMotorSpeed = -1;
 
-        public static final int kLeftIntakeExtendChannel = 7;
-        public static final int kLeftIntakeRetractChannel = 7;
-        public static final int kRightIntakeExtendChannel = 8;
-        public static final int kRightIntakeRetractChannel = 8;
+        public static final int kIntakeExtendChannel = 4;
+        public static final int kIntakeRetractChannel = 5;
         public static final Value kIntakeExtendValue = Value.kForward;
         public static final Value kIntakeRetractValue = Value.kReverse;
        
@@ -116,10 +114,8 @@ public final class Constants {
         public static final double kCloseLaunchPadMotorSpeed = 0;
         public static final double kFarLaunchPadMotorSpeed = 0;
 
-        public static final int kBottomExtendedChannel = 0;
-        public static final int kBottomRetractedChannel = 0;
-        public static final int kSideExtendedChannel = 0;      
-        public static final int kSideRetractedChannel = 0;
+        public static final int kBottomExtendedChannel = 4;
+        public static final int kBottomRetractedChannel = 5;
         
         public static final Value kPistonExtendedValue = Value.kForward;
         public static final Value kPistonRetractedValue = Value.kReverse;

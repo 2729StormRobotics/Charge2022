@@ -10,10 +10,12 @@ import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.DriveConstants.*;
 
@@ -33,6 +35,8 @@ public class Drivetrain extends SubsystemBase {
 
   private final DifferentialDrive m_drive;
 
+
+
   private final SimpleMotorFeedforward m_leftFeedforward;
   private final SimpleMotorFeedforward m_rightFeedforward;
 
@@ -40,6 +44,8 @@ public class Drivetrain extends SubsystemBase {
   private final SparkMaxPIDController m_rightPIDController;
 
    private final ADIS16470_IMU m_imu;
+  private final DifferentialDriveKinematics m_kinematics;
+
 
 
   public Drivetrain() {
@@ -76,6 +82,8 @@ public class Drivetrain extends SubsystemBase {
 
     m_imu = new ADIS16470_IMU();
 
+    m_kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(22.));
+
 
 
   }
@@ -93,9 +101,12 @@ public class Drivetrain extends SubsystemBase {
     motor.setInverted(invert);
   }
 
-  private void encoderInit(RelativeEncoder encoder) {
-    encoder.setPositionConversionFactor(kDriveDistancePerRev);
-    encoder.setVelocityConversionFactor(kDriveSpeedPerRev);
+  public void encoderInit() {
+    m_leftEncoder.setPositionConversionFactor(kDriveDistancePerRev);
+    m_leftEncoder.setVelocityConversionFactor(kDriveSpeedPerRev);
+
+    m_rightEncoder.setPositionConversionFactor(kDriveDistancePerRev);
+    m_rightEncoder.setVelocityConversionFactor(kDriveSpeedPerRev);
   }
   // Reset Encoder
   private void encoderReset(RelativeEncoder encoder){
@@ -119,18 +130,35 @@ public class Drivetrain extends SubsystemBase {
   }
 
   // Get the position of the left encoders
-  private double getLeftDistance(){
+  public double getLeftDistance(){
     return m_leftEncoder.getPosition();
   }
 
   // Get the position of the right encoders
-  private double getRightDistance(){
+  public double getRightDistance(){
     return m_rightEncoder.getPosition();
   }
 
   // Averages the left and right encoder distance
   public double getAverageDistance(){
-    return (getLeftDistance() + getRightDistance()) / 2;
+   double distLeft = getLeftDistance();
+   double distRight = getRightDistance();
+   
+   encoderInit();
+   printPositionConversionFactor();   
+   
+   System.out.println("Left:  " + distLeft);
+   System.out.println("Right:  " + distRight);
+   System.out.println("velocity:  " + getAverageVelocity());
+     
+   return (distLeft + distRight) / 2;
+
+  }
+
+  // feedback of encoder conversion factor on the Driver Station Console
+  public void printPositionConversionFactor() {
+    System.out.println("Left Conversion Factor:  " + m_leftEncoder.getPositionConversionFactor());
+    System.out.println("Right Conversion Factor:  " + m_rightEncoder.getPositionConversionFactor());
   }
 
   // Get the velocity of the left encoder
@@ -143,19 +171,26 @@ public class Drivetrain extends SubsystemBase {
     return m_rightEncoder.getVelocity();
   }
 
-  private double getAverageVelocity(){
-    return (getLeftDistance() + getRightDistance()) / 2;
+  // Get the average velocity
+  public double getAverageVelocity(){
+    return (getLeftSpeed() + getRightSpeed()) / 2;
   }
 
 
   // Drives Using Tank Drive
   public void tankDrive(double leftPower, double rightPower, boolean squareInputs){
+    // double outputLeft = m_leftPIDController.calculate(getLeftSpeed(), setpoint);
+    // double outputRight = pid.calculate(encoder.getDistance(), setpoint);
     m_drive.tankDrive(leftPower, rightPower, squareInputs);
+
   }
   
   // Drives Using Arcade Drive
   public void arcadeDrive(double speed, double turn, boolean squareInputs){
     m_drive.arcadeDrive(speed, turn, squareInputs);
+
+    SmartDashboard.putNumber("forward power", speed);
+
   }
   // Stop All Drive Motors
   public void stopDrive(){

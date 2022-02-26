@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Hanger;
+import frc.robot.Constants.HangerConstants;
 
 public class HangManually extends CommandBase {
   private final Hanger m_hanger;
@@ -36,7 +37,10 @@ public class HangManually extends CommandBase {
     } else if (m_hanger.atMinHeight() && -m_speed < 0){ // May need to adjust the sign on m_speed
       m_hanger.stopClimb();
       m_hanger.engagePawlPiston();
-    } else {
+    } else if (Math.abs(m_hanger.getHeightLeft() - m_hanger.getHeightRight()) > 6.0 /* the tolerance*/){
+      m_hanger.stopClimb();
+      m_hanger.engagePawlPiston();
+    }else {
       m_hanger.disengagePawlPiston();
       m_hanger.climb(m_speed);
     }

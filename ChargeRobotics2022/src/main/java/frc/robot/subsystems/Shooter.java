@@ -21,16 +21,17 @@ public class Shooter extends SubsystemBase {
   
   private final CANSparkMax m_motor;
 
-  public final RelativeEncoder m_encoder;
+  private final RelativeEncoder m_encoder;
 
-  private final DoubleSolenoid m_bottomAnglePiston1;
-  private final DoubleSolenoid m_bottomAnglePiston2;
-
+  private final DoubleSolenoid m_piston1;
+  private final DoubleSolenoid m_piston2;
 
   private final SimpleMotorFeedforward m_feedForward;
   private final PIDController m_pidController;
 
-  public double m_setpoint;
+  private double m_setpoint;
+
+  private boolean m_pistonsExtended;
   
   /** Creates a new Shooter. */
   public Shooter() {
@@ -38,12 +39,12 @@ public class Shooter extends SubsystemBase {
     // Instantiate the motor
     m_motor = new CANSparkMax(kMotorPort, MotorType.kBrushless);
 
-    // Instantiate the encoders
+    // Instantiate the encoder
     m_encoder = m_motor.getEncoder();
 
     // Instantiate the pistons
-    m_bottomAnglePiston1 = new DoubleSolenoid(kPistonModuleType, kBottomExtendedChannel, kBottomRetractedChannel);
-    m_bottomAnglePiston2 = new DoubleSolenoid(kPistonModuleType, kBottomExtendedChannel, kBottomRetractedChannel);
+    m_piston1 = new DoubleSolenoid(kPistonModuleType, kBottomExtendedChannel, kBottomRetractedChannel);
+    m_piston2 = new DoubleSolenoid(kPistonModuleType, kBottomExtendedChannel, kBottomRetractedChannel);
 
     // Initialize the motor
     motorInit(m_motor);
@@ -57,10 +58,12 @@ public class Shooter extends SubsystemBase {
     // Initialize the PID controller for the motor controller.
     m_pidController = new PIDController(kP, kI, kD);
 
-     // Initialize pid coefficients
+    // Initialize the PID coefficients
     pidInit();
 
     m_feedForward = new SimpleMotorFeedforward(kS, kV, kA);
+
+    m_pistonsExtended = false;
 }
 
   // Intialize the motor
@@ -70,14 +73,21 @@ public class Shooter extends SubsystemBase {
     encoderInit(motor.getEncoder());
   }
 
-  // // Runs the motor
-  // public void runMotor(){
-  //   m_motor.set(kMotorSpeed);
-  // } 
-
   // Stops the motor
   public void stopMotor(){
     m_motor.set(0);
+  }
+
+  public double getSetpoint(){
+    return m_setpoint;
+  }
+
+  public void setSetpoint(double setpoint){
+    m_setpoint = setpoint;
+  }
+
+  public double getVelocity(){
+    return m_encoder.getVelocity();
   }
 
   // Intialize the encoders
@@ -96,16 +106,24 @@ public class Shooter extends SubsystemBase {
     retractPistons();
   }
 
-
+  // Retracts the pisons
   public void retractPistons(){
-    m_bottomAnglePiston1.set(kPistonRetractedValue);
-    m_bottomAnglePiston2.set(kPistonRetractedValue);
+    if (m_pistonsExtended){
+      m_piston1.set(kPistonRetractedValue);
+      m_piston2.set(kPistonRetractedValue);
+
+      m_pistonsExtended = false;
+    }  
   }
 
-  // Extend side pistons
+  // Extends the pistons
   public void extendPistons(){
-    m_bottomAnglePiston1.set(kPistonExtendedValue);
-    m_bottomAnglePiston2.set(kPistonExtendedValue);
+    if (!m_pistonsExtended){
+      m_piston1.set(kPistonExtendedValue);
+      m_piston2.set(kPistonExtendedValue);
+
+      m_pistonsExtended = true;
+    }
   }
 
   // Set PID coefficients for the PID Controller to use 
@@ -116,7 +134,7 @@ public class Shooter extends SubsystemBase {
     m_pidController.setI(kI); 
     // Set the derivative constant
     m_pidController.setD(kD); 
-    // Set the integral zone, which is the maximum error for the integral gain to take effect
+    // // Set the integral zone, which is the maximum error for the integral gain to take effect
     // m_pidController.setIZone(kIz);
     // // Set the feed forward constant  
     // m_pidController.setFF(kFF);
@@ -129,6 +147,7 @@ public class Shooter extends SubsystemBase {
     m_pidController.setI(kI);
     m_pidController.setD(kD);
   }
+
   /*
   // Set the motor controller to set the PID controller 
   public void revToSpeed(double speed) {
@@ -139,11 +158,6 @@ public class Shooter extends SubsystemBase {
   // Sets the motor for the hub shot
   public void revHubShot(){
     revToSpeed(kHubShotSpeed);
-  }
-
-  // Sets the motor for the middle shot
-  public void revMiddleShot(){
-    revToSpeed(kMiddleShotSpeed);
   }
 
   // Sets the motor for the close launch pad shot
@@ -162,6 +176,5 @@ public class Shooter extends SubsystemBase {
     // This method will be called once per scheduler run
     m_motor.set(m_pidController.calculate(m_encoder.getVelocity()));
   }
-
 
 }

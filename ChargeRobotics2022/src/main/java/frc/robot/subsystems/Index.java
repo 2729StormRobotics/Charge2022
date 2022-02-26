@@ -48,10 +48,13 @@ public class Index extends SubsystemBase {
     m_upperIndexMotor.set(kEjectIndexMotorSpeed);
   }
 
-  //stop one motor(stopLower = true for left and false for right)
-  public void stopIndexMotors(boolean stopLower) {
-    m_lowerIndexMotor.set(stopLower ? kIndexMotorStopSpeed:kLowerIndexMotorSpeed);
-    m_upperIndexMotor.set(stopLower ? kUpperIndexMotorSpeed:kIndexMotorStopSpeed);
+  //stop one motor
+  public void stopLowerMotor() {
+    m_lowerIndexMotor.set(kIndexMotorStopSpeed);
+  }
+
+  public void stopUpperMotor() {
+    m_upperIndexMotor.set(kIndexMotorStopSpeed);
   }
 
   //stop both motors
@@ -60,13 +63,13 @@ public class Index extends SubsystemBase {
     m_upperIndexMotor.set(kIndexMotorStopSpeed);
   }
 
-  //returns true if the beam is not broken
-  public boolean getLowerBeamBrakerStatus() {
-    return m_lowerBeamBraker.get();
+  //returns true if there
+  public boolean hasLowerBall() {
+    return !m_lowerBeamBraker.get();
   }
   
-  public boolean getUpperBeamBrakerStatus() {
-    return m_upperBeamBraker.get();
+  public boolean hasUpperBall() {
+    return !m_upperBeamBraker.get();
   }
 
   

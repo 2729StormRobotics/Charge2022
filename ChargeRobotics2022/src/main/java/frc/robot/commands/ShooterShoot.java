@@ -5,28 +5,28 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Index;
+import frc.robot.subsystems.Shooter;
 
+import static frc.robot.Constants.ShooterConstants.*;
 
+public class ShooterShoot extends CommandBase {
+  private final Shooter m_shooter;
+  private final double m_motorSpeed;
 
-public class IndexEject extends CommandBase {
-  private final Index m_index;
-  /** Creates a new IndexEject. */
-  public IndexEject(Index subsystem) {
-     m_index = subsystem;
+  /** Creates a new ShooterShoot. */
+  public ShooterShoot(Shooter subsystem, double motorSpeed) {
+    m_shooter = subsystem;
+    m_motorSpeed = motorSpeed;
 
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_index);
+    addRequirements(m_shooter);
   }
 
- 
-
   // Called when the command is initially scheduled.
-  //reverses index motors
   @Override
   public void initialize() {
-   m_index.ejectIndex();
-  
+    m_shooter.extendPistons();
+    m_shooter.setSetpoint(m_motorSpeed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -34,16 +34,12 @@ public class IndexEject extends CommandBase {
   public void execute() {}
 
   // Called once the command ends or is interrupted.
-  //stops both upper and lower motors
   @Override
-  public void end(boolean interrupted) {
-    m_index.stopIndexMotors();
-    
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return (m_shooter.getVelocity() >= m_shooter.getSetpoint());
   }
 }

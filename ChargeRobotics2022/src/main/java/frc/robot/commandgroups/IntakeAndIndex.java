@@ -5,34 +5,26 @@
 package frc.robot.commandgroups;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import frc.robot.commands.IndexEject;
-import frc.robot.commands.IntakeEject;
+import frc.robot.commands.IndexLowerInUntilBoth;
+import frc.robot.commands.IndexUpperIn;
+import frc.robot.commands.IntakeRun;
 import frc.robot.subsystems.Index;
 import frc.robot.subsystems.Intake;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class IntakeAndIndexEject extends ParallelCommandGroup {
+public class IntakeAndIndex extends ParallelCommandGroup {
 
   private final Intake m_intake;
   private final Index m_index;
 
-  /** Creates a new IntakeAndIndexEject. */
-  public IntakeAndIndexEject(Intake intake, Index index) {
+  /** Creates a new IntakeAndIndex. */
+  public IntakeAndIndex(Intake intake, Index index) {
 
     m_intake = intake;
     m_index = index;
 
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new IntakeEject(intake), new IndexEject(index));
+    addCommands(new IntakeRun(m_intake), new IndexUpperIn(m_index), new IndexLowerInUntilBoth(m_index));
   }
-
-  @Override
-  public void end(boolean interrupted) {
-    m_intake.stopIntake();
-    m_index.stopIndexMotors();
-  }
-
 }

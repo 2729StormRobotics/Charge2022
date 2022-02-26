@@ -4,20 +4,33 @@
 
 package frc.robot;
 
+
+import java.util.logging.Handler;
+
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.DriveDistance;
+import edu.wpi.first.wpilibj.PS4Controller.Axis;
+import edu.wpi.first.wpilibj.XboxController.Button;
+import frc.robot.commandgroups.IntakeAndIndex;
 import frc.robot.commands.DriveManually;
-import frc.robot.commands.DrivePointTurn;
 import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.TankDriveDistance;
-import frc.robot.commands.TankPointTurn;
+import frc.robot.commands.IntakeEject;
+import frc.robot.commands.ShooterCloseLaunchPadShot;
+import frc.robot.commands.ShooterFarLaunchPadShot;
+import frc.robot.commands.ShooterHubShot;
+import frc.robot.commands.ShooterPrepHubShot;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
-import frc.robot.subsystems.NavX;
+import frc.robot.subsystems.Hanger;
+import frc.robot.subsystems.Index;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
-import static frc.robot.Constants.DriveConstants.*;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
+import static frc.robot.Constants.ButtonBindingConstants.*;
 
 
 /**
@@ -27,29 +40,37 @@ import static frc.robot.Constants.DriveConstants.*;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-    // The robot's subsystems and commands are defined here...
 
-  private final Drivetrain m_drivetrain;
-  private final NavX m_navX;
-  
+  // The robot's subsystems and commands are defined here...
   private final XboxController m_driver = new XboxController(kDriverControllerPort);
   private final XboxController m_operator = new XboxController(kOperatorControllerPort);
-  
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+  private final Drivetrain m_drivetrain;
+  private final Hanger m_hanger;
+  private final Index m_index;
+  private final Intake m_intake;
+  private final Shooter m_shooter;
+  // private final Vision m_vision;
+
+
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
-    m_drivetrain = new Drivetrain(); 
-    m_navX = new NavX();
 
-    //Drive Manually for this only uses triggerdrive so the first two parameters are needed the other two are not
+        m_drivetrain = new Drivetrain();
+        m_hanger = new Hanger();
+        m_index = new Index();
+        m_intake = new Intake();
+        m_shooter = new Shooter();
+        // m_vision = new Vision();
 
-    m_drivetrain.setDefaultCommand(
-       new DriveManually(() -> m_driver.getRightX(), () -> m_driver.getRightY(),
-          () -> m_driver.getLeftY(), () -> m_driver.getLeftY(), m_drivetrain));
+
+        m_drivetrain.setDefaultCommand(
+            new DriveManually(() -> m_driver.getRightX(), () -> m_driver.getRightY(),
+              () -> m_driver.getLeftY(), () -> m_driver.getLeftY(), m_drivetrain));
+
+       
 
     // Configure the button bindings
     configureButtonBindings();
@@ -61,8 +82,24 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configureButtonBindings() {}
+  private void configureButtonBindings() {
+    new JoystickButton(m_operator, Button.kLeftStick.value).whenPressed(new ShooterCloseLaunchPadShot(m_shooter));
+    new JoystickButton(m_operator, Button.kRightStick.value).whenPressed(new ShooterPrepHubShot(m_shooter));
 
+   // new JoystickButton(m_operator, Button.kLeftkLeftBumper).whenPressed(new Flush);
+  //  new JoystickButton(m_operator, Button.kA.value).whenPressed(new );
+    new JoystickButton(m_operator, Button.kB.value).whenPressed(new ShooterCloseLaunchPadShot(m_shooter));
+    new JoystickButton(m_operator, Button.kX.value).whenPressed(new ShooterFarLaunchPadShot(m_shooter));
+    new JoystickButton(m_operator, Button.kY.value).whenPressed(new ShooterHubShot(m_shooter));
+
+    new JoystickButton(m_operator, Button.kRightBumper.value).whenPressed(new IntakeEject(m_intake));
+    new Trigger(() -> (m_driver.getLeftTriggerAxis() > 0.01)).whenActive(new IntakeAndIndex(m_intake, m_index));
+
+
+    
+
+  }
+    
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    
@@ -75,7 +112,8 @@ public class RobotContainer {
     
     // An ExampleCommand will run in autonomous
 
-    return new DrivePointTurn(90, m_navX, m_drivetrain);
+    return new ExampleCommand(new ExampleSubsystem());
+
   }
 
 }

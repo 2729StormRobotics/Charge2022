@@ -5,16 +5,18 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Index;
 
-public class IntakeRun extends CommandBase {
- private final Intake m_intake;
+public class IndexUpperIn extends CommandBase {
 
-  public IntakeRun(Intake subsystem) {
-    m_intake = subsystem;
+  private final Index m_index;
 
-    addRequirements(m_intake);
+  /** Creates a new IndexRunUpper. */
+  public IndexUpperIn(Index subsystem) {
+    m_index = subsystem;
+
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(m_index);
   }
 
   // Called when the command is initially scheduled.
@@ -22,23 +24,20 @@ public class IntakeRun extends CommandBase {
   public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
-  //Runs the Intake.
   @Override
   public void execute() {
-    m_intake.runIntake();
+    m_index.runUpperIndexMotor();
   }
 
   // Called once the command ends or is interrupted.
-  //Stops the intake.
   @Override
   public void end(boolean interrupted) {
-    m_intake.stopIntake();
+    m_index.stopUpperMotor();
   }
 
   // Returns true when the command should end.
-  //Command is finished.
   @Override
   public boolean isFinished() {
-    return false;
+    return m_index.hasUpperBall();
   }
 }

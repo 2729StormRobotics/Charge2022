@@ -14,13 +14,13 @@ import static frc.robot.Constants.DriveConstants.*;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class DriveDistance extends PIDCommand {
+public class DriveDistancePID extends PIDCommand {
   /** Creates a new DriveDistance. */
 
-  public DriveDistance(double distance, Drivetrain drivetrain) {
+  public DriveDistancePID(double distance, Drivetrain drivetrain) {
     super(
         // The controller that the command will use
-        new PIDController(kLeftP, kLeftI, kLeftD),
+        new PIDController(kP, kI, kD),
         // This should return the measurement
         () -> drivetrain.getAverageDistance(),
         // This should return the setpoint (can also be a constant)

@@ -10,9 +10,6 @@ import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 
 import static frc.robot.Constants.ShooterConstants.*;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
-import edu.wpi.first.wpilibj.shuffleboard.
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboa
-import edu.wpi.first.wpilibj.shuffleboard.
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;

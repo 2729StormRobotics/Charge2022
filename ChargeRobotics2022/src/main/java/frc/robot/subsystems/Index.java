@@ -65,11 +65,11 @@ public class Index extends SubsystemBase {
 
   //returns true if there
   public boolean hasLowerBall() {
-    return !m_lowerBeamBraker.get();
+    return m_lowerBeamBraker.get();
   }
   
   public boolean hasUpperBall() {
-    return !m_upperBeamBraker.get();
+    return m_upperBeamBraker.get();
   }
 
   

@@ -102,6 +102,7 @@ public final class Constants {
         public static final int kIndexMotorStopSpeed = 0;
         public static final int kEjectIndexMotorSpeed = -1;
 
+        public static final String kIndexShuffleboardTabName = "IndexTab";
     }
 
 

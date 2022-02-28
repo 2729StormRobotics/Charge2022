@@ -8,9 +8,15 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static frc.robot.Constants.IndexConstants.*;
+
+import java.util.Map;
 
 public class Index extends SubsystemBase {
 
@@ -18,18 +24,25 @@ public class Index extends SubsystemBase {
   private final CANSparkMax m_upperIndexMotor;
   private final DigitalInput m_lowerBeamBraker;
   private final DigitalInput m_upperBeamBraker;
+
+  private final ShuffleboardTab m_indexTab;
+  private final ShuffleboardLayout m_indexLayout;
+
   /**
   Creates a new Index.
   The index system has two motors and two beam brakers.
   */
 
   public Index() {
-
     m_lowerIndexMotor = new CANSparkMax(kLowerIndexMotorPort, MotorType.kBrushless);
     m_upperIndexMotor = new CANSparkMax(kUpperIndexMotorPort, MotorType.kBrushless);
     m_lowerBeamBraker = new DigitalInput(kLowerIndexBeamBrakerPort);
     m_upperBeamBraker = new DigitalInput(kUpperIndexBeamBrakerPort);
 
+    m_indexTab = Shuffleboard.getTab(kIndexShuffleboardTabName);
+    m_indexLayout = m_indexTab.getLayout("Beam Breaks", BuiltInLayouts.kList).withProperties(Map.of("Lable position", "TOP"));
+    
+    shuffleboardInit();
   }
 
   //run lower motor
@@ -76,5 +89,10 @@ public class Index extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+
+  private void shuffleboardInit(){
+    m_indexLayout.add(m_lowerBeamBraker);
+    m_indexLayout.add(m_upperBeamBraker);
   }
 }

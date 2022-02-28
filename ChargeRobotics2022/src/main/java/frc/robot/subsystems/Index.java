@@ -79,7 +79,7 @@ public class Index extends SubsystemBase {
 
   //returns true if there
   public boolean hasLowerBall() {
-    return m_lowerBeamBraker.get();
+    return !m_lowerBeamBraker.get();
   }
   
   public boolean hasUpperBall() {
@@ -90,8 +90,8 @@ public class Index extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putBoolean("Lower Ball Detected", hasLowerBall());
-    SmartDashboard.putBoolean("Upper Ball Detected", hasUpperBall());
+    SmartDashboard.putBoolean("Lower BB", hasLowerBall());
+    SmartDashboard.putBoolean("Upper BB", hasUpperBall());
   }
 
   private void shuffleboardInit(){

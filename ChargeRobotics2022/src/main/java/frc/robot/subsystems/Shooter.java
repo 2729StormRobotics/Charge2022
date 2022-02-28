@@ -66,7 +66,7 @@ public class Shooter extends PIDSubsystem {
   // Intialize the motor
   private void motorInit(CANSparkMax motor){
     motor.restoreFactoryDefaults(); // Reset motor parameters to defaults
-    motor.setIdleMode(IdleMode.kCoast); // Motor does not lose momentum when not being used
+    motor.setIdleMode(IdleMode.kBrake); // Motor does not lose momentum when not being used
     encoderInit(motor.getEncoder());
   }
 
@@ -100,14 +100,19 @@ public class Shooter extends PIDSubsystem {
   @Override
   public void useOutput(double output, double setpoint) {
     // Use the output here
-    m_leftMotor.set(output);
-    m_rightMotor.set(-output);
+    m_leftMotor.set(-output);
+    m_rightMotor.set(output);
   }
 
   @Override
  public double getMeasurement() {
     // Return the process variable measuremnt here
     return m_encoder.getVelocity();
+  }
+
+  public void manualSpin(double speed) {
+    m_leftMotor.set(-speed);
+    m_rightMotor.set(speed);
   }
 
 }

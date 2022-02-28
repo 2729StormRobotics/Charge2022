@@ -2,21 +2,18 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Index;
 
-public class IndexUpperAndLowerIn extends CommandBase {
+public class ManualSpinFlywheel extends CommandBase {
 
-  private final Index m_index;
-
-  /** Creates a new IndexUpperAndLowerIn. */
-  public IndexUpperAndLowerIn(Index subsystem) {
-    m_index = subsystem;
-
+  private final Shooter m_shooter;
+  /** Creates a new ManualSpinFlywheel. */
+  public ManualSpinFlywheel(Shooter subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_index);
+  m_shooter = subsystem;
+  addRequirements(m_shooter);
   }
 
   // Called when the command is initially scheduled.
@@ -26,26 +23,19 @@ public class IndexUpperAndLowerIn extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_index.runLowerIndexMotor();
-    m_index.runUpperIndexMotor();
-
-  //   // if (!m_index.hasUpperBall()) {
-  //  //    m_index.runUpperIndexMotor();
-  //    } else {
-  //      m_index.stopUpperMotor();
-  //    }
-   }
+    m_shooter.manualSpin(0.7);
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    m_index.stopIndexMotors();
+  public void end(boolean interrupted) 
+  {
+    m_shooter.manualSpin(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    //return m_index.hasLowerBall() && m_index.hasUpperBall();
     return false;
   }
 }

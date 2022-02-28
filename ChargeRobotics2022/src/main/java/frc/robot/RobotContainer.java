@@ -75,6 +75,9 @@ public class RobotContainer {
 
     SmartDashboard.putData(m_shooter);
     //
+    SmartDashboard.putData("shooter",m_shooter.getController());
+
+    
     // Configure the button bindings
     configureButtonBindings();
   }

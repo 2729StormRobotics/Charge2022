@@ -141,6 +141,7 @@ public final class Constants {
         public static final double kFF = 0; // feed forward constant
         public static final double kMinOutput = 0;
         public static final double kMaxOutput = 0;
+        public static final String kShooterShuffleboardTabName = "Shooter";
     }
 
     public static final class VisionConstants{

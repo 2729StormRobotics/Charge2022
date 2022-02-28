@@ -7,6 +7,7 @@ package frc.robot;
 
 import java.util.logging.Handler;
 
+import edu.wpi.first.util.sendable.SendableRegistry;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -15,13 +16,14 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commandgroups.IntakeAndIndex;
-import frc.robot.commands.DriveManually;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.IndexLowerIn;
 import frc.robot.commands.IntakeEject;
 import frc.robot.commands.PointTurnUsingLimelight;
 import frc.robot.commands.ShooterHubShot;
 import frc.robot.commands.ShooterPrepHubShot;
 import frc.robot.commands.ShooterShoot;
+import frc.robot.commands.TankDriveManually;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Hanger;
@@ -65,12 +67,14 @@ public class RobotContainer {
     m_shooter = new Shooter();
     m_vision = new Vision();
 
+    SendableRegistry.setName(m_shooter, "shooter", "shooter");
+
+
     m_drivetrain.setDefaultCommand(
-        new DriveManually(() -> m_driver.getRightX(), () -> m_driver.getRightY(),
-          () -> m_driver.getLeftY(), () -> m_driver.getLeftY(), m_drivetrain));
+        new TankDriveManually(() -> m_driver.getLeftY(), () -> m_driver.getRightY(), m_drivetrain));
 
     SmartDashboard.putData(m_shooter);
-    
+    //
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -88,13 +92,15 @@ public class RobotContainer {
     // new JoystickButton(m_operator, Button.kLeftkLeftBumper).whenPressed(new Flush);
     
     // change speed parameter for PointTurnUsingLimelight
-    new JoystickButton(m_operator, Button.kA.value).whenPressed(new PointTurnUsingLimelight(0.01, m_vision, m_drivetrain));
-    new JoystickButton(m_operator, Button.kB.value).whenPressed(new ShooterShoot(m_shooter, Constants.ShooterConstants.kCloseLaunchPadMotorSpeed));
+    // new JoystickButton(m_operator, Button.kA.value).whenPressed(new PointTurnUsingLimelight(0.01, m_vision, m_drivetrain));
+    new JoystickButton(m_driver, Button.kA.value).whileHeld(new IntakeAndIndex(m_intake, m_index));
+    new JoystickButton(m_driver, Button.kB.value).whenPressed(new ShooterShoot(m_shooter, Constants.ShooterConstants.kCloseLaunchPadMotorSpeed));
     new JoystickButton(m_operator, Button.kX.value).whenPressed(new ShooterShoot(m_shooter, Constants.ShooterConstants.kFarLaunchPadMotorSpeed));
     new JoystickButton(m_operator, Button.kY.value).whenPressed(new ShooterHubShot(m_shooter));
 
     new JoystickButton(m_operator, Button.kRightBumper.value).whenPressed(new IntakeEject(m_intake));
-    new Trigger(() -> (m_operator.getLeftTriggerAxis() > 0.01)).whenActive(new IntakeAndIndex(m_intake, m_index));
+    new Trigger(() -> (m_driver.getLeftTriggerAxis() > 0.01)).whenActive(new IntakeAndIndex(m_intake, m_index));
+    
   }
     
   /**

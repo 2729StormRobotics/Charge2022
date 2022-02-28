@@ -9,27 +9,26 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
-public class DriveManually extends CommandBase {
-  /** Creates a new DriveManually. */
+public class ArcadeDriveManually extends CommandBase {
+  /** Creates a new ArcadeDriveManually. */
 
-private final Drivetrain m_drivetrain;
+  private final Drivetrain m_drivetrain;
 
-private final DoubleSupplier m_leftSpeed;
-private final DoubleSupplier m_rightSpeed;
-private final DoubleSupplier m_forwardSpeed;
-private final DoubleSupplier m_reverseSpeed;
+  private final DoubleSupplier m_straightSpeed;
+  private final DoubleSupplier m_turnSpeed;
 
-private double m_currentSpeed = 0;
+  private double m_currentSpeed;
 
-  public DriveManually(DoubleSupplier leftSpeed, DoubleSupplier rightSpeed, DoubleSupplier forwardSpeed, DoubleSupplier reverseSpeed, Drivetrain subsystem) {
+  public ArcadeDriveManually(DoubleSupplier straightSpeed, DoubleSupplier turnSpeed, Drivetrain subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
+
+    m_straightSpeed = straightSpeed;
+    m_turnSpeed = turnSpeed;
+
     m_drivetrain = subsystem;
-    m_leftSpeed = leftSpeed;
-    m_rightSpeed = rightSpeed;
-    m_forwardSpeed = forwardSpeed;
-    m_reverseSpeed = reverseSpeed;
 
     addRequirements(m_drivetrain);
+
   }
 
   // Called when the command is initially scheduled.
@@ -41,17 +40,15 @@ private double m_currentSpeed = 0;
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // use the tank drive method and scale it down by 0.5x
-    m_drivetrain.tankDrive(m_forwardSpeed.getAsDouble() * 0.5, m_leftSpeed.getAsDouble() * 0.5, true);
+    m_drivetrain.arcadeDrive(m_straightSpeed.getAsDouble() * 0.5, m_turnSpeed.getAsDouble() * 0.5, true);
 
-    // sets the current speed to the average velocity 
     m_currentSpeed = m_drivetrain.getAverageVelocity();
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    
     m_currentSpeed = 0;
     m_drivetrain.stopDrive();
   }

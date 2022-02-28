@@ -28,8 +28,8 @@ public class Shooter extends PIDSubsystem {
 
   private final RelativeEncoder m_encoder;
 
-  private final DoubleSolenoid m_piston1;
-  private final DoubleSolenoid m_piston2;
+  // private final DoubleSolenoid m_piston1;
+  // private final DoubleSolenoid m_piston2;
 
   private final ShuffleboardTab m_shooterTab;
   private final ShuffleboardLayout m_shooterLayout;
@@ -38,7 +38,7 @@ public class Shooter extends PIDSubsystem {
   public Shooter() {
     super(
         // The PIDController used by the subsystem
-        new PIDController(kP, kI, kD));
+        new PIDController(0.01, kI, kD));
 
     // Instantiate the motor
     m_leftMotor = new CANSparkMax(kLeftMotorPort, MotorType.kBrushless);
@@ -48,8 +48,8 @@ public class Shooter extends PIDSubsystem {
     m_encoder = m_leftMotor.getEncoder();
 
     // Instantiate the pLeftistons
-    m_piston1 = new DoubleSolenoid(kPistonModuleType, kBottomExtendedChannel, kBottomRetractedChannel);
-    m_piston2 = new DoubleSolenoid(kPistonModuleType, kBottomExtendedChannel, kBottomRetractedChannel);
+    // m_piston1 = new DoubleSolenoid(kPistonModuleType, kBottomExtendedChannel, kBottomRetractedChannel);
+    // m_piston2 = new DoubleSolenoid(kPistonModuleType, kBottomExtendedChannel, kBottomRetractedChannel);
 
     // Initialize the motor
     motorInit(m_leftMotor);
@@ -85,6 +85,7 @@ public class Shooter extends PIDSubsystem {
   // Stops the motor
   public void stopMotor(){
     m_leftMotor.set(0);
+    m_rightMotor.set(0);
   }
 
   // ILeftntialize the pistons to be retracted
@@ -94,14 +95,14 @@ public class Shooter extends PIDSubsystem {
 
   // Retracts the pisons
   public void retractPistons(){
-      m_piston1.set(kPistonRetractedValue);
-      m_piston2.set(kPistonRetractedValue); 
+      // m_piston1.set(kPistonRetractedValue);
+      // m_piston2.set(kPistonRetractedValue); 
   }
 
   // Extends the pistons
   public void extendPistons(){
-      m_piston1.set(kPistonExtendedValue);
-      m_piston2.set(kPistonExtendedValue);    
+      // m_piston1.set(kPistonExtendedValue);
+      // m_piston2.set(kPistonExtendedValue);    
   }
 
   public boolean atSetpoint() {
@@ -112,12 +113,12 @@ public class Shooter extends PIDSubsystem {
   public void useOutput(double output, double setpoint) {
     // Use the output here
     m_leftMotor.set(output);
-
+    m_rightMotor.set(-output);
   }
 
   @Override
  public double getMeasurement() {
-    // Return the process variable measurement here
+    // Return the process variable measuremnt here
     return m_encoder.getVelocity();
   }
 

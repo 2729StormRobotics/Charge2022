@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 
 import static frc.robot.Constants.ShooterConstants.*;
@@ -135,5 +136,10 @@ public class Shooter extends PIDSubsystem {
 
   private void shuffleboardInit(){
     m_shooterLayout.addString("Hood Position", () -> getPistonStatus());
+  }
+
+  @Override
+  public void periodic(){
+    SmartDashboard.putString("Piston Status", getPistonStatus());
   }
 }

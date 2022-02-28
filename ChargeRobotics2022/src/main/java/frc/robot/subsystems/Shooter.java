@@ -6,9 +6,15 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 
 import static frc.robot.Constants.ShooterConstants.*;
+
+import java.util.Map;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -24,6 +30,9 @@ public class Shooter extends PIDSubsystem {
 
   private final DoubleSolenoid m_piston1;
   private final DoubleSolenoid m_piston2;
+
+  private final ShuffleboardTab m_shooterTab;
+  private final ShuffleboardLayout m_shooterLayout;
 
   /** Creates a new Shooter2. */
   public Shooter() {
@@ -47,6 +56,11 @@ public class Shooter extends PIDSubsystem {
 
     // Initialize the pistons
     pistonInit();
+
+    m_shooterTab = Shuffleboard.getTab(kShooterShuffleboardTabName);
+    m_shooterLayout = m_shooterTab.getLayout("Hood Position", BuiltInLayouts.kList).withProperties(Map.of("Lable position", "TOP"));
+
+    shuffleboardInit();
   }
 
   // Intialize the encoders
@@ -105,5 +119,20 @@ public class Shooter extends PIDSubsystem {
  public double getMeasurement() {
     // Return the process variable measurement here
     return m_encoder.getVelocity();
+  }
+
+  public String getPistonStatus(){
+      if (m_piston1.get().equals(kPistonExtendedValue) && m_piston2.get().equals(kPistonExtendedValue)){
+        return "Extended";
+      }else if (m_piston1.get().equals(kPistonRetractedValue) && m_piston2.get().equals(kPistonRetractedValue)){
+        return "Retracted";
+      }else {
+        return "Indeterminate";
+      }
+  }
+
+
+  private void shuffleboardInit(){
+    m_shooterLayout.addString("Hood Position", () -> getPistonStatus());
   }
 }

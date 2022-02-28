@@ -66,7 +66,7 @@ public class Shooter extends PIDSubsystem {
   // Intialize the motor
   private void motorInit(CANSparkMax motor){
     motor.restoreFactoryDefaults(); // Reset motor parameters to defaults
-    motor.setIdleMode(IdleMode.kCoast); // Motor does not lose momentum when not being used
+    motor.setIdleMode(IdleMode.kBrake); // Motor does not lose momentum when not being used
     encoderInit(motor.getEncoder());
   }
 

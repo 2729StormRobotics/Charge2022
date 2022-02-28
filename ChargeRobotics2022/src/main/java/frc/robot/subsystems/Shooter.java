@@ -22,7 +22,7 @@ public class Shooter extends PIDSubsystem {
 
   private final RelativeEncoder m_encoder;
 
-  // private final DoubleSolenoid m_piston1;
+  private final DoubleSolenoid m_piston1;
   // private final DoubleSolenoid m_piston2;
 
   /** Creates a new Shooter2. */
@@ -39,7 +39,7 @@ public class Shooter extends PIDSubsystem {
     m_encoder = m_leftMotor.getEncoder();
 
     // Instantiate the pLeftistons
-    // m_piston1 = new DoubleSolenoid(kPistonModuleType, kBottomExtendedChannel, kBottomRetractedChannel);
+    m_piston1 = new DoubleSolenoid(kPistonModuleType, kBottomExtendedChannel, kBottomRetractedChannel);
     // m_piston2 = new DoubleSolenoid(kPistonModuleType, kBottomExtendedChannel, kBottomRetractedChannel);
 
     // Initialize the motor
@@ -81,14 +81,14 @@ public class Shooter extends PIDSubsystem {
 
   // Retracts the pisons
   public void retractPistons(){
-      // m_piston1.set(kPistonRetractedValue);
-      // m_piston2.set(kPistonRetractedValue); 
+      m_piston1.set(kPistonRetractedValue);
+      //m_piston2.set(kPistonRetractedValue); 
   }
 
   // Extends the pistons
   public void extendPistons(){
-      // m_piston1.set(kPistonExtendedValue);
-      // m_piston2.set(kPistonExtendedValue);    
+      m_piston1.set(kPistonExtendedValue);
+      //m_piston2.set(kPistonExtendedValue);    
   }
 
   public boolean atSetpoint() {

@@ -115,8 +115,8 @@ public final class Constants {
         public static final double kCloseLaunchPadMotorSpeed = -1000;
         public static final double kFarLaunchPadMotorSpeed = 0;
 
-        public static final int kBottomExtendedChannel = 4;
-        public static final int kBottomRetractedChannel = 5;
+        public static final int kBottomExtendedChannel = 6;
+        public static final int kBottomRetractedChannel = 7;
         
         public static final Value kPistonExtendedValue = Value.kForward;
         public static final Value kPistonRetractedValue = Value.kReverse;

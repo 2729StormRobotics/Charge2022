@@ -5,7 +5,10 @@
 package frc.robot.commandgroups;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.IndexLowerOut;
 import frc.robot.commands.IndexMoveUp;
+import frc.robot.commands.IndexUpperAndLowerIn;
+import frc.robot.commands.IndexUpperIn;
 import frc.robot.commands.IndexUpperOut;
 import frc.robot.commands.ShooterHubShot;
 import frc.robot.commands.ShooterSetSetpoint;
@@ -18,12 +21,17 @@ import frc.robot.subsystems.Shooter;
 public class Dump extends SequentialCommandGroup {
   /** Creates a new Dump. */
   public Dump(Index index, Shooter shooter) {
-    if (index.hasUpperBall() && index.hasLowerBall()) {
-      addCommands(new ShooterHubShot(shooter), new IndexUpperOut(index), new ShooterHubShot(shooter), new IndexMoveUp(index), new IndexUpperOut(index), new ShooterSetSetpoint(shooter, 0));
-    } else if (index.hasUpperBall()) {
-      addCommands(new ShooterHubShot(shooter), new IndexUpperOut(index), new ShooterSetSetpoint(shooter, 0));
-    } else if (index.hasLowerBall()) {
-      addCommands(new ShooterHubShot(shooter), new IndexMoveUp(index), new IndexUpperOut(index), new ShooterSetSetpoint(shooter, 0));
-    }
+    // if (index.hasUpperBall() && index.hasLowerBall()) {
+    //   addCommands(new ShooterHubShot(shooter), new IndexUpperOut(index), new ShooterHubShot(shooter), new IndexMoveUp(index), new IndexUpperOut(index), new ShooterSetSetpoint(shooter, 0));
+    // } else if (index.hasUpperBall()) {
+    //   addCommands(new ShooterHubShot(shooter), new IndexUpperOut(index), new ShooterSetSetpoint(shooter, 0));
+    // } else if (index.hasLowerBall()) {
+    //   addCommands(new ShooterHubShot(shooter), new IndexMoveUp(index), new IndexUpperOut(index), new ShooterSetSetpoint(shooter, 0));
+    // }
+    
+      if (index.hasUpperBall()) {
+        addCommands(new ShooterHubShot(shooter));
+      }
+
   }
 }

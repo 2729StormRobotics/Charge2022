@@ -75,10 +75,8 @@ public final class Constants {
         public static final int kIntakeMotorStopSpeed = 0;
         public static final int kEjectMotorSpeed = -1;
 
-        public static final int kLeftIntakeExtendChannel = 7;
-        public static final int kLeftIntakeRetractChannel = 7;
-        public static final int kRightIntakeExtendChannel = 8;
-        public static final int kRightIntakeRetractChannel = 8;
+        public static final int kIntakeExtendChannel = 4;
+        public static final int kIntakeRetractChannel = 5;
         public static final Value kIntakeExtendValue = Value.kForward;
         public static final Value kIntakeRetractValue = Value.kReverse;
        
@@ -94,31 +92,31 @@ public final class Constants {
         motor speeds
         */
 
-        public static final int kLowerIndexMotorPort = 12;
-        public static final int kUpperIndexMotorPort = 13;
-        public static final int kLowerIndexBeamBrakerPort = 1;
-        public static final int kUpperIndexBeamBrakerPort = 3;
-        public static final int kLowerIndexMotorSpeed = 1;
-        public static final int kUpperIndexMotorSpeed = 1;
+        public static final int kLowerIndexMotorPort = 10;
+        public static final int kUpperIndexMotorPort = 11;
+        public static final int kLowerIndexBeamBrakerPort = 0;
+        public static final int kUpperIndexBeamBrakerPort = 1;
+        public static final double kLowerIndexMotorSpeed = -0.3;
+        public static final double kUpperIndexMotorSpeed = -0.3;
 
         public static final int kIndexMotorStopSpeed = 0;
         public static final int kEjectIndexMotorSpeed = -1;
 
+        public static final String kIndexShuffleboardTabName = "IndexTab";
     }
 
 
     public static final class ShooterConstants{
 
-        public static final int kMotorPort = 0;
+        public static final int kLeftMotorPort = 12;
+        public static final int kRightMotorPort = 13;
 
         public static final double kHubShotMotorSpeed = 0;
-        public static final double kCloseLaunchPadMotorSpeed = 0;
+        public static final double kCloseLaunchPadMotorSpeed = -1000;
         public static final double kFarLaunchPadMotorSpeed = 0;
 
-        public static final int kBottomExtendedChannel = 0;
-        public static final int kBottomRetractedChannel = 0;
-        public static final int kSideExtendedChannel = 0;      
-        public static final int kSideRetractedChannel = 0;
+        public static final int kBottomExtendedChannel = 6;
+        public static final int kBottomRetractedChannel = 7;
         
         public static final Value kPistonExtendedValue = Value.kForward;
         public static final Value kPistonRetractedValue = Value.kReverse;
@@ -144,6 +142,7 @@ public final class Constants {
         public static final double kFF = 0; // feed forward constant
         public static final double kMinOutput = 0;
         public static final double kMaxOutput = 0;
+        public static final String kShooterShuffleboardTabName = "Shooter";
     }
 
     public static final class VisionConstants{

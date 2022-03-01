@@ -15,6 +15,7 @@ public class PointTurnUsingLimelight extends CommandBase {
   private final Vision m_vision;
   private final Drivetrain m_drivetrain;
   private final double m_speed;
+  public double m_angle;
 
   public PointTurnUsingLimelight(double speed, Vision vision, Drivetrain drivetrain) {
     m_vision = vision;
@@ -31,6 +32,8 @@ public class PointTurnUsingLimelight extends CommandBase {
   public void initialize() {
     m_drivetrain.encoderInit();
     m_drivetrain.resetAllEncoders();
+    
+    m_angle = m_vision.getXOffset();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -49,10 +52,10 @@ public class PointTurnUsingLimelight extends CommandBase {
   @Override
   public boolean isFinished() {
     if (m_vision.getXOffset() > 0) {
-      return  m_drivetrain.getRightDistance() >= (m_vision.getXOffset() * kTurnAngleToInches);
+      return  m_drivetrain.getRightDistance() >= (m_angle * kTurnAngleToInches);
     }
     else {
-      return m_drivetrain.getRightDistance() <= -(m_vision.getXOffset() * kTurnAngleToInches);
+      return m_drivetrain.getRightDistance() <= -(m_angle * kTurnAngleToInches);
     }
   }
 }

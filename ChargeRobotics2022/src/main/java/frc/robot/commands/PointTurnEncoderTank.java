@@ -10,7 +10,7 @@ import static frc.robot.Constants.DriveConstants.*;
 
 
 
-public class TankPointTurn extends CommandBase {
+public class PointTurnEncoderTank extends CommandBase {
   /** Creates a new TankPointTurn. */
 
   private final Drivetrain m_drivetrain;
@@ -21,9 +21,9 @@ public class TankPointTurn extends CommandBase {
  * Creates a new TankPointTurn
  * @param drivetrain
  * @param speed
- * @param angle the angle to turn in degrees, positive is counter-clockwise
+ * @param angle the angle to turn in degrees, positive is clockwise
  */
-  public TankPointTurn(Drivetrain drivetrain, double speed, double angle) {
+  public PointTurnEncoderTank(Drivetrain drivetrain, double speed, double angle) {
     // Use addRequirements() here to declare subsystem dependencies.
 
     m_drivetrain = drivetrain;
@@ -52,7 +52,7 @@ public class TankPointTurn extends CommandBase {
   
     // Sets the left motor to the negative speed multiplied by the sign of the inputed angle
     // Sets the right motor to the speed multiplied by the sign of the inputed angle
-    m_drivetrain.tankDrive(m_speed * Math.signum(m_angle) * -1, m_speed * Math.signum(m_angle), false);   
+    m_drivetrain.tankDrive(m_speed * Math.signum(m_angle), m_speed * Math.signum(m_angle) * -1, false);   
 
   }
 
@@ -68,10 +68,10 @@ public class TankPointTurn extends CommandBase {
     // Command is finished when the right distance is greater than the inches the right side needs to go if the angle is positive
     // If the angle is negative (or positive with a negative speed) then the command is finished when the right distance is less than the negative desired inches
     if ( m_angle * m_speed > 0  ) {
-      return  m_drivetrain.getRightDistance() >= (m_angle * kTurnAngleToInches);
+      return  m_drivetrain.getRightDistance() <= -(m_angle * kTurnAngleToInches);
     }
     else {
-      return m_drivetrain.getRightDistance() <= -(m_angle * kTurnAngleToInches);
+      return m_drivetrain.getRightDistance() >= (m_angle * kTurnAngleToInches);
     }
    
   } 

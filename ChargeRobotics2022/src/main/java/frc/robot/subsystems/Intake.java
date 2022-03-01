@@ -16,15 +16,13 @@ import static frc.robot.Constants.IntakeConstants.*;
 public class Intake extends SubsystemBase {
 
   private final CANSparkMax m_intakeMotor;
-  private final DoubleSolenoid m_leftIntakePiston;
-  private final DoubleSolenoid m_rightIntakePiston;
+  // private final DoubleSolenoid m_leftIntakePiston;
   
 //creates a new intake
   public Intake() {
     m_intakeMotor = new CANSparkMax(kIntakeMotorPort, MotorType.kBrushless);
 
-    m_leftIntakePiston = new DoubleSolenoid(PneumaticsModuleType.REVPH, kLeftIntakeExtendChannel, kLeftIntakeRetractChannel);
-    m_rightIntakePiston = new DoubleSolenoid(PneumaticsModuleType.REVPH, kRightIntakeExtendChannel, kRightIntakeRetractChannel);
+    // m_leftIntakePiston = new DoubleSolenoid(PneumaticsModuleType.REVPH, kIntakeExtendChannel, kIntakeRetractChannel);
    
   }
 
@@ -44,13 +42,11 @@ public class Intake extends SubsystemBase {
 
 // extends the motors so that the intake can reach the ball
   public void extendIntake() {
-    m_leftIntakePiston.set(kIntakeExtendValue);
-    m_rightIntakePiston.set(kIntakeExtendValue);
+    // m_leftIntakePiston.set(kIntakeExtendValue);
   }
 //retracts the motors
   public void retractIntake() {
-    m_leftIntakePiston.set(kIntakeRetractValue);
-    m_rightIntakePiston.set(kIntakeRetractValue);
+    // m_leftIntakePiston.set(kIntakeRetractValue);
   }
 
   @Override

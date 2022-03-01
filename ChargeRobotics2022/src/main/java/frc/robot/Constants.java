@@ -169,9 +169,9 @@ public final class Constants {
         // Drive Motor Ports
 
         public static final int kLeftLeaderMotorPort = 8;
-        public static final int kLeftFollowerMotorPort = 2;
+        // public static final int kLeftFollowerMotorPort = 2;
         public static final int kRightLeaderMotorPort = 6;
-        public static final int kRightFollowerMotorPort = 3;
+        // public static final int kRightFollowerMotorPort = 3;
 
 
         // Set If Drive Motors are Reversed
@@ -237,8 +237,8 @@ public final class Constants {
     }
     
     public static final class ButtonBindingConstants {
-        public static final int kDriverControllerPort = 0;
-        public static final int kOperatorControllerPort = 1;
+        // public static final int kDriverControllerPort = 0;
+        // public static final int kOperatorControllerPort = 1;
     }
 
 

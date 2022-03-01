@@ -21,7 +21,7 @@ public class PointTurnGyroPID extends PIDCommand {
         // The controller that the command will use
         new PIDController(kP, kI, kD),
         // This should return the measurement
-        () -> drivetrain.getRobotAngle(),
+        () -> 0,
         // This should return the setpoint (can also be a constant)
         () -> angle,
         // This uses the output

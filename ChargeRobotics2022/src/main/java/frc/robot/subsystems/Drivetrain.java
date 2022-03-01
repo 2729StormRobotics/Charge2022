@@ -26,8 +26,8 @@ public class Drivetrain extends SubsystemBase {
   // Declare Motor Variables
   private final CANSparkMax m_leftLeaderMotor;
   private final CANSparkMax m_rightLeaderMotor;
-  private final CANSparkMax m_leftFollowerMotor;
-  private final CANSparkMax m_rightFollowerMotor;
+  // private final CANSparkMax m_leftFollowerMotor;
+  // private final CANSparkMax m_rightFollowerMotor;
 
   // Declare Encoder Variables
   private final RelativeEncoder m_leftEncoder;
@@ -43,7 +43,7 @@ public class Drivetrain extends SubsystemBase {
   private final SparkMaxPIDController m_leftPIDController;
   private final SparkMaxPIDController m_rightPIDController;
 
-   private final ADIS16470_IMU m_imu;
+  //  private final ADIS16470_IMU m_imu;
   private final DifferentialDriveKinematics m_kinematics;
 
 
@@ -53,18 +53,18 @@ public class Drivetrain extends SubsystemBase {
     // Set Motor Ports and Motor Type
     m_leftLeaderMotor = new CANSparkMax(kLeftLeaderMotorPort, MotorType.kBrushless);
     m_rightLeaderMotor = new CANSparkMax(kRightLeaderMotorPort, MotorType.kBrushless);
-    m_leftFollowerMotor = new CANSparkMax(kLeftFollowerMotorPort, MotorType.kBrushless);
-    m_rightFollowerMotor = new CANSparkMax(kRightFollowerMotorPort, MotorType.kBrushless);
+    // m_leftFollowerMotor = new CANSparkMax(kLeftFollowerMotorPort, MotorType.kBrushless);
+    // m_rightFollowerMotor = new CANSparkMax(kRightFollowerMotorPort, MotorType.kBrushless);
 
     // Initialize Motors
     motorInit(m_leftLeaderMotor, kLeftLeaderMotorReversedDefault);
     motorInit(m_rightLeaderMotor, kRightLeaderMotorReversedDefault);
-    motorInit(m_leftFollowerMotor, kLeftFollowerMotorReversedDefault);
-    motorInit(m_rightFollowerMotor, kRightFollowerMotorReversedDefault);
+    // motorInit(m_leftFollowerMotor, kLeftFollowerMotorReversedDefault);
+    // motorInit(m_rightFollowerMotor, kRightFollowerMotorReversedDefault);
 
     // Set Motor Followers
-    m_leftFollowerMotor.follow(m_leftLeaderMotor);
-    m_rightFollowerMotor.follow(m_rightLeaderMotor);
+    // m_leftFollowerMotor.follow(m_leftLeaderMotor);
+    // m_rightFollowerMotor.follow(m_rightLeaderMotor);
 
     // Set Encoder to Leader Motor Encoder
     m_leftEncoder = m_leftLeaderMotor.getEncoder();
@@ -80,7 +80,7 @@ public class Drivetrain extends SubsystemBase {
     m_leftPIDController = m_leftLeaderMotor.getPIDController();
     m_rightPIDController = m_rightLeaderMotor.getPIDController();
 
-    m_imu = new ADIS16470_IMU();
+    // m_imu = new ADIS16470_IMU();
 
     m_kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(22.));
 
@@ -197,13 +197,13 @@ public class Drivetrain extends SubsystemBase {
     m_drive.tankDrive(0, 0);
   }
   
-  public void resetGyro(){
-    m_imu.reset();
-  }
+  // public void resetGyro(){
+  //   m_imu.reset();
+  // }
 
-  public double getRobotAngle(){
-    m_imu.reset();
-    return m_imu.getAngle();
-  }
+  // public double getRobotAngle(){
+  //   m_imu.reset();
+  //   return m_imu.getAngle();
+  // }
 
 }

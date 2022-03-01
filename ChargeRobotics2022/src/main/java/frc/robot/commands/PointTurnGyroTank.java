@@ -21,8 +21,8 @@ public class PointTurnGyroTank extends CommandBase {
 
     m_speed = speed;
     m_drivetrain = drivetrain;
-    m_angle = m_drivetrain.getRobotAngle();
-
+    // m_angle = m_drivetrain.getRobotAngle();
+    m_angle = 0;
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_drivetrain);
@@ -31,8 +31,8 @@ public class PointTurnGyroTank extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_drivetrain.resetGyro();
-    m_drivetrain.getRobotAngle();
+    // m_drivetrain.resetGyro();
+    // m_drivetrain.getRobotAngle();
 
   }
 
@@ -52,7 +52,7 @@ public class PointTurnGyroTank extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    
-    return Math.abs(m_drivetrain.getRobotAngle()) >= Math.abs(m_angle);
+    // Math.abs(m_drivetrain.getRobotAngle()) >= Math.abs(m_angle);
+    return Math.abs(0) >= Math.abs(m_angle);
   }
 }

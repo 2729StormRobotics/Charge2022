@@ -19,12 +19,17 @@ public class Shoot extends SequentialCommandGroup {
 
   /** Creates a new Shoot. */
   public Shoot(Index index, Shooter shooter, double speed) {
-    if (index.hasUpperBall() && index.hasLowerBall()) {
-      addCommands(new ShooterShoot(shooter, speed), new IndexUpperOut(index), new ShooterShoot(shooter, speed), new IndexMoveUp(index), new IndexUpperOut(index), new ShooterSetSetpoint(shooter, 0));
-    } else if (index.hasUpperBall()) {
-      addCommands(new ShooterShoot(shooter, speed), new IndexUpperOut(index), new ShooterSetSetpoint(shooter, 0));
-    } else if (index.hasLowerBall()) {
-      addCommands(new ShooterShoot(shooter, speed), new IndexMoveUp(index), new IndexUpperOut(index), new ShooterSetSetpoint(shooter, 0));
+    // if (index.hasUpperBall() && index.hasLowerBall()) {
+    //   addCommands(new ShooterShoot(shooter, speed), new IndexUpperOut(index), new ShooterShoot(shooter, speed), new IndexMoveUp(index), new IndexUpperOut(index), new ShooterSetSetpoint(shooter, 0));
+    // } else if (index.hasUpperBall()) {
+    //   addCommands(new ShooterShoot(shooter, speed), new IndexUpperOut(index), new ShooterSetSetpoint(shooter, 0));
+    // } else if (index.hasLowerBall()) {
+    //   addCommands(new ShooterShoot(shooter, speed), new IndexMoveUp(index), new IndexUpperOut(index), new ShooterSetSetpoint(shooter, 0));
+    // }
+
+    if (index.hasUpperBall()) {
+      addCommands(new ShooterShoot(shooter, speed));
     }
+
   }
 }

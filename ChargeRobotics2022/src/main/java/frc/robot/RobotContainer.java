@@ -17,6 +17,8 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commandgroups.IntakeAndIndex;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.HangManually;
+import frc.robot.commands.HangStop;
 import frc.robot.commands.IndexLowerIn;
 import frc.robot.commands.IndexOut;
 import frc.robot.commands.IndexUpperIn;
@@ -125,6 +127,10 @@ public class RobotContainer {
     //Intake Buttons
     new JoystickButton(m_operator, Button.kLeftBumper.value).whenPressed(new IntakeEject(m_intake));
     new JoystickButton(m_operator, Button.kRightBumper.value).whenPressed(new IntakeAndIndex(m_intake, m_index));
+
+    //Hang Buttons
+    new JoystickButton(m_driver, Button.kA.value).whileHeld(new HangManually(m_hanger, Constants.HangerConstants.kClimbUpSpeed));
+    new JoystickButton(m_driver, Button.kB.value).whenPressed(new HangStop(m_hanger));
 
     
   }

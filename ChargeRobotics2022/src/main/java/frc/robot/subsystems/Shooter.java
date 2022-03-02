@@ -10,11 +10,13 @@ import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 
 import static frc.robot.Constants.ShooterConstants.*;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import static frc.robot.Constants.*;
 
 public class Shooter extends PIDSubsystem {
 
@@ -30,7 +32,7 @@ public class Shooter extends PIDSubsystem {
   public Shooter() {
     super(
         // The PIDController used by the subsystem
-        new PIDController(0.01, kI, kD));
+        new PIDController(0.0005, kI, kD));
 
     // Instantiate the motor
     m_leftMotor = new CANSparkMax(kLeftMotorPort, MotorType.kBrushless);
@@ -40,14 +42,20 @@ public class Shooter extends PIDSubsystem {
     m_encoder = m_leftMotor.getEncoder();
 
     // Instantiate the pLeftistons
-    m_piston1 = new DoubleSolenoid(kPistonModuleType, kBottomExtendedChannel, kBottomRetractedChannel);
+    m_piston1 = new DoubleSolenoid(kPneumaticsHubCanId, kPistonModuleType, kBottomExtendedChannel, kBottomRetractedChannel);
     // m_piston2 = new DoubleSolenoid(kPistonModuleType, kBottomExtendedChannel, kBottomRetractedChannel);
 
     // Initialize the motor
     motorInit(m_leftMotor);
+    motorInit(m_rightMotor);
 
     // Initialize the pistons
     pistonInit();
+
+    m_controller.setTolerance(300);
+
+    SmartDashboard.putNumber("Shooter Velocity", m_encoder.getVelocity());
+    SmartDashboard.putNumber("Shooter Setpoint", m_controller.getSetpoint());
 
   }
 
@@ -66,7 +74,7 @@ public class Shooter extends PIDSubsystem {
   // Intialize the motor
   private void motorInit(CANSparkMax motor){
     motor.restoreFactoryDefaults(); // Reset motor parameters to defaults
-    motor.setIdleMode(IdleMode.kBrake); // Motor does not lose momentum when not being used
+    motor.setIdleMode(IdleMode.kCoast); // Motor does not lose momentum when not being used
     encoderInit(motor.getEncoder());
   }
 
@@ -97,11 +105,18 @@ public class Shooter extends PIDSubsystem {
     return m_controller.atSetpoint();
   }
 
+  public double getControllerSetpoint() {
+    return m_controller.getSetpoint();
+  }
+
   @Override
   public void useOutput(double output, double setpoint) {
     // Use the output here
     m_leftMotor.set(-output);
     m_rightMotor.set(output);
+    SmartDashboard.putNumber("PID Output", output);
+    SmartDashboard.putNumber("PID error", m_controller.getPositionError());
+
   }
 
   @Override
@@ -113,6 +128,15 @@ public class Shooter extends PIDSubsystem {
   public void manualSpin(double speed) {
     m_leftMotor.set(-speed);
     m_rightMotor.set(speed);
+  }
+
+  @Override
+  public void periodic() {
+    super.periodic();
+    SmartDashboard.putNumber("Shooter Velocity", m_encoder.getVelocity());
+    SmartDashboard.putNumber("Shooter Setpoint", m_controller.getSetpoint());
+    // setSetpoint(SmartDashboard.getNumber("Shooter Setpoint", 0));
+
   }
 
 }

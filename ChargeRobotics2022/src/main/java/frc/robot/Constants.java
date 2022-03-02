@@ -20,6 +20,9 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+
+    public static final int kPneumaticsHubCanId = 7;
+
     public static final class HangerConstants {
         // These are all temporary fill-in values
 

@@ -18,24 +18,31 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commandgroups.IntakeAndIndex;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.IndexLowerIn;
+import frc.robot.commands.IndexOut;
 import frc.robot.commands.IndexUpperIn;
 import frc.robot.commands.IntakeEject;
 import frc.robot.commands.PointTurnUsingLimelight;
 import frc.robot.commands.ShooterHubShot;
+import frc.robot.commands.ShooterManuallySetExtendedAngle;
+import frc.robot.commands.ShooterManuallySetRetractedAngle;
 import frc.robot.commands.ShooterPrepHubShot;
 import frc.robot.commands.ShooterShoot;
+import frc.robot.commands.ShuffleboardSpinFlywheel;
 import frc.robot.commands.TankDriveManually;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Hanger;
 import frc.robot.subsystems.Index;
 import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.ManualSpinFlywheel;
+import frc.robot.commands.ManualSpinFlywheel;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Vision;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+
 
 import static frc.robot.Constants.*;
 
@@ -58,6 +65,7 @@ public class RobotContainer {
   private final Intake m_intake;
   private final Shooter m_shooter;
   private final Vision m_vision;
+  // private final Compressor m_testCompressor;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -68,6 +76,7 @@ public class RobotContainer {
     m_intake = new Intake();
     m_shooter = new Shooter();
     m_vision = new Vision();
+    // m_testCompressor = new Compressor(PneumaticsModuleType.REVPH);
 
     SendableRegistry.setName(m_shooter, "shooter", "shooter");
 
@@ -75,11 +84,19 @@ public class RobotContainer {
     m_drivetrain.setDefaultCommand(
         new TankDriveManually(() -> m_driver.getLeftY(), () -> m_driver.getRightY(), m_drivetrain));
 
+    // m_testCompressor.enableDigital();
+
+    // SmartDashboard.putBoolean("Compressor", m_testCompressor.enabled());
+
     SmartDashboard.putData(m_shooter);
     //
     SmartDashboard.putData("shooter",m_shooter.getController());
 
+
+    SmartDashboard.putData("Shoot at Flywheel Speed", new ShuffleboardSpinFlywheel(m_shooter));
+    SmartDashboard.putNumber("Flywheel manual speed", 0.0);
     
+
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -98,9 +115,14 @@ public class RobotContainer {
     
     // change speed parameter for PointTurnUsingLimelight
     // new JoystickButton(m_operator, Button.kA.value).whenPressed(new PointTurnUsingLimelight(0.01, m_vision, m_drivetrain));
-     new JoystickButton(m_driver, Button.kA.value).whileHeld(new IntakeAndIndex(m_intake, m_index));
-    new JoystickButton(m_driver, Button.kB.value).whenPressed(new ShooterShoot(m_shooter, Constants.ShooterConstants.kCloseLaunchPadMotorSpeed));
-    
+    // new JoystickButton(m_driver, Button.kA.value).whileHeld(new IntakeAndIndex(m_intake, m_index));
+    // new JoystickButton(m_driver, Button.kB.value).whenPressed(new ShooterShoot(m_shooter, Constants.ShooterConstants.kCloseLaunchPadMotorSpeed));
+    new JoystickButton(m_driver, Button.kA.value).whileHeld(new IndexOut(m_index));
+
+    new JoystickButton(m_driver, Button.kB.value).whenPressed(new ShooterManuallySetExtendedAngle(m_shooter));
+
+    new JoystickButton(m_driver, Button.kX.value).whenPressed(new ShooterManuallySetRetractedAngle(m_shooter));
+
     new JoystickButton(m_driver, Button.kY.value).whileHeld(new ManualSpinFlywheel(m_shooter));
 
     //new JoystickButton(m_driver, Button.kA.value).whenPressed(new IntakeAndIndex(m_intake, m_index));

@@ -36,6 +36,7 @@ import frc.robot.subsystems.Index;
 import frc.robot.subsystems.Intake;
 import frc.robot.commands.ManualSpinFlywheel;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.ShooterSparkMax;
 import frc.robot.subsystems.Vision;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -63,7 +64,7 @@ public class RobotContainer {
   private final Hanger m_hanger;
   private final Index m_index;
   private final Intake m_intake;
-  private final Shooter m_shooter;
+  // private final Shooter m_shooter;
   private final Vision m_vision;
   // private final Compressor m_testCompressor;
 
@@ -74,11 +75,13 @@ public class RobotContainer {
     m_hanger = new Hanger();
     m_index = new Index();
     m_intake = new Intake();
-    m_shooter = new Shooter();
+    // m_shooter = new Shooter();
     m_vision = new Vision();
+
+    ShooterSparkMax shooterTest = new ShooterSparkMax();
     // m_testCompressor = new Compressor(PneumaticsModuleType.REVPH);
 
-    SendableRegistry.setName(m_shooter, "shooter", "shooter");
+    // SendableRegistry.setName(m_shooter, "shooter", "shooter");
 
 
     m_drivetrain.setDefaultCommand(
@@ -88,13 +91,13 @@ public class RobotContainer {
 
     // SmartDashboard.putBoolean("Compressor", m_testCompressor.enabled());
 
-    SmartDashboard.putData(m_shooter);
+    // SmartDashboard.putData(m_shooter);
     //
-    SmartDashboard.putData("shooter",m_shooter.getController());
+    // SmartDashboard.putData("shooter",m_shooter.getController());
 
 
-    SmartDashboard.putData("Shoot at Flywheel Speed", new ShuffleboardSpinFlywheel(m_shooter));
-    SmartDashboard.putNumber("Flywheel manual speed", 0.0);
+    // SmartDashboard.putData("Shoot at Flywheel Speed", new ShuffleboardSpinFlywheel(m_shooter));
+    // SmartDashboard.putNumber("Flywheel manual speed", 0.0);
     
 
     // Configure the button bindings
@@ -108,8 +111,8 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(m_operator, Button.kLeftStick.value).whenPressed(new ShooterPrepHubShot(m_shooter));
-    new JoystickButton(m_operator, Button.kRightStick.value).whenPressed(new ShooterHubShot(m_shooter));
+    // new JoystickButton(m_operator, Button.kLeftStick.value).whenPressed(new ShooterPrepHubShot(m_shooter));
+    // new JoystickButton(m_operator, Button.kRightStick.value).whenPressed(new ShooterHubShot(m_shooter));
 
     // new JoystickButton(m_operator, Button.kLeftkLeftBumper).whenPressed(new Flush);
     
@@ -119,18 +122,18 @@ public class RobotContainer {
     // new JoystickButton(m_driver, Button.kB.value).whenPressed(new ShooterShoot(m_shooter, Constants.ShooterConstants.kCloseLaunchPadMotorSpeed));
     new JoystickButton(m_driver, Button.kA.value).whileHeld(new IndexOut(m_index));
 
-    new JoystickButton(m_driver, Button.kB.value).whenPressed(new ShooterManuallySetExtendedAngle(m_shooter));
+    // new JoystickButton(m_driver, Button.kB.value).whenPressed(new ShooterManuallySetExtendedAngle(m_shooter));
 
-    new JoystickButton(m_driver, Button.kX.value).whenPressed(new ShooterManuallySetRetractedAngle(m_shooter));
+    // new JoystickButton(m_driver, Button.kX.value).whenPressed(new ShooterManuallySetRetractedAngle(m_shooter));
 
-    new JoystickButton(m_driver, Button.kY.value).whileHeld(new ManualSpinFlywheel(m_shooter));
+    // new JoystickButton(m_driver, Button.kY.value).whileHeld(new ManualSpinFlywheel(m_shooter));
 
     //new JoystickButton(m_driver, Button.kA.value).whenPressed(new IntakeAndIndex(m_intake, m_index));
     //new JoystickButton(m_driver, Button.kB.value).whenPressed(new IndexUpperIn(m_index));
     
     
-    new JoystickButton(m_operator, Button.kX.value).whenPressed(new ShooterShoot(m_shooter, Constants.ShooterConstants.kFarLaunchPadMotorSpeed));
-    new JoystickButton(m_operator, Button.kY.value).whenPressed(new ShooterHubShot(m_shooter));
+    // new JoystickButton(m_operator, Button.kX.value).whenPressed(new ShooterShoot(m_shooter, Constants.ShooterConstants.kFarLaunchPadMotorSpeed));
+    // new JoystickButton(m_operator, Button.kY.value).whenPressed(new ShooterHubShot(m_shooter));
 
     new JoystickButton(m_operator, Button.kRightBumper.value).whenPressed(new IntakeEject(m_intake));
     new Trigger(() -> (m_driver.getLeftTriggerAxis() > 0.01)).whenActive(new IntakeAndIndex(m_intake, m_index));

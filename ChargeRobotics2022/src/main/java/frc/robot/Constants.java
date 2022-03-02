@@ -138,7 +138,7 @@ public final class Constants {
         public static final double kA = 0; // accelaration constant
      
         // PID values to maintain speed 
-        public static final double kP = 0; // proportional constant
+        public static final double kP = 6e-5; // proportional constant
         public static final double kI = 0; // integral constant 
         public static final double kD = 0; // derivative constant
         public static final double kIz = 0; // integral zone

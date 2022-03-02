@@ -4,12 +4,12 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 
 import static frc.robot.Constants.ShooterConstants.*;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.revrobotics.CANSparkMax;
@@ -32,7 +32,7 @@ public class Shooter extends PIDSubsystem {
   public Shooter() {
     super(
         // The PIDController used by the subsystem
-        new PIDController(0.0005, kI, kD));
+        new PIDController(kP, kI, kD));
 
     // Instantiate the motor
     m_leftMotor = new CANSparkMax(kLeftMotorPort, MotorType.kBrushless);
@@ -54,24 +54,32 @@ public class Shooter extends PIDSubsystem {
 
     m_controller.setTolerance(300);
 
-    SmartDashboard.putNumber("Shooter Velocity", m_encoder.getVelocity());
-    SmartDashboard.putNumber("Shooter Setpoint", m_controller.getSetpoint());
+    // SmartDashboard.putNumber("Shooter Velocity", m_encoder.getVelocity());
+    // SmartDashboard.putNumber("Shooter Setpoint", m_controller.getSetpoint());
+    // display PID coefficients on SmartDashboard
+    SmartDashboard.putNumber("P Gain", kP);
+    SmartDashboard.putNumber("I Gain", kI);
+    SmartDashboard.putNumber("D Gain", kD);
+    // SmartDashboard.putNumber("I Zone", kIz);
+    // SmartDashboard.putNumber("Feed Forward", kFF);
+    // SmartDashboard.putNumber("Max Output", kMaxOutput);
+    // SmartDashboard.putNumber("Min Output", kMinOutput);
 
   }
 
-  // Intialize the encoders
+  // Initialize the encoders
   private void encoderInit(RelativeEncoder encoder){
     m_encoder.setVelocityConversionFactor(kVelocityConversion); // Sets encoder units to be the desired ones
     resetEncoder(encoder); 
-}
+  }
 
-// Reset encoder distance
+  // Reset encoder distance
   private void resetEncoder(RelativeEncoder encoder){
     encoder.setPosition(0);
-}
+  }
 
 
-  // Intialize the motor
+  // Initialize the motor
   private void motorInit(CANSparkMax motor){
     motor.restoreFactoryDefaults(); // Reset motor parameters to defaults
     motor.setIdleMode(IdleMode.kCoast); // Motor does not lose momentum when not being used
@@ -84,7 +92,7 @@ public class Shooter extends PIDSubsystem {
     m_rightMotor.set(0);
   }
 
-  // ILeftntialize the pistons to be retracted
+  // Initialize the pistons to be retracted
   private void pistonInit(){
     retractPistons();
   }
@@ -111,12 +119,13 @@ public class Shooter extends PIDSubsystem {
 
   @Override
   public void useOutput(double output, double setpoint) {
+    output = MathUtil.clamp(output, -1, 1);
+
     // Use the output here
     m_leftMotor.set(-output);
     m_rightMotor.set(output);
     SmartDashboard.putNumber("PID Output", output);
     SmartDashboard.putNumber("PID error", m_controller.getPositionError());
-
   }
 
   @Override
@@ -133,10 +142,46 @@ public class Shooter extends PIDSubsystem {
   @Override
   public void periodic() {
     super.periodic();
-    SmartDashboard.putNumber("Shooter Velocity", m_encoder.getVelocity());
-    SmartDashboard.putNumber("Shooter Setpoint", m_controller.getSetpoint());
+    // SmartDashboard.putNumber("Shooter Velocity", m_encoder.getVelocity());
+    // SmartDashboard.putNumber("Shooter Setpoint", m_controller.getSetpoint());
     // setSetpoint(SmartDashboard.getNumber("Shooter Setpoint", 0));
 
+    // read PID coefficients from SmartDashboard
+    double p = SmartDashboard.getNumber("P Gain", 0);
+    double i = SmartDashboard.getNumber("I Gain", 0);
+    double d = SmartDashboard.getNumber("D Gain", 0);
+    // double iz = SmartDashboard.getNumber("I Zone", 0);
+    // double ff = SmartDashboard.getNumber("Feed Forward", 0);
+    // double max = SmartDashboard.getNumber("Max Output", 0);
+    // double min = SmartDashboard.getNumber("Min Output", 0);
+    // double maxV = SmartDashboard.getNumber("Max Velocity", 0);
+    // double minV = SmartDashboard.getNumber("Min Velocity", 0);
+    // double maxA = SmartDashboard.getNumber("Max Acceleration", 0);
+    // double allE = SmartDashboard.getNumber("Allowed Closed Loop Error", 0);
+
+    // if PID coefficients on SmartDashboard have changed, write new values to controller
+    getController().setP(p); 
+    getController().setI(i); 
+    getController().setD(d); 
+    // if((iz != kIz)) { m_pidController.setIZone(iz); kIz = iz; }
+    // if((ff != kFF)) { m_pidController.setFF(ff); kFF = ff; }
+    // if((max != kMaxOutput) || (min != kMinOutput)) { 
+    //   m_pidController.setOutputRange(min, max); 
+    //   kMinOutput = min; kMaxOutput = max; 
+    // }
+    // if((maxV != maxVel)) { m_pidController.setSmartMotionMaxVelocity(maxV,0); maxVel = maxV; }
+    // if((minV != minVel)) { m_pidController.setSmartMotionMinOutputVelocity(minV,0); minVel = minV; }
+    // if((maxA != maxAcc)) { m_pidController.setSmartMotionMaxAccel(maxA,0); maxAcc = maxA; }
+    // if((allE != allowedErr)) { m_pidController.setSmartMotionAllowedClosedLoopError(allE,0); allowedErr = allE; }
+
+    double setPoint, processVariable;
+    setPoint = SmartDashboard.getNumber("Set Velocity", 0);
+    setSetpoint(setPoint);
+    processVariable = m_encoder.getVelocity();
+    
+    SmartDashboard.putNumber("SetPoint", setPoint);
+    SmartDashboard.putNumber("Process Variable", processVariable);
+    SmartDashboard.putNumber("Output", m_leftMotor.getAppliedOutput());
   }
 
 }

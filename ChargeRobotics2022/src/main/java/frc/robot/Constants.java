@@ -74,7 +74,7 @@ public final class Constants {
         extend/retract
         */
         public static final int kIntakeMotorPort = 5;
-        public static final double kIntakeMotorSpeed = 1;
+        public static final double kIntakeMotorSpeed = -0.50;
         public static final int kIntakeMotorStopSpeed = 0;
         public static final int kEjectMotorSpeed = -1;
 
@@ -146,6 +146,7 @@ public final class Constants {
         public static final double kMinOutput = 0;
         public static final double kMaxOutput = 0;
         public static final String kShooterShuffleboardTabName = "Shooter";
+        public static final double kVelocityTolerance = 0;
     }
 
     public static final class VisionConstants{

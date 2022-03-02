@@ -78,7 +78,7 @@ public class RobotContainer {
     // m_shooter = new Shooter();
     m_vision = new Vision();
 
-    ShooterSparkMax shooterTest = new ShooterSparkMax();
+    // ShooterSparkMax shooterTest = new ShooterSparkMax();
     // m_testCompressor = new Compressor(PneumaticsModuleType.REVPH);
 
     // SendableRegistry.setName(m_shooter, "shooter", "shooter");
@@ -120,7 +120,7 @@ public class RobotContainer {
     // new JoystickButton(m_operator, Button.kA.value).whenPressed(new PointTurnUsingLimelight(0.01, m_vision, m_drivetrain));
     // new JoystickButton(m_driver, Button.kA.value).whileHeld(new IntakeAndIndex(m_intake, m_index));
     // new JoystickButton(m_driver, Button.kB.value).whenPressed(new ShooterShoot(m_shooter, Constants.ShooterConstants.kCloseLaunchPadMotorSpeed));
-    new JoystickButton(m_driver, Button.kA.value).whileHeld(new IndexOut(m_index));
+    new JoystickButton(m_driver, Button.kA.value).whileHeld(new IntakeAndIndex(m_intake, m_index));
 
     // new JoystickButton(m_driver, Button.kB.value).whenPressed(new ShooterManuallySetExtendedAngle(m_shooter));
 

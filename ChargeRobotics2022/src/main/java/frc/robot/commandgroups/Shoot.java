@@ -5,6 +5,7 @@
 package frc.robot.commandgroups;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.IndexLowerOut;
 import frc.robot.commands.IndexMoveUp;
 import frc.robot.commands.IndexUpperOut;
 import frc.robot.commands.ShooterSetSetpoint;
@@ -28,7 +29,7 @@ public class Shoot extends SequentialCommandGroup {
     // }
 
     if (index.hasUpperBall()) {
-      addCommands(new ShooterShoot(shooter, speed));
+      addCommands(new ShooterShoot(shooter, speed), new IndexUpperOut(index), new IndexLowerOut(index), new ShooterShoot(shooter, speed), new IndexUpperOut(index), new ShooterSetSetpoint(shooter, 0));
     }
 
   }

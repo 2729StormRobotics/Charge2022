@@ -9,24 +9,21 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
-public class ArcadeDriveManually extends CommandBase {
-  /** Creates a new ArcadeDriveManually. */
+public class DriveManuallyTank extends CommandBase {
+  /** Creates a new TankDriveManually. */
 
   private final Drivetrain m_drivetrain;
 
-  private final DoubleSupplier m_straightSpeed;
-  private final DoubleSupplier m_turnSpeed;
+  private final DoubleSupplier m_leftSpeed;
+  private final DoubleSupplier m_rightSpeed;
+  private  double m_currentSpeed = 0;
 
-  private double m_currentSpeed;
-
-  public ArcadeDriveManually(DoubleSupplier straightSpeed, DoubleSupplier turnSpeed, Drivetrain subsystem) {
+  public DriveManuallyTank(DoubleSupplier leftSpeed, DoubleSupplier rightSpeed, Drivetrain subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
-
-    m_straightSpeed = straightSpeed;
-    m_turnSpeed = turnSpeed;
-
     m_drivetrain = subsystem;
-
+    m_leftSpeed = leftSpeed;
+    m_rightSpeed = rightSpeed;
+    
     addRequirements(m_drivetrain);
 
   }
@@ -35,15 +32,16 @@ public class ArcadeDriveManually extends CommandBase {
   @Override
   public void initialize() {
     m_drivetrain.stopDrive();
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_drivetrain.arcadeDrive(m_straightSpeed.getAsDouble() * 0.5, m_turnSpeed.getAsDouble() * 0.5, true);
+    m_drivetrain.tankDrive(m_leftSpeed.getAsDouble() * 0.5, m_rightSpeed.getAsDouble() * 0.5, true);
 
+    // sets the current speed to the average velocity 
     m_currentSpeed = m_drivetrain.getAverageVelocity();
-
   }
 
   // Called once the command ends or is interrupted.

@@ -74,7 +74,7 @@ public final class Constants {
         extend/retract
         */
         public static final int kIntakeMotorPort = 5;
-        public static final double kIntakeMotorSpeed = 1;
+        public static final double kIntakeMotorSpeed = -0.50;
         public static final int kIntakeMotorStopSpeed = 0;
         public static final int kEjectMotorSpeed = -1;
 
@@ -138,7 +138,7 @@ public final class Constants {
         public static final double kA = 0; // accelaration constant
      
         // PID values to maintain speed 
-        public static final double kP = 0; // proportional constant
+        public static final double kP = 6e-5; // proportional constant
         public static final double kI = 0; // integral constant 
         public static final double kD = 0; // derivative constant
         public static final double kIz = 0; // integral zone
@@ -146,6 +146,8 @@ public final class Constants {
         public static final double kMinOutput = 0;
         public static final double kMaxOutput = 0;
         public static final String kShooterShuffleboardTabName = "Shooter";
+        public static final double kVelocityTolerance = 0;
+        public static final double kTarmacShotSpeed = 0;
     }
 
     public static final class VisionConstants{

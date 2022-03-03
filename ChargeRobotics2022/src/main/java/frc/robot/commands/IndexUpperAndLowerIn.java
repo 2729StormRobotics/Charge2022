@@ -21,20 +21,21 @@ public class IndexUpperAndLowerIn extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     m_index.runLowerIndexMotor();
-    m_index.runUpperIndexMotor();
+    // m_index.runUpperIndexMotor();
 
-  //   // if (!m_index.hasUpperBall()) {
-  //  //    m_index.runUpperIndexMotor();
-  //    } else {
-  //      m_index.stopUpperMotor();
-  //    }
-   }
+    if (!m_index.hasUpperBall()) {
+      m_index.runUpperIndexMotor();
+    } else {
+      m_index.stopUpperMotor();
+    }
+  }
 
   // Called once the command ends or is interrupted.
   @Override
@@ -46,7 +47,7 @@ public class IndexUpperAndLowerIn extends CommandBase {
   @Override
   public boolean isFinished() {
 
-    //return m_index.hasLowerBall() && m_index.hasUpperBall();
+    // return m_index.hasLowerBall() && m_index.hasUpperBall();
 
     return false;
   }

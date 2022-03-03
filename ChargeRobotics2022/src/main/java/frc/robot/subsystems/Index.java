@@ -83,7 +83,7 @@ public class Index extends SubsystemBase {
   }
   
   public boolean hasUpperBall() {
-    return m_upperBeamBraker.get();
+    return !m_upperBeamBraker.get();
   }
 
   

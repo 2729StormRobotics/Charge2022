@@ -5,15 +5,16 @@
 package frc.robot.subsystems;
 
 import static frc.robot.Constants.HangerConstants.*;
+import frc.robot.Constants;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.revrobotics.SparkMaxRelativeEncoder;
 
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Hanger extends SubsystemBase {
@@ -23,8 +24,7 @@ public class Hanger extends SubsystemBase {
   private final RelativeEncoder m_encoderLeft;
   private final RelativeEncoder m_encoderRight;  
 
-  // private final Solenoid m_pawlPiston;
-  private boolean m_retracted = true;
+  private final Solenoid m_pawlPiston;
 
   /**
    * Creates a new Hanger.
@@ -42,10 +42,8 @@ public class Hanger extends SubsystemBase {
     m_encoderLeft = m_hangerMotorLeft.getEncoder();
     m_encoderRight = m_hangerMotorRight.getEncoder();
 
-
-
-    // m_pawlPiston = new Solenoid(PneumaticsModuleType.CTREPCM, kPawlPistonChannel);
-    // m_pawlPiston.set(kPawlPistonDisabled);
+    m_pawlPiston = new Solenoid(Constants.kPneumaticsHubCanId, PneumaticsModuleType.REVPH, kPawlPistonChannel);
+    m_pawlPiston.set(kPawlPistonDisabled);
 
     shuffleboardInit();
   }
@@ -200,11 +198,12 @@ private void shuffleboardInit(){
 
   @Override
   public void periodic() {
-    if (getHeightAverage() > 1) {
-      m_retracted = false;
-    } else {
-      m_retracted = true;
-    }
+    // if (getHeightAverage() > 1) {
+    //   m_retracted = false;
+    // } else {
+    //   m_retracted = true;
+    // }
     // This method will be called once per scheduler run
+    SmartDashboard.putBoolean("Hanger Pawl", m_pawlPiston.get());
   }  
 }

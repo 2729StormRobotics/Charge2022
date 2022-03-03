@@ -38,7 +38,9 @@ import frc.robot.subsystems.Hanger;
 import frc.robot.subsystems.Index;
 import frc.robot.subsystems.Intake;
 import frc.robot.commands.ManualSpinFlywheel;
+import frc.robot.commands.PointTurnEncoderTank;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.ShooterSparkMax;
 import frc.robot.subsystems.Vision;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -66,7 +68,7 @@ public class RobotContainer {
   private final Hanger m_hanger;
   private final Index m_index;
   private final Intake m_intake;
-  private final Shooter m_shooter;
+  // private final Shooter m_shooter;
   private final Vision m_vision;
   // private final Compressor m_testCompressor;
 
@@ -77,28 +79,10 @@ public class RobotContainer {
     m_hanger = new Hanger();
     m_index = new Index();
     m_intake = new Intake();
-    m_shooter = new Shooter();
     m_vision = new Vision();
-    // m_testCompressor = new Compressor(PneumaticsModuleType.REVPH);
-
-    SendableRegistry.setName(m_shooter, "shooter", "shooter");
-
 
     m_drivetrain.setDefaultCommand(
-        new TankDriveManually(() -> m_driver.getLeftY(), () -> m_driver.getRightY(), m_drivetrain));
-
-    // m_testCompressor.enableDigital();
-
-    // SmartDashboard.putBoolean("Compressor", m_testCompressor.enabled());
-
-    SmartDashboard.putData(m_shooter);
-    //
-    SmartDashboard.putData("shooter",m_shooter.getController());
-
-
-    SmartDashboard.putData("Shoot at Flywheel Speed", new ShuffleboardSpinFlywheel(m_shooter));
-    SmartDashboard.putNumber("Flywheel manual speed", 0.0);
-    
+        new DriveManuallyTank(() -> m_driver.getLeftY(), () -> m_driver.getRightY(), m_drivetrain));
 
     // Configure the button bindings
     configureButtonBindings();
@@ -133,6 +117,7 @@ public class RobotContainer {
     new JoystickButton(m_driver, Button.kB.value).whenPressed(new HangStop(m_hanger));
 
     
+    new JoystickButton(m_operator, Button.kLeftBumper.value).whenPressed(new PointTurnEncoderTank(m_drivetrain, kTurnSpeed, -m_vision.getXOffset()));
   }
     
   /**

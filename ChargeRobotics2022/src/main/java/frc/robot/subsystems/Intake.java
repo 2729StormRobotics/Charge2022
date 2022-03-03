@@ -12,17 +12,18 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static frc.robot.Constants.IntakeConstants.*;
+import static frc.robot.Constants.*;
 
 public class Intake extends SubsystemBase {
 
   private final CANSparkMax m_intakeMotor;
-  // private final DoubleSolenoid m_leftIntakePiston;
+  private final DoubleSolenoid m_leftIntakePiston;
   
 //creates a new intake
   public Intake() {
     m_intakeMotor = new CANSparkMax(kIntakeMotorPort, MotorType.kBrushless);
 
-    // m_leftIntakePiston = new DoubleSolenoid(PneumaticsModuleType.REVPH, kIntakeExtendChannel, kIntakeRetractChannel);
+    m_leftIntakePiston = new DoubleSolenoid(kPneumaticsHubCanId,PneumaticsModuleType.REVPH, kIntakeExtendChannel, kIntakeRetractChannel);
    
   }
 

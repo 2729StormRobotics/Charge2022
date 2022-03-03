@@ -16,7 +16,10 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commandgroups.IntakeAndIndex;
+import frc.robot.commands.DriveManuallyTank;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.HangManually;
+// import frc.robot.commands.HangStop;
 import frc.robot.commands.IndexLowerIn;
 import frc.robot.commands.IndexOut;
 import frc.robot.commands.IndexUpperIn;
@@ -27,17 +30,14 @@ import frc.robot.commands.ShooterManuallySetExtendedAngle;
 import frc.robot.commands.ShooterManuallySetRetractedAngle;
 import frc.robot.commands.ShooterPrepHubShot;
 import frc.robot.commands.ShooterShoot;
-import frc.robot.commands.ShuffleboardSpinFlywheel;
-import frc.robot.commands.DriveManuallyTank;
+import frc.robot.commands.VisionAlign;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Hanger;
 import frc.robot.subsystems.Index;
 import frc.robot.subsystems.Intake;
-import frc.robot.commands.ManualSpinFlywheel;
 import frc.robot.commands.PointTurnEncoderTank;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.ShooterSparkMax;
 import frc.robot.subsystems.Vision;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -47,6 +47,7 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
 
 import static frc.robot.Constants.*;
+import static frc.robot.Constants.DriveConstants.*;
 
 
 /**
@@ -65,7 +66,7 @@ public class RobotContainer {
   private final Hanger m_hanger;
   private final Index m_index;
   private final Intake m_intake;
-  // private final Shooter m_shooter;
+  private final Shooter m_shooter;
   private final Vision m_vision;
   // private final Compressor m_testCompressor;
 
@@ -77,6 +78,7 @@ public class RobotContainer {
     m_index = new Index();
     m_intake = new Intake();
     m_vision = new Vision();
+    m_shooter = new Shooter();
 
     m_drivetrain.setDefaultCommand(
         new DriveManuallyTank(() -> m_driver.getLeftY(), () -> m_driver.getRightY(), m_drivetrain));
@@ -92,32 +94,29 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    // new JoystickButton(m_operator, Button.kLeftStick.value).whenPressed(new ShooterPrepHubShot(m_shooter));
-    // new JoystickButton(m_operator, Button.kRightStick.value).whenPressed(new ShooterHubShot(m_shooter));
-
-    // new JoystickButton(m_operator, Button.kLeftkLeftBumper).whenPressed(new Flush);
+    //Shooter Prep Buttons - Launch Prep Command?
+    //Thinking abt only using one prep command bc b x and y buttons will finalize the speed anyway
+    // new JoystickButton(m_operator, Button.kLeftStick.value).whenPressed();
+    new JoystickButton(m_operator, Button.kRightStick.value).whenPressed(new ShooterPrepHubShot(m_shooter));
+ 
+ 
+    //Shooter Buttons
+    new JoystickButton(m_operator, Button.kA.value).whenPressed(new ShooterHubShot(m_shooter));
+    new JoystickButton(m_operator, Button.kRightStick.value).whenPressed(new ShooterPrepHubShot(m_shooter));
+    new JoystickButton(m_operator, Button.kB.value).whenPressed(new ShooterShoot(m_shooter, Constants.ShooterConstants.kCloseLaunchPadMotorSpeed));
+    new JoystickButton(m_operator, Button.kX.value).whenPressed(new ShooterShoot(m_shooter, Constants.ShooterConstants.kFarLaunchPadMotorSpeed));
+    new JoystickButton(m_operator, Button.kY.value).whenPressed(new ShooterShoot(m_shooter, Constants.ShooterConstants.kWallShotMotorSpeed));
     
-    // change speed parameter for PointTurnUsingLimelight
-    // new JoystickButton(m_operator, Button.kA.value).whenPressed(new PointTurnUsingLimelight(0.01, m_vision, m_drivetrain));
-    // new JoystickButton(m_driver, Button.kA.value).whileHeld(new IntakeAndIndex(m_intake, m_index));
-    // new JoystickButton(m_driver, Button.kB.value).whenPressed(new ShooterShoot(m_shooter, Constants.ShooterConstants.kCloseLaunchPadMotorSpeed));
-    new JoystickButton(m_driver, Button.kA.value).whileHeld(new IntakeAndIndex(m_intake, m_index));
+    new JoystickButton(m_operator, Button.kRightBumper.value).whenPressed(new VisionAlign(m_vision, m_drivetrain));
+   
+    //Intake Buttons
+    new Trigger(() -> (m_operator.getRightTriggerAxis() > 0.01)).whenActive(new IntakeAndIndex(m_intake, m_index));
+    new Trigger(() -> (m_operator.getLeftTriggerAxis() > 0.01)).whenActive(new IntakeEject(m_intake));
 
-    // new JoystickButton(m_driver, Button.kB.value).whenPressed(new ShooterManuallySetExtendedAngle(m_shooter));
+    //Hang Buttons
+    new JoystickButton(m_driver, Button.kA.value).whileHeld(new HangManually(m_hanger, Constants.HangerConstants.kClimbUpSpeed));
+    // new JoystickButton(m_driver, Button.kB.value).whenPressed(new HangStop(m_hanger));
 
-    // new JoystickButton(m_driver, Button.kX.value).whenPressed(new ShooterManuallySetRetractedAngle(m_shooter));
-
-    // new JoystickButton(m_driver, Button.kY.value).whileHeld(new ManualSpinFlywheel(m_shooter));
-
-    //new JoystickButton(m_driver, Button.kA.value).whenPressed(new IntakeAndIndex(m_intake, m_index));
-    //new JoystickButton(m_driver, Button.kB.value).whenPressed(new IndexUpperIn(m_index));
-    
-    
-    // new JoystickButton(m_operator, Button.kX.value).whenPressed(new ShooterShoot(m_shooter, Constants.ShooterConstants.kFarLaunchPadMotorSpeed));
-    // new JoystickButton(m_operator, Button.kY.value).whenPressed(new ShooterHubShot(m_shooter));
-
-    new JoystickButton(m_operator, Button.kRightBumper.value).whenPressed(new IntakeEject(m_intake));
-    new Trigger(() -> (m_driver.getLeftTriggerAxis() > 0.01)).whenActive(new IntakeAndIndex(m_intake, m_index));
     
     new JoystickButton(m_operator, Button.kLeftBumper.value).whenPressed(new PointTurnEncoderTank(m_drivetrain, kTurnSpeed, -m_vision.getXOffset()));
   }

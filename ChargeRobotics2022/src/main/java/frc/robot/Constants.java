@@ -114,9 +114,13 @@ public final class Constants {
         public static final int kLeftMotorPort = 12;
         public static final int kRightMotorPort = 13;
 
+        public static final boolean kMotorLeftInverted = false;
+        public static final boolean kMotorRightInverted = true;
+
         public static final double kHubShotMotorSpeed = 0;
-        public static final double kCloseLaunchPadMotorSpeed = -1000;
+        public static final double kCloseLaunchPadMotorSpeed = 0;
         public static final double kFarLaunchPadMotorSpeed = 0;
+        public static final double kWallShotMotorSpeed = 0;
 
         public static final int kBottomExtendedChannel = 6;
         public static final int kBottomRetractedChannel = 7;
@@ -138,7 +142,7 @@ public final class Constants {
         public static final double kA = 0; // accelaration constant
      
         // PID values to maintain speed 
-        public static final double kP = 6e-5; // proportional constant
+        public static final double kP = 6e-4; // proportional constant
         public static final double kI = 0; // integral constant 
         public static final double kD = 0; // derivative constant
         public static final double kIz = 0; // integral zone
@@ -239,6 +243,8 @@ public final class Constants {
         // Driver Controller Ports
         public static final int kDriverControllerPort = 0;
         public static final int kOperatorControllerPort = 1;
+
+        public static final double kTurnSpeed = .25;
 
     }
     

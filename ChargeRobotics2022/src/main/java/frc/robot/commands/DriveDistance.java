@@ -7,14 +7,14 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
-public class TankDriveDistance extends CommandBase {
+public class DriveDistance extends CommandBase {
   /** Creates a new TankDriveDistance. */
   private final Drivetrain m_drivetrain; 
   private final double m_speed;
   private final double m_distance;
 
 
-  public TankDriveDistance(Drivetrain subsystem, double speed, double distance) {
+  public DriveDistance(Drivetrain subsystem, double speed, double distance) {
    // Use addRequirements() here to declare subsystem dependencies.
    
    m_drivetrain = subsystem;

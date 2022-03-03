@@ -147,6 +147,7 @@ public final class Constants {
         public static final double kMaxOutput = 0;
         public static final String kShooterShuffleboardTabName = "Shooter";
         public static final double kVelocityTolerance = 0;
+        public static final double kTarmacShotSpeed = 0;
     }
 
     public static final class VisionConstants{

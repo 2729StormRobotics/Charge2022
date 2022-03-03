@@ -161,7 +161,6 @@ public class ShoooterBetter extends SubsystemBase {
     // This method will be called once per scheduler run
 
     // Read PID coeffecients from SmartDashboard
-    // read PID coefficients from SmartDashboard
     double p = SmartDashboard.getNumber("P Gain", 0);
     double i = SmartDashboard.getNumber("I Gain", 0);
     double d = SmartDashboard.getNumber("D Gain", 0);
@@ -170,8 +169,7 @@ public class ShoooterBetter extends SubsystemBase {
     double max = SmartDashboard.getNumber("Max Output", 0);
     double min = SmartDashboard.getNumber("Min Output", 0);
 
-    // if PID coefficients on SmartDashboard have changed, write new values to
-    // controller
+    // if PID coefficients on SmartDashboard have changed, write new values to controller
     if (p != kP) {
       m_pidController.setP(p);
       kP = p;

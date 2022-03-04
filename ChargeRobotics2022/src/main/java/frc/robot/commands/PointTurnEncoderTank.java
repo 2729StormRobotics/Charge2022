@@ -40,7 +40,6 @@ public class PointTurnEncoderTank extends CommandBase {
   public void initialize() {
 
     // Initializes the encoders
-    m_drivetrain.encoderInit();
     m_drivetrain.resetAllEncoders();
 
 

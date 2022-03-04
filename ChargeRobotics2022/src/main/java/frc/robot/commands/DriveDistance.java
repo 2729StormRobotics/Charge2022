@@ -29,8 +29,8 @@ public class DriveDistance extends CommandBase {
   public void initialize() {
 
     // initializes and resets all encoders
-    m_drivetrain.encoderInit();
-     m_drivetrain.resetAllEncoders();
+    // m_drivetrain.encoderInit();
+    m_drivetrain.resetAllEncoders();
 
   }
   // Called every time the scheduler runs while the command is scheduled.
@@ -43,7 +43,7 @@ public class DriveDistance extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-
+    m_drivetrain.stopDrive();
   }
     
 
@@ -52,6 +52,6 @@ public class DriveDistance extends CommandBase {
   public boolean isFinished() {
 
     // Command is finished when the travelled distance is greater than or equal to the inputted distance
-   return m_drivetrain.getAverageDistance() >= m_distance;
+   return Math.abs(m_drivetrain.getAverageDistance()) >= Math.abs(m_distance);
   }
 }

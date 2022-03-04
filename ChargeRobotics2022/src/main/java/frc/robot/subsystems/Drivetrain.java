@@ -70,6 +70,9 @@ public class Drivetrain extends SubsystemBase {
     m_leftEncoder = m_leftLeaderMotor.getEncoder();
     m_rightEncoder = m_rightLeaderMotor.getEncoder();
 
+    encoderInit();
+    resetAllEncoders();
+
     m_drive = new DifferentialDrive(m_leftLeaderMotor, m_rightLeaderMotor);
 
     // Set The Feedforward Values
@@ -91,6 +94,12 @@ public class Drivetrain extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("left drive encoder", m_leftEncoder.getPosition());
+    SmartDashboard.putNumber("right drive encoder", m_rightEncoder.getPosition());
+
+    SmartDashboard.putNumber("average distance", getAverageDistance());
+
+    SmartDashboard.putNumber("left drive speed", 0);
   }
 
   // Initializes Motors by Setting Defaults
@@ -144,8 +153,8 @@ public class Drivetrain extends SubsystemBase {
    double distLeft = getLeftDistance();
    double distRight = getRightDistance();
    
-   encoderInit();
-   printPositionConversionFactor();   
+  // encoderInit();
+  // printPositionConversionFactor();   
    
    System.out.println("Left:  " + distLeft);
    System.out.println("Right:  " + distRight);
@@ -202,7 +211,6 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public double getRobotAngle(){
-    m_imu.reset();
     return m_imu.getAngle();
   }
 

@@ -30,11 +30,11 @@ public class IndexUpperAndLowerIn extends CommandBase {
     m_index.runLowerIndexMotor();
     // m_index.runUpperIndexMotor();
 
-    if (!m_index.hasUpperBall()) {
+    // if (m_index.hasUpperBall()) {
       m_index.runUpperIndexMotor();
-    } else {
-      m_index.stopUpperMotor();
-    }
+    // } else {
+    //   m_index.stopUpperMotor();
+    // }
   }
 
   // Called once the command ends or is interrupted.

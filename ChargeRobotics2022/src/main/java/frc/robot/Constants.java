@@ -115,7 +115,7 @@ public final class Constants {
         public static final int kRightMotorPort = 13;
 
         public static final boolean kMotorLeftInverted = false;
-        public static final boolean kMotorRightInverted = true;
+        public static final boolean kMotorRightInverted = false;
 
         public static final double kHubShotMotorSpeed = 0;
         public static final double kCloseLaunchPadMotorSpeed = 0;
@@ -195,7 +195,7 @@ public final class Constants {
 
         // Encoder calculations
         public static final double kDriveWheelDiameterInches = 6.0;
-        public static final double kGear = 10.75; 
+        public static final double kGear = 12; 
         //Testbot Gear ratio- 10.75 : 1
         //Real Robot Gear Ratio- 12 : 1
     

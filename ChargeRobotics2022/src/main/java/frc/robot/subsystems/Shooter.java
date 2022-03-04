@@ -51,6 +51,8 @@ public class Shooter extends SubsystemBase {
 
     motorInit(m_leftMotor, kMotorLeftInverted);
     motorInit(m_rightMotor, kMotorRightInverted);
+    
+    m_rightMotor.follow(m_leftMotor, true);
 
     // Use the left motor's encoder, because it should be positive.
     // The motors are on the same axle; they must have the same speed.
@@ -62,8 +64,7 @@ public class Shooter extends SubsystemBase {
 
     // Because we are using the left motor for control,
     // set the right motor to follow the left motor, but backwards
-    m_rightMotor.setInverted(true);
-    m_rightMotor.follow(m_leftMotor);
+    //  m_rightMotor.setInverted(true);
 
     // PID coefficients
     kP = ShooterConstants.kP;
@@ -118,7 +119,7 @@ public class Shooter extends SubsystemBase {
   private void motorInit(CANSparkMax motor, boolean invert) {
     motor.restoreFactoryDefaults(); // Reset motor parameters to defaults
     motor.setIdleMode(IdleMode.kCoast); // Motor does not lose momentum when not being used
-    motor.setInverted(invert);
+    // motor.setInverted(invert);
   }
 
   // Initialize the pistons to be retracted

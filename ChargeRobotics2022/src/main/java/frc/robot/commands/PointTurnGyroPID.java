@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.subsystems.Drivetrain;
@@ -19,7 +20,7 @@ public class PointTurnGyroPID extends PIDCommand {
   public PointTurnGyroPID(double angle, double speed, Drivetrain drivetrain) {
     super(
         // The controller that the command will use
-        new PIDController(kP, kI, kD),
+        new PIDController(kTurnP, kTurnI, kTurnD),
         // This should return the measurement
         () -> drivetrain.getRobotAngle(),
         // This should return the setpoint (can also be a constant)
@@ -27,14 +28,18 @@ public class PointTurnGyroPID extends PIDCommand {
         // This uses the output
         output -> {
           // Use the output here
-          drivetrain.tankDrive(speed * Math.signum(output), speed * Math.signum(output) * -1, false);
+          double o = MathUtil.clamp(Math.abs(output), 0.05, 0.5);
+          drivetrain.tankDrive(o * Math.signum(output), -o * Math.signum(output), false);
   
         });
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
-
     addRequirements(drivetrain);
-    getController().setTolerance(kAngleTolerance, kTurnSpeedTolerance);
+
+    drivetrain.resetGyro();
+
+    getController().enableContinuousInput(-180, 180);
+    getController().setTolerance(0.5);
   }
 
   // Returns true when the command should end.

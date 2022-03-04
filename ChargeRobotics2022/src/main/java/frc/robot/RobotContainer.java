@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commandgroups.IntakeAndIndex;
+import frc.robot.commands.DriveDistance;
 import frc.robot.commands.DriveManuallyTank;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.HangManually;
@@ -24,6 +25,8 @@ import frc.robot.commands.IndexLowerIn;
 import frc.robot.commands.IndexOut;
 import frc.robot.commands.IndexUpperIn;
 import frc.robot.commands.IntakeEject;
+import frc.robot.commands.IntakeExtend;
+import frc.robot.commands.IntakeRetract;
 import frc.robot.commands.PointTurnUsingLimelight;
 import frc.robot.commands.ShooterHubShot;
 import frc.robot.commands.ShooterManuallySetExtendedAngle;
@@ -37,6 +40,8 @@ import frc.robot.subsystems.Hanger;
 import frc.robot.subsystems.Index;
 import frc.robot.subsystems.Intake;
 import frc.robot.commands.PointTurnEncoderTank;
+import frc.robot.commands.PointTurnGyroPID;
+import frc.robot.commands.PointTurnGyroTank;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Vision;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -107,11 +112,13 @@ public class RobotContainer {
     new JoystickButton(m_operator, Button.kX.value).whenPressed(new ShooterShoot(m_shooter, Constants.ShooterConstants.kFarLaunchPadMotorSpeed));
     new JoystickButton(m_operator, Button.kY.value).whenPressed(new ShooterShoot(m_shooter, Constants.ShooterConstants.kWallShotMotorSpeed));
     
-    new JoystickButton(m_operator, Button.kRightBumper.value).whenPressed(new VisionAlign(m_vision, m_drivetrain));
+    new JoystickButton(m_operator, Button.kRightBumper.value).whenPressed(new PointTurnUsingLimelight(0.3, m_vision, m_drivetrain));
    
     //Intake Buttons
     new Trigger(() -> (m_operator.getRightTriggerAxis() > 0.01)).whenActive(new IntakeAndIndex(m_intake, m_index));
     new Trigger(() -> (m_operator.getLeftTriggerAxis() > 0.01)).whenActive(new IntakeEject(m_intake));
+    new JoystickButton(m_operator, Button.kStart.value).whenPressed(new IntakeExtend(m_intake));
+    new JoystickButton(m_operator, Button.kBack.value).whenPressed(new IntakeRetract(m_intake));
 
     //Hang Buttons
     new JoystickButton(m_driver, Button.kA.value).whileHeld(new HangManually(m_hanger, Constants.HangerConstants.kClimbUpSpeed));
@@ -130,7 +137,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     
     // An ExampleCommand will run in autonomous
-    return new ExampleCommand(new ExampleSubsystem());
+    return new PointTurnGyroPID(-180, 0.3, m_drivetrain);
 
   }
 

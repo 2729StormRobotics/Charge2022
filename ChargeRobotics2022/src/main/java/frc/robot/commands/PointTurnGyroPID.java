@@ -17,7 +17,7 @@ import static frc.robot.Constants.DriveConstants.*;
 public class PointTurnGyroPID extends PIDCommand {
   /** Creates a new PointTurnEncoderPID. */  
 
-  public PointTurnGyroPID(double angle, double speed, Drivetrain drivetrain) {
+  public PointTurnGyroPID(double angle, Drivetrain drivetrain) {
     super(
         // The controller that the command will use
         new PIDController(kTurnP, kTurnI, kTurnD),

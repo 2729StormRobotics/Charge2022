@@ -115,8 +115,8 @@ public class RobotContainer {
     new JoystickButton(m_operator, Button.kRightBumper.value).whenPressed(new PointTurnUsingLimelight(0.3, m_vision, m_drivetrain));
    
     //Intake Buttons
-    new Trigger(() -> (m_operator.getRightTriggerAxis() > 0.01)).whenActive(new IntakeAndIndex(m_intake, m_index));
-    new Trigger(() -> (m_operator.getLeftTriggerAxis() > 0.01)).whenActive(new IntakeEject(m_intake));
+    new Trigger(() -> (m_operator.getRightTriggerAxis() > 0.01)).whileActiveContinuous(new IntakeAndIndex(m_intake, m_index));
+    new Trigger(() -> (m_operator.getLeftTriggerAxis() > 0.01)).whileActiveContinuous(new IntakeEject(m_intake));
     new JoystickButton(m_operator, Button.kStart.value).whenPressed(new IntakeExtend(m_intake));
     new JoystickButton(m_operator, Button.kBack.value).whenPressed(new IntakeRetract(m_intake));
 
@@ -125,7 +125,7 @@ public class RobotContainer {
     // new JoystickButton(m_driver, Button.kB.value).whenPressed(new HangStop(m_hanger));
 
     
-    new JoystickButton(m_operator, Button.kLeftBumper.value).whenPressed(new PointTurnEncoderTank(m_drivetrain, kTurnSpeed, -m_vision.getXOffset()));
+    new JoystickButton(m_operator, Button.kLeftBumper.value).whenPressed(new PointTurnGyroPID(-m_vision.getXOffset(), m_drivetrain));
   }
     
   /**
@@ -137,7 +137,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     
     // An ExampleCommand will run in autonomous
-    return new PointTurnGyroPID(-180, 0.3, m_drivetrain);
+    return new PointTurnGyroPID(-180, m_drivetrain);
 
   }
 

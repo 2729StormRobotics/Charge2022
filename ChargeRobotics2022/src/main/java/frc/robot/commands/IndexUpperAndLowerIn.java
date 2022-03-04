@@ -28,13 +28,12 @@ public class IndexUpperAndLowerIn extends CommandBase {
   @Override
   public void execute() {
     m_index.runLowerIndexMotor();
-    // m_index.runUpperIndexMotor();
 
-    // if (m_index.hasUpperBall()) {
+    if (m_index.hasUpperBall()) {
       m_index.runUpperIndexMotor();
-    // } else {
-    //   m_index.stopUpperMotor();
-    // }
+    } else {
+      m_index.stopUpperMotor();
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -46,9 +45,6 @@ public class IndexUpperAndLowerIn extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-
-    // return m_index.hasLowerBall() && m_index.hasUpperBall();
-
     return false;
   }
 }

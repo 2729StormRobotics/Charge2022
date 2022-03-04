@@ -34,7 +34,7 @@ public class Intake extends SubsystemBase {
 
 //reverse the motor so that the intake will spit out the ball
   public void ejectIntake() {
-    m_intakeMotor.set(kEjectMotorSpeed);
+    m_intakeMotor.set(-kIntakeMotorSpeed);
   }
 //stops the motor of intake
   public void stopIntake() {

@@ -32,6 +32,7 @@ import frc.robot.commands.ShooterHubShot;
 import frc.robot.commands.ShooterManuallySetExtendedAngle;
 import frc.robot.commands.ShooterManuallySetRetractedAngle;
 import frc.robot.commands.ShooterPrepHubShot;
+import frc.robot.commands.ShooterSetSetpoint;
 import frc.robot.commands.ShooterShoot;
 import frc.robot.commands.VisionAlign;
 import frc.robot.subsystems.Drivetrain;
@@ -45,6 +46,7 @@ import frc.robot.commands.PointTurnGyroTank;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Vision;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj.Compressor;
@@ -102,30 +104,32 @@ public class RobotContainer {
     //Shooter Prep Buttons - Launch Prep Command?
     //Thinking abt only using one prep command bc b x and y buttons will finalize the speed anyway
     // new JoystickButton(m_operator, Button.kLeftStick.value).whenPressed();
-    new JoystickButton(m_operator, Button.kRightStick.value).whenPressed(new ShooterPrepHubShot(m_shooter));
- 
+    // new JoystickButton(m_operator, Button.kLeftStick.value).whenPressed(new ShooterPrepShoot(m_shooter));
+    // new JoystickButton(m_operator, Button.kRightStick.value).whenPressed(new ShooterPrepDump(m_shooter));
+
  
     //Shooter Buttons
-    new JoystickButton(m_operator, Button.kA.value).whenPressed(new ShooterHubShot(m_shooter));
-    new JoystickButton(m_operator, Button.kRightStick.value).whenPressed(new ShooterPrepHubShot(m_shooter));
-    new JoystickButton(m_operator, Button.kB.value).whenPressed(new ShooterShoot(m_shooter, Constants.ShooterConstants.kCloseLaunchPadMotorSpeed));
-    new JoystickButton(m_operator, Button.kX.value).whenPressed(new ShooterShoot(m_shooter, Constants.ShooterConstants.kFarLaunchPadMotorSpeed));
-    new JoystickButton(m_operator, Button.kY.value).whenPressed(new ShooterShoot(m_shooter, Constants.ShooterConstants.kWallShotMotorSpeed));
     
-    new JoystickButton(m_operator, Button.kRightBumper.value).whenPressed(new PointTurnUsingLimelight(0.3, m_vision, m_drivetrain));
-   
+    new JoystickButton(m_operator, Button.kA.value).whenPressed(new ShooterSetSetpoint(m_shooter, Constants.ShooterConstants.kDumpShotSpeed));
+    new JoystickButton(m_operator, Button.kB.value).whenPressed(new ShooterSetSetpoint(m_shooter, Constants.ShooterConstants.kCloseLaunchPadMotorSpeed));
+    new JoystickButton(m_operator, Button.kX.value).whenPressed(new ShooterSetSetpoint(m_shooter, Constants.ShooterConstants.kFarLaunchPadMotorSpeed));
+    new JoystickButton(m_operator, Button.kY.value).whenPressed(new ShooterSetSetpoint(m_shooter, Constants.ShooterConstants.kWallShotMotorSpeed));
+       
     //Intake Buttons
     new Trigger(() -> (m_operator.getRightTriggerAxis() > 0.01)).whileActiveContinuous(new IntakeAndIndex(m_intake, m_index));
     new Trigger(() -> (m_operator.getLeftTriggerAxis() > 0.01)).whileActiveContinuous(new IntakeEject(m_intake));
     new JoystickButton(m_operator, Button.kStart.value).whenPressed(new IntakeExtend(m_intake));
+    // new JoystickButton(m_operator, Button.kStart.value).whenPressed(new InstantCommand(m_intake::t))
     new JoystickButton(m_operator, Button.kBack.value).whenPressed(new IntakeRetract(m_intake));
 
     //Hang Buttons
-    new JoystickButton(m_driver, Button.kA.value).whileHeld(new HangManually(m_hanger, Constants.HangerConstants.kClimbUpSpeed));
+    new JoystickButton(m_driver, Button.kY.value).whileHeld(new HangManually(m_hanger, Constants.HangerConstants.kClimbUpSpeed));
     // new JoystickButton(m_driver, Button.kB.value).whenPressed(new HangStop(m_hanger));
 
+    new JoystickButton(m_operator, Button.kLeftBumper.value).whileHeld(new IndexOut(m_index));
+    new JoystickButton(m_operator, Button.kRightBumper.value).whenPressed(new InstantCommand(m_shooter::gentleStop));
+    new JoystickButton(m_driver, Button.kA.value).whenPressed(new PointTurnGyroPID(m_vision.getXOffset(), m_drivetrain));
     
-    new JoystickButton(m_operator, Button.kLeftBumper.value).whenPressed(new PointTurnGyroPID(-m_vision.getXOffset(), m_drivetrain));
   }
     
   /**
@@ -137,7 +141,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     
     // An ExampleCommand will run in autonomous
-    return new PointTurnGyroPID(-180, m_drivetrain);
+    return new DriveDistance(m_drivetrain, -0.3, 30);
 
   }
 

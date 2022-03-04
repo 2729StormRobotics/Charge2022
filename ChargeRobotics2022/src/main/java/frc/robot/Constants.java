@@ -99,7 +99,7 @@ public final class Constants {
         public static final int kUpperIndexMotorPort = 11;
         public static final int kLowerIndexBeamBrakerPort = 0;
         public static final int kUpperIndexBeamBrakerPort = 1;
-        public static final double kLowerIndexMotorSpeed = -0.3;
+        public static final double kLowerIndexMotorSpeed = -0.5;
         public static final double kUpperIndexMotorSpeed = -0.3;
 
         public static final int kIndexMotorStopSpeed = 0;
@@ -118,9 +118,9 @@ public final class Constants {
         public static final boolean kMotorRightInverted = false;
 
         public static final double kHubShotMotorSpeed = 0;
-        public static final double kCloseLaunchPadMotorSpeed = 0;
-        public static final double kFarLaunchPadMotorSpeed = 0;
-        public static final double kWallShotMotorSpeed = 0;
+        public static final double kCloseLaunchPadMotorSpeed = -4000;
+        public static final double kFarLaunchPadMotorSpeed = -4500;
+        public static final double kWallShotMotorSpeed = -3500;
 
         public static final int kBottomExtendedChannel = 6;
         public static final int kBottomRetractedChannel = 7;
@@ -152,6 +152,7 @@ public final class Constants {
         public static final String kShooterShuffleboardTabName = "Shooter";
         public static final double kVelocityTolerance = 0;
         public static final double kTarmacShotSpeed = 0;
+        public static final double kDumpShotSpeed = -1250;
     }
 
     public static final class VisionConstants{

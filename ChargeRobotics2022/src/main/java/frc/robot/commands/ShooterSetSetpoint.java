@@ -25,7 +25,6 @@ public class ShooterSetSetpoint extends InstantCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_shooter.extendPistons();
     m_shooter.setSetpoint(m_motorSpeed);
   }
 }

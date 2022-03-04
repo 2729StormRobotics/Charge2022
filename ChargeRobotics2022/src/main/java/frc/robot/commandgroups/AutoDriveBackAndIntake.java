@@ -17,6 +17,6 @@ public class AutoDriveBackAndIntake extends SequentialCommandGroup {
   public AutoDriveBackAndIntake(Drivetrain drivetrain, Intake intake, Index index) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new DriveDistanceAndIntake(drivetrain, intake, index, 0.3, -20));
+    addCommands(new DriveDistanceAndIntake(drivetrain, intake, index, -0.3, 50));
   }
 }

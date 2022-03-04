@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -49,8 +50,8 @@ public class Shooter extends SubsystemBase {
     m_leftMotor = new CANSparkMax(ShooterConstants.kLeftMotorPort, MotorType.kBrushless);
     m_rightMotor = new CANSparkMax(ShooterConstants.kRightMotorPort, MotorType.kBrushless);
 
-    motorInit(m_leftMotor, kMotorLeftInverted);
-    motorInit(m_rightMotor, kMotorRightInverted);
+    motorInit(m_leftMotor);
+    motorInit(m_rightMotor);
     
     m_rightMotor.follow(m_leftMotor, true);
 
@@ -116,7 +117,7 @@ public class Shooter extends SubsystemBase {
    * 
    * @param motor the motor to initialize
    */
-  private void motorInit(CANSparkMax motor, boolean invert) {
+  private void motorInit(CANSparkMax motor) {
     motor.restoreFactoryDefaults(); // Reset motor parameters to defaults
     motor.setIdleMode(IdleMode.kCoast); // Motor does not lose momentum when not being used
     // motor.setInverted(invert);
@@ -157,8 +158,16 @@ public class Shooter extends SubsystemBase {
    * @param rpm the new setpoint, in RPM
    */
   public void setSetpoint(double rpm) {
+    m_pidController.setP(kP);
     m_pidController.setReference(rpm, CANSparkMax.ControlType.kVelocity);
     m_setpoint = rpm;
+  }
+
+  public void gentleStop() {
+    m_pidController.setP(0);
+    m_pidController.setReference(0, ControlType.kVelocity);
+    m_setpoint = 0;
+    m_leftMotor.set(0);
   }
 
   @Override
@@ -203,11 +212,13 @@ public class Shooter extends SubsystemBase {
 
     double setPoint, processVariable;
     setPoint = SmartDashboard.getNumber("Set Velocity", 0);
-    setSetpoint(setPoint);
+    // setSetpoint(setPoint);
     processVariable = m_encoder.getVelocity();
 
     SmartDashboard.putNumber("SetPoint", setPoint);
     SmartDashboard.putNumber("Process Variable", processVariable);
     SmartDashboard.putNumber("Output", m_leftMotor.getAppliedOutput());
+
+    SmartDashboard.putBoolean("Shooter Pistons Extended", m_pistons.get().equals(ShooterConstants.kPistonExtendedValue));
   }
 }

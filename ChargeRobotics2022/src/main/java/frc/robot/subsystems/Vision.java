@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.VisionConstants.*;
 
@@ -34,6 +35,9 @@ public class Vision extends SubsystemBase {
 
     // Set the limelight to default pipeline 
     setPipeline(kdefaultPipeline);
+
+    turnOnLED();
+
   }
 
   // Returns the horizontal offset to the target 
@@ -115,5 +119,6 @@ public class Vision extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     updateLimeLight();
+    SmartDashboard.putNumber("x offset", m_xOffset);
   }
 }

@@ -16,6 +16,6 @@ public class AutoDriveBackwards extends SequentialCommandGroup {
   public AutoDriveBackwards(Drivetrain drivetrain) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new DriveDistance(drivetrain, 0.3, -20));
+    addCommands(new DriveDistance(drivetrain, -0.3, 50));
   }
 }

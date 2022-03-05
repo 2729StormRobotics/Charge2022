@@ -26,6 +26,6 @@ public class ShooterPrepHubShot extends InstantCommand {
   @Override
   public void initialize() {
     m_shooter.retractPistons();
-    m_shooter.setSetpoint(kHubShotMotorSpeed);
+    m_shooter.setSetpoint(kHubShotSetpoint);
   }
 }

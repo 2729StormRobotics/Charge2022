@@ -4,26 +4,19 @@
 
 package frc.robot.commandgroups;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import frc.robot.commands.IndexUpperAndLowerIn;
-import frc.robot.commands.IntakeRun;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Index;
 import frc.robot.subsystems.Intake;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class IntakeAndIndex extends ParallelCommandGroup {
-
-  private final Intake m_intake;
-  private final Index m_index;
-
-  /** Creates a new IntakeAndIndex. */
-  public IntakeAndIndex(Intake intake, Index index) {
-
-    m_intake = intake;
-    m_index = index;
-
-    addCommands(new IntakeRun(m_intake), new IndexUpperAndLowerIn(m_index));
+public class AutoDriveBackAndIntake extends SequentialCommandGroup {
+  /** Creates a new AutoDriveBackAndIntake. */
+  public AutoDriveBackAndIntake(Drivetrain drivetrain, Intake intake, Index index) {
+    // Add your commands in the addCommands() call, e.g.
+    // addCommands(new FooCommand(), new BarCommand());
+    addCommands(new DriveDistanceAndIntake(drivetrain, intake, index, -0.3, 50));
   }
 }

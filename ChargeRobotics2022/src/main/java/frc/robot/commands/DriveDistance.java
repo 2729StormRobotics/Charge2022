@@ -7,14 +7,14 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
-public class TankDriveDistance extends CommandBase {
+public class DriveDistance extends CommandBase {
   /** Creates a new TankDriveDistance. */
   private final Drivetrain m_drivetrain; 
   private final double m_speed;
   private final double m_distance;
 
 
-  public TankDriveDistance(Drivetrain subsystem, double speed, double distance) {
+  public DriveDistance(Drivetrain subsystem, double speed, double distance) {
    // Use addRequirements() here to declare subsystem dependencies.
    
    m_drivetrain = subsystem;
@@ -29,8 +29,8 @@ public class TankDriveDistance extends CommandBase {
   public void initialize() {
 
     // initializes and resets all encoders
-    m_drivetrain.encoderInit();
-     m_drivetrain.resetAllEncoders();
+    // m_drivetrain.encoderInit();
+    m_drivetrain.resetAllEncoders();
 
   }
   // Called every time the scheduler runs while the command is scheduled.
@@ -43,7 +43,7 @@ public class TankDriveDistance extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-
+    m_drivetrain.stopDrive();
   }
     
 
@@ -52,6 +52,6 @@ public class TankDriveDistance extends CommandBase {
   public boolean isFinished() {
 
     // Command is finished when the travelled distance is greater than or equal to the inputted distance
-   return m_drivetrain.getAverageDistance() >= m_distance;
+   return Math.abs(m_drivetrain.getAverageDistance()) >= Math.abs(m_distance);
   }
 }

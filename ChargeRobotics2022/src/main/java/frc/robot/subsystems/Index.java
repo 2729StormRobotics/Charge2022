@@ -53,7 +53,7 @@ public class Index extends SubsystemBase {
 
   //run upper motor
   public void runUpperIndexMotor() {
-    m_upperIndexMotor.set(kUpperIndexMotorSpeed);
+    m_upperIndexMotor.set(kLowerIndexMotorSpeed);
   }
 
   //reverse both motors
@@ -83,7 +83,7 @@ public class Index extends SubsystemBase {
   }
   
   public boolean hasUpperBall() {
-    return m_upperBeamBraker.get();
+    return !m_upperBeamBraker.get();
   }
 
   

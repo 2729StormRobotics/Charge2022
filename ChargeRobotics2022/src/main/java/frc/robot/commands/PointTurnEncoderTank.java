@@ -40,7 +40,6 @@ public class PointTurnEncoderTank extends CommandBase {
   public void initialize() {
 
     // Initializes the encoders
-    m_drivetrain.encoderInit();
     m_drivetrain.resetAllEncoders();
 
 
@@ -50,8 +49,8 @@ public class PointTurnEncoderTank extends CommandBase {
   @Override
   public void execute() {
   
-    // Sets the left motor to the negative speed multiplied by the sign of the inputed angle
-    // Sets the right motor to the speed multiplied by the sign of the inputed angle
+    // Sets the left motor to the speed multiplied by the sign of the inputed angle
+    // Sets the right motor to the negative speed multiplied by the sign of the inputed angle
     m_drivetrain.tankDrive(m_speed * Math.signum(m_angle), m_speed * Math.signum(m_angle) * -1, false);   
 
   }

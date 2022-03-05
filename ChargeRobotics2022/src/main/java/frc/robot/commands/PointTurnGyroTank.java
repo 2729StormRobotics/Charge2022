@@ -17,11 +17,11 @@ public class PointTurnGyroTank extends CommandBase {
 
   
   /** Creates a new GyroTankPointTurn. */
-  public PointTurnGyroTank(double speed, Drivetrain drivetrain) {
+  public PointTurnGyroTank(double speed, double angle, Drivetrain drivetrain) {
 
     m_speed = speed;
     m_drivetrain = drivetrain;
-    m_angle = m_drivetrain.getRobotAngle();
+    m_angle = angle;
 
 
     // Use addRequirements() here to declare subsystem dependencies.

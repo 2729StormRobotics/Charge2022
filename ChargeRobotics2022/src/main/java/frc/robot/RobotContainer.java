@@ -14,30 +14,40 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.PS4Controller.Axis;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commandgroups.AutoHubDump;
+import frc.robot.commandgroups.AutoWallShot;
 import frc.robot.commandgroups.IntakeAndIndex;
+import frc.robot.commands.DriveDistance;
+import frc.robot.commands.DriveManuallyArcade;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.HangManually;
 import frc.robot.commands.IndexLowerIn;
 import frc.robot.commands.IndexOut;
 import frc.robot.commands.IndexUpperIn;
 import frc.robot.commands.IntakeEject;
+import frc.robot.commands.IntakeExtend;
+import frc.robot.commands.IntakeRetract;
 import frc.robot.commands.PointTurnUsingLimelight;
-import frc.robot.commands.ShooterHubShot;
 import frc.robot.commands.ShooterManuallySetExtendedAngle;
 import frc.robot.commands.ShooterManuallySetRetractedAngle;
 import frc.robot.commands.ShooterPrepHubShot;
+import frc.robot.commands.ShooterSetSetpoint;
 import frc.robot.commands.ShooterShoot;
-import frc.robot.commands.ShuffleboardSpinFlywheel;
-import frc.robot.commands.TankDriveManually;
+import frc.robot.commands.VisionAlign;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Hanger;
 import frc.robot.subsystems.Index;
 import frc.robot.subsystems.Intake;
-import frc.robot.commands.ManualSpinFlywheel;
+import frc.robot.commands.PointTurnEncoderTank;
+import frc.robot.commands.PointTurnGyroPID;
+import frc.robot.commands.PointTurnGyroTank;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Vision;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj.Compressor;
@@ -45,6 +55,7 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
 
 import static frc.robot.Constants.*;
+import static frc.robot.Constants.DriveConstants.*;
 
 
 /**
@@ -67,6 +78,8 @@ public class RobotContainer {
   private final Vision m_vision;
   // private final Compressor m_testCompressor;
 
+  private final SendableChooser<Command> m_autoChooser;
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
@@ -74,28 +87,17 @@ public class RobotContainer {
     m_hanger = new Hanger();
     m_index = new Index();
     m_intake = new Intake();
-    m_shooter = new Shooter();
     m_vision = new Vision();
-    // m_testCompressor = new Compressor(PneumaticsModuleType.REVPH);
+    m_shooter = new Shooter();
 
-    SendableRegistry.setName(m_shooter, "shooter", "shooter");
-
+    m_autoChooser = new SendableChooser<>();
+    SmartDashboard.putData("Autonomous Selector", m_autoChooser);
+    m_autoChooser.setDefaultOption("Do Nothing", new InstantCommand());
+    m_autoChooser.addOption("Hub Dump", new AutoHubDump(m_shooter, m_index, m_drivetrain, m_intake, m_vision));
+    m_autoChooser.addOption("Wall Shot", new AutoWallShot(m_shooter, m_index, m_drivetrain, m_intake, m_vision));
 
     m_drivetrain.setDefaultCommand(
-        new TankDriveManually(() -> m_driver.getLeftY(), () -> m_driver.getRightY(), m_drivetrain));
-
-    // m_testCompressor.enableDigital();
-
-    // SmartDashboard.putBoolean("Compressor", m_testCompressor.enabled());
-
-    SmartDashboard.putData(m_shooter);
-    //
-    SmartDashboard.putData("shooter",m_shooter.getController());
-
-
-    SmartDashboard.putData("Shoot at Flywheel Speed", new ShuffleboardSpinFlywheel(m_shooter));
-    SmartDashboard.putNumber("Flywheel manual speed", 0.0);
-    
+        new DriveManuallyArcade(() -> m_driver.getLeftY(), () -> m_driver.getRightX(), m_drivetrain));
 
     // Configure the button bindings
     configureButtonBindings();
@@ -108,32 +110,33 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(m_operator, Button.kLeftStick.value).whenPressed(new ShooterPrepHubShot(m_shooter));
-    new JoystickButton(m_operator, Button.kRightStick.value).whenPressed(new ShooterHubShot(m_shooter));
+    //Shooter Prep Buttons - Launch Prep Command?
+    //Thinking abt only using one prep command bc b x and y buttons will finalize the speed anyway
+    // new JoystickButton(m_operator, Button.kLeftStick.value).whenPressed();
+    // new JoystickButton(m_operator, Button.kLeftStick.value).whenPressed(new ShooterPrepShoot(m_shooter));
+    // new JoystickButton(m_operator, Button.kRightStick.value).whenPressed(new ShooterPrepDump(m_shooter));
 
-    // new JoystickButton(m_operator, Button.kLeftkLeftBumper).whenPressed(new Flush);
+ 
+    //Shooter Buttons
     
-    // change speed parameter for PointTurnUsingLimelight
-    // new JoystickButton(m_operator, Button.kA.value).whenPressed(new PointTurnUsingLimelight(0.01, m_vision, m_drivetrain));
-    // new JoystickButton(m_driver, Button.kA.value).whileHeld(new IntakeAndIndex(m_intake, m_index));
-    // new JoystickButton(m_driver, Button.kB.value).whenPressed(new ShooterShoot(m_shooter, Constants.ShooterConstants.kCloseLaunchPadMotorSpeed));
-    new JoystickButton(m_driver, Button.kA.value).whileHeld(new IndexOut(m_index));
+    new JoystickButton(m_operator, Button.kA.value).whenPressed(new ShooterSetSetpoint(m_shooter, Constants.ShooterConstants.kDumpShotSpeed));
+    new JoystickButton(m_operator, Button.kB.value).whenPressed(new ShooterSetSetpoint(m_shooter, Constants.ShooterConstants.kCloseLaunchpadSetpoint));
+    new JoystickButton(m_operator, Button.kX.value).whenPressed(new ShooterSetSetpoint(m_shooter, Constants.ShooterConstants.kFarLaunchpadSetpoint));
+    new JoystickButton(m_operator, Button.kY.value).whenPressed(new ShooterSetSetpoint(m_shooter, Constants.ShooterConstants.kWallShotSetpoint));
+       
+    //Intake Buttons
+    new Trigger(() -> (m_operator.getRightTriggerAxis() > 0.01)).whileActiveContinuous(new IntakeAndIndex(m_intake, m_index));
+    new Trigger(() -> (m_operator.getLeftTriggerAxis() > 0.01)).whileActiveContinuous(new IntakeEject(m_intake));
+    new JoystickButton(m_operator, Button.kStart.value).whenPressed(new IntakeExtend(m_intake));
+    // new JoystickButton(m_operator, Button.kStart.value).whenPressed(new InstantCommand(m_intake::t))
+    new JoystickButton(m_operator, Button.kBack.value).whenPressed(new IntakeRetract(m_intake));
 
-    new JoystickButton(m_driver, Button.kB.value).whenPressed(new ShooterManuallySetExtendedAngle(m_shooter));
+    //Hang Buttons
+    new JoystickButton(m_driver, Button.kY.value).whileHeld(new HangManually(m_hanger, Constants.HangerConstants.kClimbSpeed));
 
-    new JoystickButton(m_driver, Button.kX.value).whenPressed(new ShooterManuallySetRetractedAngle(m_shooter));
-
-    new JoystickButton(m_driver, Button.kY.value).whileHeld(new ManualSpinFlywheel(m_shooter));
-
-    //new JoystickButton(m_driver, Button.kA.value).whenPressed(new IntakeAndIndex(m_intake, m_index));
-    //new JoystickButton(m_driver, Button.kB.value).whenPressed(new IndexUpperIn(m_index));
-    
-    
-    new JoystickButton(m_operator, Button.kX.value).whenPressed(new ShooterShoot(m_shooter, Constants.ShooterConstants.kFarLaunchPadMotorSpeed));
-    new JoystickButton(m_operator, Button.kY.value).whenPressed(new ShooterHubShot(m_shooter));
-
-    new JoystickButton(m_operator, Button.kRightBumper.value).whenPressed(new IntakeEject(m_intake));
-    new Trigger(() -> (m_driver.getLeftTriggerAxis() > 0.01)).whenActive(new IntakeAndIndex(m_intake, m_index));
+    new JoystickButton(m_operator, Button.kLeftBumper.value).whileHeld(new IndexOut(m_index));
+    new JoystickButton(m_operator, Button.kRightBumper.value).whenPressed(new InstantCommand(m_shooter::gentleStop));
+    new JoystickButton(m_driver, Button.kA.value).whenPressed(new PointTurnGyroPID(m_vision.getXOffset(), m_drivetrain));
     
   }
     
@@ -146,7 +149,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     
     // An ExampleCommand will run in autonomous
-    return new ExampleCommand(new ExampleSubsystem());
+    return m_autoChooser.getSelected();
 
   }
 

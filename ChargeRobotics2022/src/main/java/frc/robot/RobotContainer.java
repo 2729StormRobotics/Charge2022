@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commandgroups.AutoHubDump;
 import frc.robot.commandgroups.AutoWallShot;
+import frc.robot.commandgroups.AutoDriveBackwards;
 import frc.robot.commandgroups.IntakeAndIndex;
 import frc.robot.commands.DriveDistance;
 import frc.robot.commands.DriveManuallyArcade;
@@ -77,6 +78,10 @@ public class RobotContainer {
   private final Shooter m_shooter;
   private final Vision m_vision;
   // private final Compressor m_testCompressor;
+  private final double straightSpeedFactor = 0.5;
+  private final double turnSpeedFactor = 0.25;
+  private final double straightBoostSpeedFactor = 0.95;
+  private final double turnBoostSpeedFactor = 0.5;
 
   private final SendableChooser<Command> m_autoChooser;
 
@@ -95,9 +100,10 @@ public class RobotContainer {
     m_autoChooser.setDefaultOption("Do Nothing", new InstantCommand());
     m_autoChooser.addOption("Hub Dump", new AutoHubDump(m_shooter, m_index, m_drivetrain, m_intake, m_vision));
     m_autoChooser.addOption("Wall Shot", new AutoWallShot(m_shooter, m_index, m_drivetrain, m_intake, m_vision));
+    m_autoChooser.addOption("Just Drive", new AutoDriveBackwards(m_drivetrain));
 
     m_drivetrain.setDefaultCommand(
-        new DriveManuallyArcade(() -> m_driver.getLeftY(), () -> m_driver.getRightX(), m_drivetrain));
+        new DriveManuallyArcade(() -> (m_driver.getLeftY() * 0.75), () -> (- m_driver.getRightX() * 0.5), m_drivetrain));
 
     // Configure the button bindings
     configureButtonBindings();
@@ -115,6 +121,10 @@ public class RobotContainer {
     // new JoystickButton(m_operator, Button.kLeftStick.value).whenPressed();
     // new JoystickButton(m_operator, Button.kLeftStick.value).whenPressed(new ShooterPrepShoot(m_shooter));
     // new JoystickButton(m_operator, Button.kRightStick.value).whenPressed(new ShooterPrepDump(m_shooter));
+
+    //Driver buttons
+    new JoystickButton(m_driver, Button.kLeftBumper.value).whileHeld(new DriveManuallyArcade(() -> (m_driver.getLeftY() * straightSpeedFactor), () -> (- m_driver.getRightX() * turnSpeedFactor), m_drivetrain));
+    new JoystickButton(m_driver, Button.kRightBumper.value).whileHeld(new DriveManuallyArcade(() -> (m_driver.getLeftY() * straightBoostSpeedFactor), () -> (- m_driver.getRightX() * turnBoostSpeedFactor), m_drivetrain));
 
  
     //Shooter Buttons

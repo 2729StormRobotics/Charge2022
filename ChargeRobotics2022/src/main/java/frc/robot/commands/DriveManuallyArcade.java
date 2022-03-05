@@ -40,7 +40,8 @@ public class DriveManuallyArcade extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_drivetrain.arcadeDrive(m_straightSpeed.getAsDouble() * 0.5, m_turnSpeed.getAsDouble() * 0.5, true);
+    //m_drivetrain.arcadeDrive(m_straightSpeed.getAsDouble() * 0.65, m_turnSpeed.getAsDouble() * 0.5, true);
+    m_drivetrain.arcadeDrive(m_straightSpeed.getAsDouble(), m_turnSpeed.getAsDouble(), true);
 
     m_currentSpeed = m_drivetrain.getAverageVelocity();
 

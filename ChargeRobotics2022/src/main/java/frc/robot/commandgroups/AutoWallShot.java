@@ -21,8 +21,8 @@ public class AutoWallShot extends SequentialCommandGroup {
   public AutoWallShot(Shooter shooter, Index index, Drivetrain drivetrain, Intake intake, Vision vision) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new DriveDistanceAndIntake(drivetrain, intake, index, -0.3, 50),
-        new PointTurnGyroPID(vision.getXOffset(), drivetrain),
-        new TwoSpeedShoot(ShooterConstants.kHubShotSetpoint, ShooterConstants.kHubShotActualSpeed, shooter, index));
+    addCommands(new DriveDistanceAndIntake(drivetrain, intake, index, -0.3, 40),
+        //new PointTurnGyroPID(vision.getXOffset(), drivetrain),
+        new TwoSpeedShoot(ShooterConstants.kWallShotSetpoint, ShooterConstants.kWallShotActualSpeed, shooter, index));
   }
 }

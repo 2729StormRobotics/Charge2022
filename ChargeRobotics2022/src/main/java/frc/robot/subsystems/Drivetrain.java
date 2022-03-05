@@ -105,9 +105,10 @@ public class Drivetrain extends SubsystemBase {
   // Initializes Motors by Setting Defaults
   private void motorInit(CANSparkMax motor, boolean invert) {
     motor.restoreFactoryDefaults(); 
-    motor.setIdleMode(IdleMode.kBrake);
+    motor.setIdleMode(IdleMode.kCoast);
     motor.setSmartCurrentLimit(kCurrentLimit);
     motor.setInverted(invert);
+   // motor.setOpenLoopRampRate(2);
   }
 
   public void encoderInit() {
@@ -156,9 +157,9 @@ public class Drivetrain extends SubsystemBase {
   // encoderInit();
   // printPositionConversionFactor();   
    
-   System.out.println("Left:  " + distLeft);
-   System.out.println("Right:  " + distRight);
-   System.out.println("velocity:  " + getAverageVelocity());
+   //System.out.println("Left:  " + distLeft);
+   //System.out.println("Right:  " + distRight);
+   //System.out.println("velocity:  " + getAverageVelocity());
      
    return (distLeft + distRight) / 2;
 

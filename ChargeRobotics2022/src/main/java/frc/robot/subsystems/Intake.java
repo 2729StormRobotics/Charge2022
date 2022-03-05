@@ -12,32 +12,29 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static frc.robot.Constants.IntakeConstants.*;
+import static frc.robot.Constants.*;
 
 public class Intake extends SubsystemBase {
 
   private final CANSparkMax m_intakeMotor;
   private final DoubleSolenoid m_leftIntakePiston;
-  private final DoubleSolenoid m_rightIntakePiston;
   
 //creates a new intake
   public Intake() {
     m_intakeMotor = new CANSparkMax(kIntakeMotorPort, MotorType.kBrushless);
 
-    m_leftIntakePiston = new DoubleSolenoid(PneumaticsModuleType.REVPH, kLeftIntakeExtendChannel, kLeftIntakeRetractChannel);
-    m_rightIntakePiston = new DoubleSolenoid(PneumaticsModuleType.REVPH, kRightIntakeExtendChannel, kRightIntakeRetractChannel);
-    m_leftIntakePiston.toggle();
-    m_rightIntakePiston.toggle();
+    m_leftIntakePiston = new DoubleSolenoid(kPneumaticsHubCanId,PneumaticsModuleType.REVPH, kIntakeExtendChannel, kIntakeRetractChannel);
    
   }
 
 //run the motor with given speed
   public void runIntake() {
-    m_intakeMotor.set(kIntakeMotorSpeed);
+    m_intakeMotor.set(-0.65);
   }
 
 //reverse the motor so that the intake will spit out the ball
   public void ejectIntake() {
-    m_intakeMotor.set(kEjectMotorSpeed);
+    m_intakeMotor.set(-kIntakeMotorSpeed);
   }
 //stops the motor of intake
   public void stopIntake() {
@@ -47,12 +44,10 @@ public class Intake extends SubsystemBase {
 // extends the motors so that the intake can reach the ball
   public void extendIntake() {
     m_leftIntakePiston.set(kIntakeExtendValue);
-    m_rightIntakePiston.set(kIntakeExtendValue);
   }
 //retracts the motors
   public void retractIntake() {
     m_leftIntakePiston.set(kIntakeRetractValue);
-    m_rightIntakePiston.set(kIntakeRetractValue);
   }
 
   @Override

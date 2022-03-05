@@ -4,42 +4,54 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj2.command.PIDCommand;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
-import static frc.robot.Constants.DriveConstants.*;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class DriveDistance extends PIDCommand {
-  /** Creates a new DriveDistance. */
+public class DriveDistance extends CommandBase {
+  /** Creates a new TankDriveDistance. */
+  private final Drivetrain m_drivetrain; 
+  private final double m_speed;
+  private final double m_distance;
 
-  public DriveDistance(double distance, Drivetrain drivetrain) {
-    super(
-        // The controller that the command will use
-        new PIDController(kLeftP, kLeftI, kLeftD),
-        // This should return the measurement
-        () -> drivetrain.getAverageDistance(),
-        // This should return the setpoint (can also be a constant)
-        distance,
-        // This uses the output
-        output -> {
-          // Use the output here
-          drivetrain.arcadeDrive(-output, 0, false);
-        });
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(drivetrain);
 
-    // Configure additional PID options by calling `getController` here.
-    getController().setTolerance(kPositionTolerance, kVelocityTolerance);
-    drivetrain.resetAllEncoders();
+  public DriveDistance(Drivetrain subsystem, double speed, double distance) {
+   // Use addRequirements() here to declare subsystem dependencies.
+   
+   m_drivetrain = subsystem;
+   m_speed = speed; 
+   m_distance = distance;
+   addRequirements(m_drivetrain);
 
   }
+
+  // Called when the command is initially scheduled.
+  @Override
+  public void initialize() {
+
+    // initializes and resets all encoders
+    // m_drivetrain.encoderInit();
+    m_drivetrain.resetAllEncoders();
+
+  }
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
+    // sets the tank drive speeds to the inputed speeds
+    m_drivetrain.tankDrive(m_speed, m_speed, false);   
+  }
+
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {
+    m_drivetrain.stopDrive();
+  }
+    
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return getController().atSetpoint();
+
+    // Command is finished when the travelled distance is greater than or equal to the inputted distance
+   return Math.abs(m_drivetrain.getAverageDistance()) >= Math.abs(m_distance);
   }
 }

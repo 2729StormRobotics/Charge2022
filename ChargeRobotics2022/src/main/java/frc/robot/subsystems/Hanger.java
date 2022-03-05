@@ -10,33 +10,39 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.revrobotics.SparkMaxRelativeEncoder;
 
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.Solenoid;
-
+// import edu.wpi.first.wpilibj.PneumaticsModuleType;
+// import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Hanger extends SubsystemBase {
-  private final CANSparkMax m_hangerMotor;
+  private final CANSparkMax m_hangerMotorLeft;
+  private final CANSparkMax m_hangerMotorRight;
 
-  private final RelativeEncoder m_encoder;
+  private final RelativeEncoder m_encoderLeft;
+  private final RelativeEncoder m_encoderRight;  
 
-  private final Solenoid m_pawlPiston;
-  private boolean m_retracted = true;
+  // private final Solenoid m_pawlPiston;
 
   /**
    * Creates a new Hanger.
    * 
    */
   public Hanger() {
-    m_hangerMotor = new CANSparkMax(kHangerMotorPort, MotorType.kBrushless);
-    motorInit(m_hangerMotor, kMotorInverted);
+    m_hangerMotorLeft = new CANSparkMax(kHangerMotorLeftPort, MotorType.kBrushless);
+    motorInit(m_hangerMotorLeft);
 
-    m_encoder = m_hangerMotor.getEncoder(SparkMaxRelativeEncoder.Type.kQuadrature, 4096);
+    m_hangerMotorRight = new CANSparkMax(kHangerMotorRightPort, MotorType.kBrushless);
+    motorInit(m_hangerMotorRight);
 
-    m_pawlPiston = new Solenoid(PneumaticsModuleType.CTREPCM, kPawlPistonChannel);
-    m_pawlPiston.set(kPawlPistonDisabled);
+    m_hangerMotorLeft.follow(m_hangerMotorRight, true);
+
+    m_encoderLeft = m_hangerMotorLeft.getEncoder();
+    m_encoderRight = m_hangerMotorRight.getEncoder();
+
+    // m_pawlPiston = new Solenoid(Constants.kPneumaticsHubCanId, PneumaticsModuleType.REVPH, kPawlPistonChannel);
+    // m_pawlPiston.set(kPawlPistonDisabled);
 
     shuffleboardInit();
   }
@@ -48,10 +54,9 @@ public class Hanger extends SubsystemBase {
    * 
    * @param motor The motor to be initialized
    */
-  private void motorInit(CANSparkMax motor, boolean invert) {
+  private void motorInit(CANSparkMax motor) {
     motor.restoreFactoryDefaults(); // Resets the motors to default settings
     motor.setIdleMode(IdleMode.kBrake); // Sets the motor to brake mode when idle
-    motor.setInverted(invert); // Invert the motor if needed
     encoderInit(motor.getEncoder()); // Initialize the encoder
   }
 
@@ -81,21 +86,9 @@ public class Hanger extends SubsystemBase {
    * @param speed The motor speed at which to run the hanger
    */
   public void climb(double speed) {
-    m_hangerMotor.set(speed);
-  }
-
-  /**
-   * Drives the hanger motor so that the elevator rises using a set constant speed
-   */
-  public void climbUp() {
-    climb(kClimbUpSpeed);
-  }
-
-  /**
-   * Drives the hanger motor so that the elevator descends using a set constant speed
-   */
-  public void climbDown() {
-    climb(kClimbDownSpeed);
+    //if (speed > 0) {                     need to know direction.
+    m_hangerMotorRight.set(speed);
+    //}
   }
 
   /**
@@ -106,21 +99,48 @@ public class Hanger extends SubsystemBase {
   }
 
   /**
-   * Get the current height
+   * Get the current height of the left side
    * 
    * @return The current height, in inches
    */
-  private double getHeight() {
-    return m_encoder.getPosition();
+  public double getHeightLeft() {
+    return m_encoderLeft.getPosition();
   }
 
   /**
-   * Get the current speed
+   * Get the current height of the right side
+   * 
+   * @return The current height, in inches
+   */
+  public double getHeightRight() {
+    return m_encoderRight.getPosition();
+  }
+
+  /**
+   * Get the average of the left and right sides
+   * 
+   * @return The current average height, in inches
+   */
+  public double getHeightAverage(){
+    return (getHeightLeft() + getHeightRight()) / 2;
+  }
+
+  /**
+   * Get the current left speed
    * 
    * @return The current speed, in inches per second
    */
-  private double getSpeed() {
-    return m_encoder.getVelocity();
+  public double getSpeedLeft() {
+    return m_encoderLeft.getVelocity();
+  }
+
+  /**
+   * Get the current right speed
+   * 
+   * @return The current speed, in inches per second
+   */
+  public double getSpeedRight() {
+    return m_encoderRight.getVelocity();
   }
 
   /**
@@ -129,7 +149,7 @@ public class Hanger extends SubsystemBase {
    * @return true if the current height is above its maximum
    */
   public boolean atMaxHeight() {
-    return getHeight() > kMaxHeight;
+    return getHeightLeft() > kMaxHeight && getHeightRight() > kMaxHeight;
   }
 
   /**
@@ -138,21 +158,21 @@ public class Hanger extends SubsystemBase {
    * @return true if the current height is below its minimum
    */
   public boolean atMinHeight() {
-    return getHeight() < 0;
+    return getHeightAverage() < 0;
   }
 
   /**
    * Engages the pawl piston, which locks the elevator at its current extension
    */
   public void engagePawlPiston() {
-    m_pawlPiston.set(kPawlPistonEnabled);
+    // m_pawlPiston.set(kPawlPistonEnabled);
   }
 
   /**
    * Disengages the pawl piston, which locks the elevator at its current extension
    */
   public void disengagePawlPiston() {
-    m_pawlPiston.set(kPawlPistonDisabled);
+    // m_pawlPiston.set(kPawlPistonDisabled);
   }
 
 /**
@@ -164,11 +184,13 @@ private void shuffleboardInit(){
 
   @Override
   public void periodic() {
-    if (getHeight() > 1) {
-      m_retracted = false;
-    } else {
-      m_retracted = true;
-    }
+    // if (getHeightAverage() > 1) {
+    //   m_retracted = false;
+    // } else {
+    //   m_retracted = true;
+    // }
     // This method will be called once per scheduler run
+
+    // SmartDashboard.putBoolean("Hanger Pawl", m_pawlPiston.get());
   }  
 }

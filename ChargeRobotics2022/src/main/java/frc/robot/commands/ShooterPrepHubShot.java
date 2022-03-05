@@ -5,24 +5,27 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.subsystems.Hanger;
+import frc.robot.subsystems.Shooter;
+
+import static frc.robot.Constants.ShooterConstants.*;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class HangStop extends InstantCommand {
-  private final Hanger m_hanger;
+public class ShooterPrepHubShot extends InstantCommand {
+  private final Shooter m_shooter;
 
-  public HangStop(Hanger subsystem) {
-    m_hanger = subsystem;
-
+  public ShooterPrepHubShot(Shooter subsystem) {
+    m_shooter = subsystem;
+    
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_hanger);
+    addRequirements(m_shooter);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_hanger.stopClimb();
+    m_shooter.retractPistons();
+    m_shooter.setSetpoint(kHubShotSetpoint);
   }
 }

@@ -22,13 +22,15 @@ public class HangManually extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    System.out.println("HangManually initialized");
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_hanger.climb(m_speed);
+
+
+    /*
     // If the elevator is above its max height and has an upwards velocity, stop
     if (m_hanger.atMaxHeight() && -m_speed > 0) { // May need to adjust the sign on m_speed
       m_hanger.stopClimb();
@@ -36,17 +38,21 @@ public class HangManually extends CommandBase {
     } else if (m_hanger.atMinHeight() && -m_speed < 0){ // May need to adjust the sign on m_speed
       m_hanger.stopClimb();
       m_hanger.engagePawlPiston();
-    } else {
+    } else if (Math.abs(m_hanger.getHeightLeft() - m_hanger.getHeightRight()) > 6.0){
+      m_hanger.stopClimb();
+      m_hanger.engagePawlPiston();
+    }else {
       m_hanger.disengagePawlPiston();
       m_hanger.climb(m_speed);
     }
+    */
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     m_hanger.stopClimb();
-    m_hanger.engagePawlPiston();
+    // m_hanger.engagePawlPiston();
   }
 
   // Returns true when the command should end.

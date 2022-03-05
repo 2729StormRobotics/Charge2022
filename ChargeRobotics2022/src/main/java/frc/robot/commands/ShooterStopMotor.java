@@ -7,10 +7,10 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Shooter;
 
-public class ShooterMiddleShot extends CommandBase {
+public class ShooterStopMotor extends CommandBase {
   private final Shooter m_shooter;
-  /** Creates a new ShooterMiddleShot. */
-  public ShooterMiddleShot(Shooter subsystem) {
+  /** Creates a new ShooterStopMotor. */
+  public ShooterStopMotor(Shooter subsystem) {
     m_shooter = subsystem;
 
     // Use addRequirements() here to declare subsystem dependencies.
@@ -20,8 +20,7 @@ public class ShooterMiddleShot extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_shooter.setMiddleHighAngle();
-    m_shooter.revMiddleShot();
+    m_shooter.setSetpoint(0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

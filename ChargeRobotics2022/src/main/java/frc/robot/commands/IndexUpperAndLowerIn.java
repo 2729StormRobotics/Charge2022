@@ -7,30 +7,40 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Index;
 
-public class IndexStop extends CommandBase {
+public class IndexUpperAndLowerIn extends CommandBase {
+
   private final Index m_index;
 
-  /** Creates a new IndexStop. */
-  public IndexStop(Index subsystem) {
+  /** Creates a new IndexUpperAndLowerIn. */
+  public IndexUpperAndLowerIn(Index subsystem) {
     m_index = subsystem;
-    
-    addRequirements(m_index);
+
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(m_index);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_index.stopIndexMotors();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    m_index.runLowerIndexMotor();
+
+    if (m_index.hasUpperBall()) {
+      m_index.runUpperIndexMotor();
+    } else {
+      m_index.stopUpperMotor();
+    }
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_index.stopIndexMotors();
+  }
 
   // Returns true when the command should end.
   @Override

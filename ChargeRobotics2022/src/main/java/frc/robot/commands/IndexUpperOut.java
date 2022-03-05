@@ -5,36 +5,39 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Index;
 
-public class ShooterFarLaunchPadShot extends CommandBase {
-  private final Shooter m_shooter;
-  /** Creates a new ShooterFarLaunchPadShot. */
-  public ShooterFarLaunchPadShot(Shooter subsystem) {
-    m_shooter = subsystem;
+public class IndexUpperOut extends CommandBase {
+
+  private final Index m_index;
+
+  /** Creates a new IndexUpperOut. */
+  public IndexUpperOut(Index subsystem) {
+    m_index = subsystem;
 
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_shooter);
+    addRequirements(m_index);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    m_shooter.setRetractedAngle();
-    m_shooter.revFarLaunchPadShot();
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    m_index.runUpperIndexMotor();
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_index.stopUpperMotor();
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return !m_index.hasUpperBall();
   }
 }

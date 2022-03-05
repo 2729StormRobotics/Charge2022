@@ -117,10 +117,17 @@ public final class Constants {
         public static final boolean kMotorLeftInverted = false;
         public static final boolean kMotorRightInverted = false;
 
-        public static final double kHubShotMotorSpeed = 0;
-        public static final double kCloseLaunchPadMotorSpeed = -4000;
-        public static final double kFarLaunchPadMotorSpeed = -4500;
-        public static final double kWallShotMotorSpeed = -3500;
+        /* SETPOINT SPEEDS */
+        public static final double kHubShotSetpoint = -1250;
+        public static final double kCloseLaunchpadSetpoint = -4000;
+        public static final double kFarLaunchpadSetpoint = -4500;
+        public static final double kWallShotSetpoint = -3500;
+
+        /* MEASURED SPEEDS: THESE SHOULD BE RECALCULATED */
+        public static final double kHubShotActualSpeed = -1000; 
+        public static final double kCloseLaunchpadActualSpeed = -3070;
+        public static final double kFarLaunchpadActualSpeed = -3040;
+        public static final double kWallShotActualSpeed = -2680;
 
         public static final int kBottomExtendedChannel = 6;
         public static final int kBottomRetractedChannel = 7;
@@ -130,11 +137,6 @@ public final class Constants {
         public static final PneumaticsModuleType kPistonModuleType = PneumaticsModuleType.REVPH;
 
         public static final double kVelocityConversion = 0;
-
-        public static final double kHubShotSpeed = 0;
-        public static final double kMiddleShotSpeed = 0;
-        public static final double kCloseLaunchPadShotSpeed = 0;
-        public static final double kFarLaunchPadShotSpeed = 0;
 
         // Used to calculate the feedforward
         public static final double kS = 0; // static constant
@@ -150,7 +152,7 @@ public final class Constants {
         public static final double kMinOutput = 0;
         public static final double kMaxOutput = 0;
         public static final String kShooterShuffleboardTabName = "Shooter";
-        public static final double kVelocityTolerance = 0;
+        public static final double kVelocityTolerance = 100;
         public static final double kTarmacShotSpeed = 0;
         public static final double kDumpShotSpeed = -1250;
     }

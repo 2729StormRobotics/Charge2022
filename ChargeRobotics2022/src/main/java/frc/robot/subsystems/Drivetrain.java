@@ -94,12 +94,12 @@ public class Drivetrain extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("left drive encoder", m_leftEncoder.getPosition());
-    SmartDashboard.putNumber("right drive encoder", m_rightEncoder.getPosition());
+    // SmartDashboard.putNumber("left drive encoder", m_leftEncoder.getPosition());
+    // SmartDashboard.putNumber("right drive encoder", m_rightEncoder.getPosition());
 
-    SmartDashboard.putNumber("average distance", getAverageDistance());
+    // SmartDashboard.putNumber("average distance", getAverageDistance());
 
-    SmartDashboard.putNumber("left drive speed", 0);
+    // SmartDashboard.putNumber("left drive speed", 0);
   }
 
   // Initializes Motors by Setting Defaults
@@ -198,7 +198,7 @@ public class Drivetrain extends SubsystemBase {
   public void arcadeDrive(double speed, double turn, boolean squareInputs){
     m_drive.arcadeDrive(speed, turn, squareInputs);
 
-    SmartDashboard.putNumber("forward power", speed);
+    // SmartDashboard.putNumber("forward power", speed);
 
   }
   // Stop All Drive Motors

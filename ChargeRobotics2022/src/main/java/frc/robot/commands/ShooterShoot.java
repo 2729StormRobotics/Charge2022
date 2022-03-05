@@ -25,7 +25,7 @@ public class ShooterShoot extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_shooter.extendPistons();
+    m_shooter.retractPistons();
     m_shooter.setSetpoint(m_motorSpeed); 
   }
 
@@ -36,7 +36,6 @@ public class ShooterShoot extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_shooter.setSetpoint(0);
   }
 
   // Returns true when the command should end.

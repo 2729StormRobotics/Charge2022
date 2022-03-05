@@ -14,10 +14,13 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.PS4Controller.Axis;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commandgroups.AutoHubDump;
+import frc.robot.commandgroups.AutoWallShot;
 import frc.robot.commandgroups.IntakeAndIndex;
 import frc.robot.commands.DriveDistance;
-import frc.robot.commands.DriveManuallyTank;
+import frc.robot.commands.DriveManuallyArcade;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.HangManually;
 // import frc.robot.commands.HangStop;
@@ -28,7 +31,6 @@ import frc.robot.commands.IntakeEject;
 import frc.robot.commands.IntakeExtend;
 import frc.robot.commands.IntakeRetract;
 import frc.robot.commands.PointTurnUsingLimelight;
-import frc.robot.commands.ShooterHubShot;
 import frc.robot.commands.ShooterManuallySetExtendedAngle;
 import frc.robot.commands.ShooterManuallySetRetractedAngle;
 import frc.robot.commands.ShooterPrepHubShot;
@@ -77,6 +79,8 @@ public class RobotContainer {
   private final Vision m_vision;
   // private final Compressor m_testCompressor;
 
+  private final SendableChooser<Command> m_autoChooser;
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
@@ -87,8 +91,14 @@ public class RobotContainer {
     m_vision = new Vision();
     m_shooter = new Shooter();
 
+    m_autoChooser = new SendableChooser<>();
+    SmartDashboard.putData("Autonomous Selector", m_autoChooser);
+    m_autoChooser.setDefaultOption("Do Nothing", new InstantCommand());
+    m_autoChooser.addOption("Hub Dump", new AutoHubDump(m_shooter, m_index, m_drivetrain, m_intake, m_vision));
+    m_autoChooser.addOption("Wall Shot", new AutoWallShot(m_shooter, m_index, m_drivetrain, m_intake, m_vision));
+
     m_drivetrain.setDefaultCommand(
-        new DriveManuallyTank(() -> m_driver.getLeftY(), () -> m_driver.getRightY(), m_drivetrain));
+        new DriveManuallyArcade(() -> m_driver.getLeftY(), () -> m_driver.getRightX(), m_drivetrain));
 
     // Configure the button bindings
     configureButtonBindings();
@@ -111,9 +121,9 @@ public class RobotContainer {
     //Shooter Buttons
     
     new JoystickButton(m_operator, Button.kA.value).whenPressed(new ShooterSetSetpoint(m_shooter, Constants.ShooterConstants.kDumpShotSpeed));
-    new JoystickButton(m_operator, Button.kB.value).whenPressed(new ShooterSetSetpoint(m_shooter, Constants.ShooterConstants.kCloseLaunchPadMotorSpeed));
-    new JoystickButton(m_operator, Button.kX.value).whenPressed(new ShooterSetSetpoint(m_shooter, Constants.ShooterConstants.kFarLaunchPadMotorSpeed));
-    new JoystickButton(m_operator, Button.kY.value).whenPressed(new ShooterSetSetpoint(m_shooter, Constants.ShooterConstants.kWallShotMotorSpeed));
+    new JoystickButton(m_operator, Button.kB.value).whenPressed(new ShooterSetSetpoint(m_shooter, Constants.ShooterConstants.kCloseLaunchpadSetpoint));
+    new JoystickButton(m_operator, Button.kX.value).whenPressed(new ShooterSetSetpoint(m_shooter, Constants.ShooterConstants.kFarLaunchpadSetpoint));
+    new JoystickButton(m_operator, Button.kY.value).whenPressed(new ShooterSetSetpoint(m_shooter, Constants.ShooterConstants.kWallShotSetpoint));
        
     //Intake Buttons
     new Trigger(() -> (m_operator.getRightTriggerAxis() > 0.01)).whileActiveContinuous(new IntakeAndIndex(m_intake, m_index));
@@ -141,7 +151,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     
     // An ExampleCommand will run in autonomous
-    return new DriveDistance(m_drivetrain, -0.3, 30);
+    return m_autoChooser.getSelected();
 
   }
 

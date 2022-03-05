@@ -88,7 +88,9 @@ public class Hanger extends SubsystemBase {
    * @param speed The motor speed at which to run the hanger
    */
   public void climb(double speed) {
+    //if (speed > 0) {                     need to know direction.
     m_hangerMotorRight.set(speed);
+    //}
   }
 
   /**
@@ -204,6 +206,7 @@ private void shuffleboardInit(){
     //   m_retracted = true;
     // }
     // This method will be called once per scheduler run
-    SmartDashboard.putBoolean("Hanger Pawl", m_pawlPiston.get());
+
+    // SmartDashboard.putBoolean("Hanger Pawl", m_pawlPiston.get());
   }  
 }

@@ -5,22 +5,23 @@
 package frc.robot.commandgroups;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.Constants;
-import frc.robot.commands.VisionAlign;
-import frc.robot.subsystems.Drivetrain;
+import frc.robot.commands.IndexLowerOut;
+import frc.robot.commands.IndexUpperOut;
+import frc.robot.commands.ShooterTwoSpeedShoot;
 import frc.robot.subsystems.Index;
-import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Vision;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class AutoTwoBallShoot extends SequentialCommandGroup {
-  /** Creates a new AutoTwoBallShoot. */
-  public AutoTwoBallShoot(Drivetrain drivetrain, Intake intake, Index index, Vision vision, Shooter shooter) {
+public class TwoSpeedShoot extends SequentialCommandGroup {
+  /** Creates a new TwoSpeedShoot. */
+  public TwoSpeedShoot(double setpoint, double actualSpeed, Shooter shooter, Index index) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new DriveDistanceAndIntake(drivetrain, intake, index, 0.3, -20), new VisionAlign(vision, drivetrain), new Shoot(index, shooter, Constants.ShooterConstants.kTarmacShotSpeed));
+    addCommands(new ShooterTwoSpeedShoot(setpoint, actualSpeed, shooter),
+        new IndexUpperOut(index), new IndexLowerOut(index),
+        new ShooterTwoSpeedShoot(setpoint, actualSpeed, shooter),
+        new IndexUpperOut(index));
   }
 }

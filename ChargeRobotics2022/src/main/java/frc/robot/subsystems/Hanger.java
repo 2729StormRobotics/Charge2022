@@ -5,15 +5,14 @@
 package frc.robot.subsystems;
 
 import static frc.robot.Constants.HangerConstants.*;
-import frc.robot.Constants;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.Solenoid;
+// import edu.wpi.first.wpilibj.PneumaticsModuleType;
+// import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -24,7 +23,7 @@ public class Hanger extends SubsystemBase {
   private final RelativeEncoder m_encoderLeft;
   private final RelativeEncoder m_encoderRight;  
 
-  private final Solenoid m_pawlPiston;
+  // private final Solenoid m_pawlPiston;
 
   /**
    * Creates a new Hanger.
@@ -32,18 +31,18 @@ public class Hanger extends SubsystemBase {
    */
   public Hanger() {
     m_hangerMotorLeft = new CANSparkMax(kHangerMotorLeftPort, MotorType.kBrushless);
-    motorInit(m_hangerMotorLeft, kMotorLeftInverted);
+    motorInit(m_hangerMotorLeft);
 
     m_hangerMotorRight = new CANSparkMax(kHangerMotorRightPort, MotorType.kBrushless);
-    motorInit(m_hangerMotorRight, kMotorRightInverted);
+    motorInit(m_hangerMotorRight);
 
     m_hangerMotorLeft.follow(m_hangerMotorRight, true);
 
     m_encoderLeft = m_hangerMotorLeft.getEncoder();
     m_encoderRight = m_hangerMotorRight.getEncoder();
 
-    m_pawlPiston = new Solenoid(Constants.kPneumaticsHubCanId, PneumaticsModuleType.REVPH, kPawlPistonChannel);
-    m_pawlPiston.set(kPawlPistonDisabled);
+    // m_pawlPiston = new Solenoid(Constants.kPneumaticsHubCanId, PneumaticsModuleType.REVPH, kPawlPistonChannel);
+    // m_pawlPiston.set(kPawlPistonDisabled);
 
     shuffleboardInit();
   }
@@ -55,10 +54,9 @@ public class Hanger extends SubsystemBase {
    * 
    * @param motor The motor to be initialized
    */
-  private void motorInit(CANSparkMax motor, boolean invert) {
+  private void motorInit(CANSparkMax motor) {
     motor.restoreFactoryDefaults(); // Resets the motors to default settings
     motor.setIdleMode(IdleMode.kBrake); // Sets the motor to brake mode when idle
-    motor.setInverted(invert); // Invert the motor if needed
     encoderInit(motor.getEncoder()); // Initialize the encoder
   }
 
@@ -91,20 +89,6 @@ public class Hanger extends SubsystemBase {
     //if (speed > 0) {                     need to know direction.
     m_hangerMotorRight.set(speed);
     //}
-  }
-
-  /**
-   * Drives the hanger motor so that the elevator rises using a set constant speed
-   */
-  public void climbUp() {
-    climb(kClimbUpSpeed);
-  }
-
-  /**
-   * Drives the hanger motor so that the elevator descends using a set constant speed
-   */
-  public void climbDown() {
-    climb(kClimbDownSpeed);
   }
 
   /**

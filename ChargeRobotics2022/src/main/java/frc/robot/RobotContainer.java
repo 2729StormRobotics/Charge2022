@@ -23,7 +23,6 @@ import frc.robot.commands.DriveDistance;
 import frc.robot.commands.DriveManuallyArcade;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.HangManually;
-// import frc.robot.commands.HangStop;
 import frc.robot.commands.IndexLowerIn;
 import frc.robot.commands.IndexOut;
 import frc.robot.commands.IndexUpperIn;
@@ -133,8 +132,7 @@ public class RobotContainer {
     new JoystickButton(m_operator, Button.kBack.value).whenPressed(new IntakeRetract(m_intake));
 
     //Hang Buttons
-    new JoystickButton(m_driver, Button.kY.value).whileHeld(new HangManually(m_hanger, Constants.HangerConstants.kClimbUpSpeed));
-    // new JoystickButton(m_driver, Button.kB.value).whenPressed(new HangStop(m_hanger));
+    new JoystickButton(m_driver, Button.kY.value).whileHeld(new HangManually(m_hanger, Constants.HangerConstants.kClimbSpeed));
 
     new JoystickButton(m_operator, Button.kLeftBumper.value).whileHeld(new IndexOut(m_index));
     new JoystickButton(m_operator, Button.kRightBumper.value).whenPressed(new InstantCommand(m_shooter::gentleStop));

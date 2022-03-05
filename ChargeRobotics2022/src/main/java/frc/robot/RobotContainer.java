@@ -24,6 +24,7 @@ import frc.robot.commands.DriveDistance;
 import frc.robot.commands.DriveManuallyArcade;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.HangManually;
+import frc.robot.commands.IndexDown;
 import frc.robot.commands.IndexLowerIn;
 import frc.robot.commands.IndexOut;
 import frc.robot.commands.IndexUpperIn;
@@ -126,6 +127,7 @@ public class RobotContainer {
     new JoystickButton(m_driver, Button.kLeftBumper.value).whileHeld(new DriveManuallyArcade(() -> (m_driver.getLeftY() * straightSpeedFactor), () -> (- m_driver.getRightX() * turnSpeedFactor), m_drivetrain));
     new JoystickButton(m_driver, Button.kRightBumper.value).whileHeld(new DriveManuallyArcade(() -> (m_driver.getLeftY() * straightBoostSpeedFactor), () -> (- m_driver.getRightX() * turnBoostSpeedFactor), m_drivetrain));
 
+    new JoystickButton(m_driver, Button.kBack.value).whileHeld(new IndexDown(m_index));
  
     //Shooter Buttons
     

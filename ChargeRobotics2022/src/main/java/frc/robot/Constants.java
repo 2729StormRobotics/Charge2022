@@ -93,7 +93,7 @@ public final class Constants {
         public static final double kUpperIndexMotorSpeed = -0.3;
 
         public static final int kIndexMotorStopSpeed = 0;
-        public static final int kEjectIndexMotorSpeed = -1;
+        public static final double kEjectIndexMotorSpeed = -0.5;
 
         public static final String kIndexShuffleboardTabName = "IndexTab";
     }

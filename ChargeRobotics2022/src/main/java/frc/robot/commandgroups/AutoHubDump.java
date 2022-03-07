@@ -24,7 +24,7 @@ public class AutoHubDump extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(//new DriveDistanceAndIntake(drivetrain, intake, index, -0.3, 50),
         new TwoSpeedShoot(ShooterConstants.kHubShotSetpoint, ShooterConstants.kHubShotActualSpeed, shooter, index),
-        new DriveDistance(drivetrain, -0.3, 100)
+        new DriveDistance(drivetrain, -0.3, -100)
         );
   }
 }

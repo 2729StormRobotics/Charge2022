@@ -89,17 +89,6 @@
               "_title": "Output"
             }
           },
-          "8,0": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/I Zone",
-              "_title": "I Zone"
-            }
-          },
           "9,0": {
             "size": [
               1,

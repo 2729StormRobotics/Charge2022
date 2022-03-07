@@ -71,6 +71,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final XboxController m_driver = new XboxController(DriveConstants.kDriverControllerPort);
   private final XboxController m_operator = new XboxController(DriveConstants.kOperatorControllerPort);
+  private final XboxController m_technician = new XboxController(2);
 
   private final Drivetrain m_drivetrain;
   private final Hanger m_hanger;
@@ -79,10 +80,10 @@ public class RobotContainer {
   private final Shooter m_shooter;
   private final Vision m_vision;
   // private final Compressor m_testCompressor;
-  private final double straightSpeedFactor = 0.5;
-  private final double turnSpeedFactor = 0.25;
-  private final double straightBoostSpeedFactor = 0.95;
-  private final double turnBoostSpeedFactor = 0.5;
+  private final double straightSpeedFactor = 0.6;
+  private final double turnSpeedFactor = 0.5;
+  private final double straightBoostSpeedFactor = 1.0;
+  private final double turnBoostSpeedFactor = 0.7;
 
   private final SendableChooser<Command> m_autoChooser;
 
@@ -104,7 +105,7 @@ public class RobotContainer {
     m_autoChooser.addOption("Just Drive", new AutoDriveBackwards(m_drivetrain));
 
     m_drivetrain.setDefaultCommand(
-        new DriveManuallyArcade(() -> (m_driver.getLeftY() * 0.75), () -> (- m_driver.getRightX() * 0.5), m_drivetrain));
+        new DriveManuallyArcade(() -> (m_driver.getLeftY() * 0.85), () -> (- m_driver.getRightX() * 0.7), m_drivetrain));
 
     // Configure the button bindings
     configureButtonBindings();
@@ -144,7 +145,8 @@ public class RobotContainer {
     new JoystickButton(m_operator, Button.kBack.value).whenPressed(new IntakeRetract(m_intake));
 
     //Hang Buttons
-    new JoystickButton(m_driver, Button.kY.value).whileHeld(new HangManually(m_hanger, Constants.HangerConstants.kClimbSpeed));
+    //new JoystickButton(m_driver, Button.kY.value).whileHeld(new HangManually(m_hanger, Constants.HangerConstants.kClimbSpeed));
+    new JoystickButton(m_technician, Button.kY.value).whileHeld(new HangManually(m_hanger, -Constants.HangerConstants.kClimbSpeed));
 
     new JoystickButton(m_operator, Button.kLeftBumper.value).whileHeld(new IndexOut(m_index));
     new JoystickButton(m_operator, Button.kRightBumper.value).whenPressed(new InstantCommand(m_shooter::gentleStop));

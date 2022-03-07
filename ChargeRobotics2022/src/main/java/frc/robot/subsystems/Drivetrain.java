@@ -108,7 +108,7 @@ public class Drivetrain extends SubsystemBase {
     motor.setIdleMode(IdleMode.kCoast);
     motor.setSmartCurrentLimit(kCurrentLimit);
     motor.setInverted(invert);
-    motor.setOpenLoopRampRate(2);
+    motor.setOpenLoopRampRate(0.65);
   }
 
   public void encoderInit() {

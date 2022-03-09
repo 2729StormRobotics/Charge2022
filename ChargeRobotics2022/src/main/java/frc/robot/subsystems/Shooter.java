@@ -38,6 +38,8 @@ public class Shooter extends SubsystemBase {
 
   private double m_setpoint;
 
+  private boolean m_enabled;
+
   /** Creates a new ShoooterBetter. */
   public Shooter() {
 
@@ -96,6 +98,7 @@ public class Shooter extends SubsystemBase {
     // SmartDashboard.putNumber("Min Output", kMinOutput);
 
     m_setpoint = 0;
+    m_enabled = false;
     // SmartDashboard.putNumber("Set Velocity", m_setpoint);
 
   }
@@ -166,9 +169,22 @@ public class Shooter extends SubsystemBase {
    * @param rpm the new setpoint, in RPM
    */
   public void setSetpoint(double rpm) {
-    m_pidController.setP(kP);
-    m_pidController.setReference(rpm, CANSparkMax.ControlType.kVelocity);
     m_setpoint = rpm;
+    if (m_enabled) {
+      m_pidController.setP(kP);
+      m_pidController.setReference(m_setpoint, ControlType.kVelocity);
+    }
+  }
+
+  public void enableLoop() {
+    m_enabled = true;
+    m_pidController.setP(kP);
+    m_pidController.setReference(m_setpoint, ControlType.kVelocity);
+  }
+
+  public void disableLoop() {
+    m_enabled = false;
+    gentleStop();
   }
 
   public void gentleStop() {

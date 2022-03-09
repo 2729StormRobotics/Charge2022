@@ -26,5 +26,6 @@ public class ShooterSetSetpoint extends InstantCommand {
   @Override
   public void initialize() {
     m_shooter.setSetpoint(m_motorSpeed);
+    m_shooter.disableLoop();
   }
 }

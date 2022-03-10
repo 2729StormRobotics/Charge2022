@@ -24,36 +24,6 @@
               "Colors/Color when false": "#8B0000FF"
             }
           },
-          "5,3": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Process Variable",
-              "_title": "Flywheel RPM"
-            }
-          },
-          "1,0": {
-            "size": [
-              5,
-              3
-            ],
-            "content": {
-              "_type": "Camera Stream",
-              "_source0": "camera_server://USB Camera 0",
-              "_title": "USB Camera 0",
-              "Crosshair/Show crosshair": true,
-              "Crosshair/Crosshair color": "#FFFFFFFF",
-              "Controls/Show controls": true,
-              "Controls/Rotation": "NONE",
-              "compression": -1.0,
-              "fps": -1,
-              "imageWidth": 0,
-              "imageHeight": 0
-            }
-          },
           "0,1": {
             "size": [
               1,
@@ -177,17 +147,6 @@
               "_title": "SetPoint"
             }
           },
-          "9,3": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Set Velocity",
-              "_title": "Set Velocity"
-            }
-          },
           "9,4": {
             "size": [
               1,
@@ -304,7 +263,7 @@
               "_title": "Autonomous Selector"
             }
           },
-          "4,3": {
+          "4,2": {
             "size": [
               1,
               1
@@ -313,6 +272,39 @@
               "_type": "Text View",
               "_source0": "network_table:///SmartDashboard/Flywheel Speed",
               "_title": "Flywheel Speed"
+            }
+          },
+          "8,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/I Zone",
+              "_title": "I Zone"
+            }
+          },
+          "3,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Set Velocity",
+              "_title": "Set Velocity"
+            }
+          },
+          "2,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/intake speed",
+              "_title": "intake speed"
             }
           }
         }
@@ -489,6 +481,6 @@
     "x": -6.400000095367432,
     "y": 1.600000023841858,
     "width": 1547.199951171875,
-    "height": 828.7999877929688
+    "height": 616.0
   }
 }

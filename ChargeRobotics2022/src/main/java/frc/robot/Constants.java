@@ -64,7 +64,7 @@ public final class Constants {
         extend/retract
         */
         public static final int kIntakeMotorPort = 5;
-        public static final double kIntakeMotorSpeed = -0.75;
+        public static final double kIntakeMotorSpeed = -0.45;
         public static final int kIntakeMotorStopSpeed = 0;
         public static final int kEjectMotorSpeed = -1;
 

@@ -53,7 +53,7 @@ public class Index extends SubsystemBase {
 
   //run upper motor
   public void runUpperIndexMotor() {
-    m_upperIndexMotor.set(kLowerIndexMotorSpeed);
+    m_upperIndexMotor.set(kUpperIndexMotorSpeed);
   }
 
   //reverse both motors

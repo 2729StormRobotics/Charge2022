@@ -9,6 +9,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static frc.robot.Constants.IntakeConstants.*;
@@ -23,13 +24,15 @@ public class Intake extends SubsystemBase {
   public Intake() {
     m_intakeMotor = new CANSparkMax(kIntakeMotorPort, MotorType.kBrushless);
 
+    // SmartDashboard.putNumber("intake speed", 0);
+
     m_leftIntakePiston = new DoubleSolenoid(kPneumaticsHubCanId,PneumaticsModuleType.REVPH, kIntakeExtendChannel, kIntakeRetractChannel);
    
   }
 
 //run the motor with given speed
   public void runIntake() {
-    m_intakeMotor.set(-0.5);
+    m_intakeMotor.set(kIntakeMotorSpeed);
   }
 
 //reverse the motor so that the intake will spit out the ball
@@ -53,6 +56,7 @@ public class Intake extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    // m_intakeMotor.set(SmartDashboard.getNumber("intake speed", 0));
   }
   
 }

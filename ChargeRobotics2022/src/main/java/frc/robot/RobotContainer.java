@@ -128,6 +128,7 @@ public class RobotContainer {
     new JoystickButton(m_driver, Button.kLeftBumper.value).whileHeld(new DriveManuallyArcade(() -> (m_driver.getLeftY() * straightSpeedFactor), () -> (- m_driver.getRightX() * turnSpeedFactor), m_drivetrain));
     new JoystickButton(m_driver, Button.kRightBumper.value).whileHeld(new DriveManuallyArcade(() -> (m_driver.getLeftY() * straightBoostSpeedFactor), () -> (- m_driver.getRightX() * turnBoostSpeedFactor), m_drivetrain));
 
+    //UNCOMMENT THIS!!!! >:(
     new JoystickButton(m_driver, Button.kBack.value).whileHeld(new IndexDown(m_index));
  
     //Shooter Buttons
@@ -137,12 +138,16 @@ public class RobotContainer {
     new JoystickButton(m_operator, Button.kX.value).whenPressed(new ShooterSetSetpoint(m_shooter, Constants.ShooterConstants.kFarLaunchpadSetpoint));
     new JoystickButton(m_operator, Button.kY.value).whenPressed(new ShooterSetSetpoint(m_shooter, Constants.ShooterConstants.kWallShotSetpoint));
        
+    //new JoystickButton(m_driver, Button.kStart.value).whenPressed(new ShooterManuallySetExtendedAngle(m_shooter));
+    //new JoystickButton(m_driver, Button.kBack.value).whenPressed(new ShooterManuallySetRetractedAngle(m_shooter));
+
     //Intake Buttons
     new Trigger(() -> (m_operator.getRightTriggerAxis() > 0.01)).whileActiveContinuous(new IntakeAndIndex(m_intake, m_index));
     new Trigger(() -> (m_operator.getLeftTriggerAxis() > 0.01)).whileActiveContinuous(new IntakeEject(m_intake));
     new JoystickButton(m_operator, Button.kStart.value).whenPressed(new IntakeExtend(m_intake));
     // new JoystickButton(m_operator, Button.kStart.value).whenPressed(new InstantCommand(m_intake::t))
     new JoystickButton(m_operator, Button.kBack.value).whenPressed(new IntakeRetract(m_intake));
+
 
     //Hang Buttons
     //new JoystickButton(m_driver, Button.kY.value).whileHeld(new HangManually(m_hanger, Constants.HangerConstants.kClimbSpeed));

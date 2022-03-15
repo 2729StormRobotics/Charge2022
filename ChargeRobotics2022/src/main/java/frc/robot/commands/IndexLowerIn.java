@@ -25,7 +25,7 @@ public class IndexLowerIn extends CommandBase {
   //stop the lower motor if the lower beam 'breaks'
   @Override
   public void execute() {
-    m_index.runLowerIndexMotor();
+    m_index.runLowerIndexMotor(-0.65);
   }
 
   // Called once the command ends or is interrupted.

@@ -26,7 +26,7 @@ public class IndexUpperOut extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_index.runUpperIndexMotor();
+    m_index.runUpperIndexMotor(-0.3);
   }
 
   // Called once the command ends or is interrupted.

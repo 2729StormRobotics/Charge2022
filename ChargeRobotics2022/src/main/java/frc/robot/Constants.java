@@ -107,17 +107,14 @@ public final class Constants {
         public static final boolean kMotorLeftInverted = false;
         public static final boolean kMotorRightInverted = false;
 
-        /* SETPOINT SPEEDS */
+        /* Setpoint speeds for each shot */
         public static final double kHubShotSetpoint = -1250;
         public static final double kCloseLaunchpadSetpoint = -4000;
         public static final double kFarLaunchpadSetpoint = -4500;
         public static final double kWallShotSetpoint = -3500;
 
-        /* MEASURED SPEEDS: THESE SHOULD BE RECALCULATED */
-        public static final double kHubShotActualSpeed = -1000; 
-        public static final double kCloseLaunchpadActualSpeed = -3070;
-        public static final double kFarLaunchpadActualSpeed = -3040;
-        public static final double kWallShotActualSpeed = -2680;
+        /* Hood Positions for each Shot */
+        public static final boolean kWallShotExtendHood = false;
 
         public static final int kBottomExtendedChannel = 6;
         public static final int kBottomRetractedChannel = 7;

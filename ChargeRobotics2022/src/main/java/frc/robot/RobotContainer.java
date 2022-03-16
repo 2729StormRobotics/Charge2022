@@ -24,19 +24,14 @@ import frc.robot.commands.DriveDistance;
 import frc.robot.commands.DriveManuallyArcade;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.HangManually;
-import frc.robot.commands.IndexDown;
-import frc.robot.commands.IndexLowerIn;
 import frc.robot.commands.IndexOut;
-import frc.robot.commands.IndexUpperIn;
 import frc.robot.commands.IntakeEject;
 import frc.robot.commands.IntakeExtend;
 import frc.robot.commands.IntakeRetract;
 import frc.robot.commands.PointTurnUsingLimelight;
 import frc.robot.commands.ShooterManuallySetExtendedAngle;
 import frc.robot.commands.ShooterManuallySetRetractedAngle;
-import frc.robot.commands.ShooterPrepHubShot;
-import frc.robot.commands.ShooterSetSetpoint;
-import frc.robot.commands.ShooterShoot;
+import frc.robot.commands.ShooterPrep;
 import frc.robot.commands.VisionAlign;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
@@ -128,15 +123,14 @@ public class RobotContainer {
     new JoystickButton(m_driver, Button.kLeftBumper.value).whileHeld(new DriveManuallyArcade(() -> (m_driver.getLeftY() * straightSpeedFactor), () -> (- m_driver.getRightX() * turnSpeedFactor), m_drivetrain));
     new JoystickButton(m_driver, Button.kRightBumper.value).whileHeld(new DriveManuallyArcade(() -> (m_driver.getLeftY() * straightBoostSpeedFactor), () -> (- m_driver.getRightX() * turnBoostSpeedFactor), m_drivetrain));
 
-    new JoystickButton(m_driver, Button.kBack.value).whileHeld(new IndexDown(m_index));
+    //new JoystickButton(m_driver, Button.kBack.value).whileHeld(new IndexDown(m_index));
  
-    //Shooter Buttons
-    
-    new JoystickButton(m_operator, Button.kA.value).whenPressed(new ShooterSetSetpoint(m_shooter, Constants.ShooterConstants.kDumpShotSpeed));
-    new JoystickButton(m_operator, Button.kB.value).whenPressed(new ShooterSetSetpoint(m_shooter, Constants.ShooterConstants.kCloseLaunchpadSetpoint));
-    new JoystickButton(m_operator, Button.kX.value).whenPressed(new ShooterSetSetpoint(m_shooter, Constants.ShooterConstants.kFarLaunchpadSetpoint));
-    new JoystickButton(m_operator, Button.kY.value).whenPressed(new ShooterSetSetpoint(m_shooter, Constants.ShooterConstants.kWallShotSetpoint));
-       
+    // Shooter Prep Buttons
+    // A: Wall Shot
+    new JoystickButton(m_operator, Button.kA.value).whenPressed(new ShooterPrep(ShooterConstants.kWallShotSetpoint, ShooterConstants.kWallShotExtendHood, m_shooter));
+      
+
+    // Actual Shoot Button: to emulate well
     //Intake Buttons
     new Trigger(() -> (m_operator.getRightTriggerAxis() > 0.01)).whileActiveContinuous(new IntakeAndIndex(m_intake, m_index));
     new Trigger(() -> (m_operator.getLeftTriggerAxis() > 0.01)).whileActiveContinuous(new IntakeEject(m_intake));

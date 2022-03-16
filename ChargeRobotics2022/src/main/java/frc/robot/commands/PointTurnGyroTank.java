@@ -23,6 +23,8 @@ public class PointTurnGyroTank extends CommandBase {
     m_drivetrain = drivetrain;
     m_angle = angle;
 
+    System.out.println("PTGT: " + speed + " " + " " + angle);
+
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_drivetrain);
@@ -32,8 +34,6 @@ public class PointTurnGyroTank extends CommandBase {
   @Override
   public void initialize() {
     m_drivetrain.resetGyro();
-    m_drivetrain.getRobotAngle();
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.

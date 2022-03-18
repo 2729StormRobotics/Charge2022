@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.subsystems.Vision;
@@ -30,9 +31,18 @@ public class VisionAlign extends PIDCommand {
         // This uses the output
         output -> {
           // Use the output here
-          if (vision.isTargetDetected()){
+         // if (vision.isTargetDetected()){
+
+            // double o = Math.signum(output) * MathUtil.clamp(Math.abs(output), 0.1, 0.5);
+
+            if (Math.abs(output) < 0.1) {
+              output = Math.signum(output) * 0.1;
+            }
+
             drivetrain.arcadeDrive(0, output, false);
-          }
+
+            System.out.println("Vision Loop: " + output);
+          //}
         });
 
     m_vision = vision;
@@ -49,6 +59,7 @@ public class VisionAlign extends PIDCommand {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return getController().atSetpoint() || !m_vision.isTargetDetected();
+    return false;
+    //return getController().atSetpoint() || !m_vision.isTargetDetected();
   }
 }

@@ -28,7 +28,7 @@ public class PointTurnGyroPID extends PIDCommand {
         // This uses the output
         output -> {
           // Use the output here
-          double o = MathUtil.clamp(Math.abs(output), 0.05, 0.5);
+          double o = MathUtil.clamp(Math.abs(output), 0.1, 0.5);
           drivetrain.tankDrive(o * Math.signum(output), -o * Math.signum(output), false);
   
         });

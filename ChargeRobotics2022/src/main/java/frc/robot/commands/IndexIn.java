@@ -27,18 +27,22 @@ public class IndexIn extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
-    if (!m_index.hasLowerBall() || !m_index.hasUpperBall()) {
-      m_index.runLowerIndexMotor();
-    } else {
-      m_index.stopLowerMotor();
-    }
+    m_index.runLowerIndexMotor(-0.65);
 
     if (!m_index.hasUpperBall()) {
-      m_index.runUpperIndexMotor();
+      m_index.runUpperIndexMotor(-0.65);
     } else {
       m_index.stopUpperMotor();
     }
+
+    if (!m_index.hasUpperBall() || !m_index.hasLowerBall()){
+      m_index.runLowerIndexMotor((-0.65));
+     } else {
+       m_index.stopLowerMotor();
+     }
+    
+
+
   }
 
   // Called once the command ends or is interrupted.

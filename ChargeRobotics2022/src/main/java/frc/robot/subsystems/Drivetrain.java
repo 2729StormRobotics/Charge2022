@@ -91,6 +91,7 @@ public class Drivetrain extends SubsystemBase {
     // SmartDashboard.putNumber("average distance", getAverageDistance());
 
     // SmartDashboard.putNumber("left drive speed", 0);
+    SmartDashboard.putNumber("gyro reading", getRobotAngle());
   }
 
   // Initializes Motors by Setting Defaults

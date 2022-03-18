@@ -138,13 +138,15 @@ public class RobotContainer {
     // new JoystickButton(m_operator, Button.kStart.value).whenPressed(new InstantCommand(m_intake::t))
     new JoystickButton(m_operator, Button.kBack.value).whenPressed(new IntakeRetract(m_intake));
 
+
     //Hang Buttons
     //new JoystickButton(m_driver, Button.kY.value).whileHeld(new HangManually(m_hanger, Constants.HangerConstants.kClimbSpeed));
     new JoystickButton(m_technician, Button.kY.value).whileHeld(new HangManually(m_hanger, -Constants.HangerConstants.kClimbSpeed));
 
     new JoystickButton(m_operator, Button.kLeftBumper.value).whileHeld(new IndexOut(m_index));
-    new JoystickButton(m_operator, Button.kRightBumper.value).whenPressed(new InstantCommand(m_shooter::gentleStop));
-    new JoystickButton(m_driver, Button.kA.value).whenPressed(new PointTurnGyroPID(m_vision.getXOffset(), m_drivetrain));
+    new JoystickButton(m_operator, Button.kRightBumper.value).whenPressed(new InstantCommand(m_shooter::gentleStop, m_shooter));
+    new JoystickButton(m_driver, Button.kA.value).whenPressed(new VisionAlign(m_vision, m_drivetrain));
+    new JoystickButton(m_driver, Button.kA.value).whenReleased(new InstantCommand(m_drivetrain::stopDrive, m_drivetrain));
     
   }
     

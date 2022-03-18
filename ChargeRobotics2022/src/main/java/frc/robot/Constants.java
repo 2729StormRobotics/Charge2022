@@ -87,7 +87,7 @@ public final class Constants {
 
         public static final int kLowerIndexMotorPort = 10;
         public static final int kUpperIndexMotorPort = 11;
-        public static final int kLowerIndexBeamBrakerPort = 0;
+        public static final int kLowerIndexBeamBrakerPort = 3;
         public static final int kUpperIndexBeamBrakerPort = 1;
         public static final double kLowerIndexMotorSpeed = -0.65;
         public static final double kUpperIndexMotorSpeed = -0.3;
@@ -155,7 +155,7 @@ public final class Constants {
         public static final double khorizontalRange = 1.5; // How far off from the crosshair the target can be to be centered on the x-axis
 
         // Alignment constants for the limelight
-        public static final double kAutoAlignP = 0.0;
+        public static final double kAutoAlignP = 0.01;
         public static final double kAutoAlignI = 0.0;
         public static final double kAutoAlignD = 0.0;
         public static final double kAutoAlignTolerance = 1.0;

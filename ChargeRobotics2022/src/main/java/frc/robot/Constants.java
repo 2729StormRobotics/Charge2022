@@ -139,7 +139,7 @@ public final class Constants {
         public static final double kMinOutput = 0;
         public static final double kMaxOutput = 0;
         public static final String kShooterShuffleboardTabName = "Shooter";
-        public static final double kVelocityTolerance = 100;
+        public static final double kVelocityTolerance = 10;
         public static final double kTarmacShotSpeed = 0;
         public static final double kDumpShotSpeed = -1250;
     }
@@ -213,10 +213,6 @@ public final class Constants {
         // Drive Distance Tolerance and Maximums in inches and seconds
         public static final double kPositionTolerance = 1.0; // Placeholder
         public static final double kVelocityTolerance = 5.0; //Placeholder
-
-
-        //NavX Port
-        public static final int kNavXPort = 0; 
 
         //Point Turn PID Values
         public static final double kTurnP = .005;

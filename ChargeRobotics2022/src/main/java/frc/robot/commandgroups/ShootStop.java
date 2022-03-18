@@ -17,6 +17,6 @@ public class ShootStop extends SequentialCommandGroup {
   public ShootStop(Shooter shooter, Index index) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new InstantCommand(shooter::disableLoop), new InstantCommand(index::stopIndexMotors));
+    addCommands(new InstantCommand(shooter::disableLoop, shooter), new InstantCommand(index::stopIndexMotors, index));
   }
 }

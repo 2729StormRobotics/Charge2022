@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.DriveConstants.*;
 
@@ -43,10 +42,7 @@ public class Drivetrain extends SubsystemBase {
   private final SparkMaxPIDController m_leftPIDController;
   private final SparkMaxPIDController m_rightPIDController;
 
-   private final ADIS16470_IMU m_imu;
-  private final DifferentialDriveKinematics m_kinematics;
-
-
+  private final ADIS16470_IMU m_imu;
 
   public Drivetrain() {
 
@@ -84,12 +80,7 @@ public class Drivetrain extends SubsystemBase {
     m_rightPIDController = m_rightLeaderMotor.getPIDController();
 
     m_imu = new ADIS16470_IMU();
-
-    m_kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(22.));
-
-
-
-  }
+    }
 
   @Override
   public void periodic() {

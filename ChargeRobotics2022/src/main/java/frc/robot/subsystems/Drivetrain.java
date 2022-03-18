@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.DriveConstants.*;
 
@@ -33,8 +34,6 @@ public class Drivetrain extends SubsystemBase {
   private final RelativeEncoder m_rightEncoder;
 
   private final DifferentialDrive m_drive;
-
-
 
   private final SimpleMotorFeedforward m_leftFeedforward;
   private final SimpleMotorFeedforward m_rightFeedforward;
@@ -110,6 +109,7 @@ public class Drivetrain extends SubsystemBase {
     m_rightEncoder.setPositionConversionFactor(kDriveDistancePerRev);
     m_rightEncoder.setVelocityConversionFactor(kDriveSpeedPerRev);
   }
+
   // Reset Encoder
   private void encoderReset(RelativeEncoder encoder){
     encoder.setPosition(0);
@@ -145,13 +145,6 @@ public class Drivetrain extends SubsystemBase {
   public double getAverageDistance(){
    double distLeft = getLeftDistance();
    double distRight = getRightDistance();
-   
-  // encoderInit();
-  // printPositionConversionFactor();   
-   
-   //System.out.println("Left:  " + distLeft);
-   //System.out.println("Right:  " + distRight);
-   //System.out.println("velocity:  " + getAverageVelocity());
      
    return (distLeft + distRight) / 2;
 

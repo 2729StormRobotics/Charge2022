@@ -101,20 +101,24 @@ public final class Constants {
 
     public static final class ShooterConstants{
 
-        public static final int kLeftMotorPort = 12;
-        public static final int kRightMotorPort = 13;
+        public static final int kLeftMotorSlePort = 12;
+        public static final int kRightMotorSlePort = 13;
 
         public static final boolean kMotorLeftInverted = false;
         public static final boolean kMotorRightInverted = false;
 
         /* Setpoint speeds for each shot */
         public static final double kHubShotSetpoint = -1250;
-        public static final double kCloseLaunchpadSetpoint = -4000;
-        public static final double kFarLaunchpadSetpoint = -4500;
+        public static final double kCloseLaunchpadShotSetpoint = -4000;
+        public static final double kFarLaunchpadShotSetpoint = -4500;
         public static final double kWallShotSetpoint = -3500;
 
         /* Hood Positions for each Shot */
         public static final boolean kWallShotExtendHood = false;
+        public static final boolean kHubShotExtended = false;
+        public static final boolean kCloseLaunchpadShotExtended = false;
+        public static final boolean kFarLaunchpadShotExtended = false;
+
 
         public static final int kBottomExtendedChannel = 6;
         public static final int kBottomRetractedChannel = 7;
@@ -124,11 +128,6 @@ public final class Constants {
         public static final PneumaticsModuleType kPistonModuleType = PneumaticsModuleType.REVPH;
 
         public static final double kVelocityConversion = 0;
-
-        // Used to calculate the feedforward
-        public static final double kS = 0; // static constant
-        public static final double kV = 0; // velocity constant
-        public static final double kA = 0; // accelaration constant
      
         // PID values to maintain speed 
         public static final double kP = 6e-4; // proportional constant

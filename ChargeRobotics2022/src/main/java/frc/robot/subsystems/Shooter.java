@@ -49,8 +49,8 @@ public class Shooter extends SubsystemBase {
     pistonInit();
 
     // Instantiate the motors
-    m_leftMotor = new CANSparkMax(ShooterConstants.kLeftMotorPort, MotorType.kBrushless);
-    m_rightMotor = new CANSparkMax(ShooterConstants.kRightMotorPort, MotorType.kBrushless);
+    m_leftMotor = new CANSparkMax(ShooterConstants.kLeftMotorSlePort, MotorType.kBrushless);
+    m_rightMotor = new CANSparkMax(ShooterConstants.kRightMotorSlePort, MotorType.kBrushless);
 
     motorInit(m_leftMotor);
     motorInit(m_rightMotor);

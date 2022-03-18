@@ -35,18 +35,13 @@ public class Drivetrain extends SubsystemBase {
 
   private final DifferentialDrive m_drive;
 
-
-
   private final SimpleMotorFeedforward m_leftFeedforward;
   private final SimpleMotorFeedforward m_rightFeedforward;
 
   private final SparkMaxPIDController m_leftPIDController;
   private final SparkMaxPIDController m_rightPIDController;
 
-   private final ADIS16470_IMU m_imu;
-  private final DifferentialDriveKinematics m_kinematics;
-
-
+  private final ADIS16470_IMU m_imu;
 
   public Drivetrain() {
 
@@ -84,12 +79,7 @@ public class Drivetrain extends SubsystemBase {
     m_rightPIDController = m_rightLeaderMotor.getPIDController();
 
     m_imu = new ADIS16470_IMU();
-
-    m_kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(22.));
-
-
-
-  }
+    }
 
   @Override
   public void periodic() {
@@ -119,6 +109,7 @@ public class Drivetrain extends SubsystemBase {
     m_rightEncoder.setPositionConversionFactor(kDriveDistancePerRev);
     m_rightEncoder.setVelocityConversionFactor(kDriveSpeedPerRev);
   }
+
   // Reset Encoder
   private void encoderReset(RelativeEncoder encoder){
     encoder.setPosition(0);
@@ -154,13 +145,6 @@ public class Drivetrain extends SubsystemBase {
   public double getAverageDistance(){
    double distLeft = getLeftDistance();
    double distRight = getRightDistance();
-   
-  // encoderInit();
-  // printPositionConversionFactor();   
-   
-   //System.out.println("Left:  " + distLeft);
-   //System.out.println("Right:  " + distRight);
-   //System.out.println("velocity:  " + getAverageVelocity());
      
    return (distLeft + distRight) / 2;
 

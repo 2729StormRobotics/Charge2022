@@ -100,14 +100,16 @@ public class Drivetrain extends SubsystemBase {
     // SmartDashboard.putNumber("average distance", getAverageDistance());
 
     // SmartDashboard.putNumber("left drive speed", 0);
+    SmartDashboard.putNumber("gyro reading", getRobotAngle());
   }
 
   // Initializes Motors by Setting Defaults
   private void motorInit(CANSparkMax motor, boolean invert) {
     motor.restoreFactoryDefaults(); 
-    motor.setIdleMode(IdleMode.kBrake);
+    motor.setIdleMode(IdleMode.kCoast);
     motor.setSmartCurrentLimit(kCurrentLimit);
     motor.setInverted(invert);
+    motor.setOpenLoopRampRate(0.65);
   }
 
   public void encoderInit() {
@@ -156,9 +158,9 @@ public class Drivetrain extends SubsystemBase {
   // encoderInit();
   // printPositionConversionFactor();   
    
-   System.out.println("Left:  " + distLeft);
-   System.out.println("Right:  " + distRight);
-   System.out.println("velocity:  " + getAverageVelocity());
+   //System.out.println("Left:  " + distLeft);
+   //System.out.println("Right:  " + distRight);
+   //System.out.println("velocity:  " + getAverageVelocity());
      
    return (distLeft + distRight) / 2;
 

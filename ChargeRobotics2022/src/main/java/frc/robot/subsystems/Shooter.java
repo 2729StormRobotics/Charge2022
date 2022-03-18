@@ -87,16 +87,16 @@ public class Shooter extends SubsystemBase {
     m_pidController.setOutputRange(kMinOutput, kMaxOutput);
 
     // Display PID coefficients on SmartDashboard
-    // SmartDashboard.putNumber("P Gain", kP);
-    // SmartDashboard.putNumber("I Gain", kI);
-    // SmartDashboard.putNumber("D Gain", kD);
-    // SmartDashboard.putNumber("I Zone", kIz);
-    // SmartDashboard.putNumber("Feed Forward", kFF);
-    // SmartDashboard.putNumber("Max Output", kMaxOutput);
-    // SmartDashboard.putNumber("Min Output", kMinOutput);
+    SmartDashboard.putNumber("P Gain", kP);
+    SmartDashboard.putNumber("I Gain", kI);
+    SmartDashboard.putNumber("D Gain", kD);
+    SmartDashboard.putNumber("I Zone", kIz);
+    SmartDashboard.putNumber("Feed Forward", kFF);
+    SmartDashboard.putNumber("Max Output", kMaxOutput);
+    SmartDashboard.putNumber("Min Output", kMinOutput);
 
     m_setpoint = 0;
-    // SmartDashboard.putNumber("Set Velocity", m_setpoint);
+    SmartDashboard.putNumber("Set Velocity", m_setpoint);
 
   }
 
@@ -183,51 +183,51 @@ public class Shooter extends SubsystemBase {
     // This method will be called once per scheduler run
 
     // Read PID coeffecients from SmartDashboard
-    // double p = SmartDashboard.getNumber("P Gain", 0);
-    // double i = SmartDashboard.getNumber("I Gain", 0);
-    // double d = SmartDashboard.getNumber("D Gain", 0);
-    // double iz = SmartDashboard.getNumber("I Zone", 0);
-    // double ff = SmartDashboard.getNumber("Feed Forward", 0);
-    // double max = SmartDashboard.getNumber("Max Output", 0);
-    // double min = SmartDashboard.getNumber("Min Output", 0);
+    double p = SmartDashboard.getNumber("P Gain", 0);
+    double i = SmartDashboard.getNumber("I Gain", 0);
+    double d = SmartDashboard.getNumber("D Gain", 0);
+    double iz = SmartDashboard.getNumber("I Zone", 0);
+    double ff = SmartDashboard.getNumber("Feed Forward", 0);
+    double max = SmartDashboard.getNumber("Max Output", 0);
+    double min = SmartDashboard.getNumber("Min Output", 0);
 
     // if PID coefficients on SmartDashboard have changed, write new values to controller
-    // if (p != kP) {
-    //   m_pidController.setP(p);
-    //   kP = p;
-    // }
-    // if (i != kI) {
-    //   m_pidController.setI(i);
-    //   kI = i;
-    // }
-    // if (d != kD) {
-    //   m_pidController.setD(d);
-    //   kD = d;
-    // }
-    // if (iz != kIz) {
-    //   m_pidController.setIZone(iz);
-    //   kIz = iz;
-    // }
-    // if (ff != kFF) {
-    //   m_pidController.setFF(ff);
-    //   kFF = ff;
-    // }
-    // if ((max != kMaxOutput) || (min != kMinOutput)) {
-    //   m_pidController.setOutputRange(min, max);
-    //   kMinOutput = min;
-    //   kMaxOutput = max;
-    // }
+    if (p != kP) {
+      m_pidController.setP(p);
+      kP = p;
+    }
+    if (i != kI) {
+      m_pidController.setI(i);
+      kI = i;
+    }
+    if (d != kD) {
+      m_pidController.setD(d);
+      kD = d;
+    }
+    if (iz != kIz) {
+      m_pidController.setIZone(iz);
+      kIz = iz;
+    }
+    if (ff != kFF) {
+      m_pidController.setFF(ff);
+      kFF = ff;
+    }
+    if ((max != kMaxOutput) || (min != kMinOutput)) {
+      m_pidController.setOutputRange(min, max);
+      kMinOutput = min;
+      kMaxOutput = max;
+    }
 
-    // double setPoint;
-    // setPoint = SmartDashboard.getNumber("Set Velocity", 0);
-    // setSetpoint(setPoint);
+    double setPoint;
+    setPoint = SmartDashboard.getNumber("Set Velocity", 0);
+    setSetpoint(setPoint);
 
     double processVariable;
     processVariable = m_encoder.getVelocity();
 
-    // SmartDashboard.putNumber("SetPoint", m_setpoint);
+    SmartDashboard.putNumber("SetPoint", m_setpoint);
     SmartDashboard.putNumber("Flywheel Speed", processVariable);
-    // SmartDashboard.putNumber("Output", m_leftMotor.getAppliedOutput());
+    SmartDashboard.putNumber("Output", m_leftMotor.getAppliedOutput());
 
     SmartDashboard.putBoolean("Shooter Pistons Extended", m_pistons.get().equals(ShooterConstants.kPistonExtendedValue));
   }

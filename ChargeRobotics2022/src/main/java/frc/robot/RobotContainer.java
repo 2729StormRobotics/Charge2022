@@ -18,11 +18,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commandgroups.AutoHubDump;
 import frc.robot.commandgroups.AutoWallShot;
+import frc.robot.commandgroups.AutoDriveBackwards;
 import frc.robot.commandgroups.IntakeAndIndex;
 import frc.robot.commands.DriveDistance;
 import frc.robot.commands.DriveManuallyArcade;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.HangManually;
+import frc.robot.commands.IndexDown;
 import frc.robot.commands.IndexLowerIn;
 import frc.robot.commands.IndexOut;
 import frc.robot.commands.IndexUpperIn;
@@ -69,6 +71,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final XboxController m_driver = new XboxController(DriveConstants.kDriverControllerPort);
   private final XboxController m_operator = new XboxController(DriveConstants.kOperatorControllerPort);
+  private final XboxController m_technician = new XboxController(2);
 
   private final Drivetrain m_drivetrain;
   private final Hanger m_hanger;
@@ -77,6 +80,10 @@ public class RobotContainer {
   private final Shooter m_shooter;
   private final Vision m_vision;
   // private final Compressor m_testCompressor;
+  private final double straightSpeedFactor = 0.6;
+  private final double turnSpeedFactor = 0.5;
+  private final double straightBoostSpeedFactor = 1.0;
+  private final double turnBoostSpeedFactor = 0.7;
 
   private final SendableChooser<Command> m_autoChooser;
 
@@ -95,9 +102,10 @@ public class RobotContainer {
     m_autoChooser.setDefaultOption("Do Nothing", new InstantCommand());
     m_autoChooser.addOption("Hub Dump", new AutoHubDump(m_shooter, m_index, m_drivetrain, m_intake, m_vision));
     m_autoChooser.addOption("Wall Shot", new AutoWallShot(m_shooter, m_index, m_drivetrain, m_intake, m_vision));
+    m_autoChooser.addOption("Just Drive", new AutoDriveBackwards(m_drivetrain));
 
     m_drivetrain.setDefaultCommand(
-        new DriveManuallyArcade(() -> m_driver.getLeftY(), () -> m_driver.getRightX(), m_drivetrain));
+        new DriveManuallyArcade(() -> (m_driver.getLeftY() * 0.85), () -> (- m_driver.getRightX() * 0.7), m_drivetrain));
 
     // Configure the button bindings
     configureButtonBindings();
@@ -116,6 +124,12 @@ public class RobotContainer {
     // new JoystickButton(m_operator, Button.kLeftStick.value).whenPressed(new ShooterPrepShoot(m_shooter));
     // new JoystickButton(m_operator, Button.kRightStick.value).whenPressed(new ShooterPrepDump(m_shooter));
 
+    //Driver buttons
+    new JoystickButton(m_driver, Button.kLeftBumper.value).whileHeld(new DriveManuallyArcade(() -> (m_driver.getLeftY() * straightSpeedFactor), () -> (- m_driver.getRightX() * turnSpeedFactor), m_drivetrain));
+    new JoystickButton(m_driver, Button.kRightBumper.value).whileHeld(new DriveManuallyArcade(() -> (m_driver.getLeftY() * straightBoostSpeedFactor), () -> (- m_driver.getRightX() * turnBoostSpeedFactor), m_drivetrain));
+
+    //UNCOMMENT THIS!!!! >:(
+    new JoystickButton(m_driver, Button.kBack.value).whileHeld(new IndexDown(m_index));
  
     //Shooter Buttons
     
@@ -124,6 +138,9 @@ public class RobotContainer {
     new JoystickButton(m_operator, Button.kX.value).whenPressed(new ShooterSetSetpoint(m_shooter, Constants.ShooterConstants.kFarLaunchpadSetpoint));
     new JoystickButton(m_operator, Button.kY.value).whenPressed(new ShooterSetSetpoint(m_shooter, Constants.ShooterConstants.kWallShotSetpoint));
        
+    //new JoystickButton(m_driver, Button.kStart.value).whenPressed(new ShooterManuallySetExtendedAngle(m_shooter));
+    //new JoystickButton(m_driver, Button.kBack.value).whenPressed(new ShooterManuallySetRetractedAngle(m_shooter));
+
     //Intake Buttons
     new Trigger(() -> (m_operator.getRightTriggerAxis() > 0.01)).whileActiveContinuous(new IntakeAndIndex(m_intake, m_index));
     new Trigger(() -> (m_operator.getLeftTriggerAxis() > 0.01)).whileActiveContinuous(new IntakeEject(m_intake));
@@ -131,12 +148,15 @@ public class RobotContainer {
     // new JoystickButton(m_operator, Button.kStart.value).whenPressed(new InstantCommand(m_intake::t))
     new JoystickButton(m_operator, Button.kBack.value).whenPressed(new IntakeRetract(m_intake));
 
+
     //Hang Buttons
-    new JoystickButton(m_driver, Button.kY.value).whileHeld(new HangManually(m_hanger, Constants.HangerConstants.kClimbSpeed));
+    //new JoystickButton(m_driver, Button.kY.value).whileHeld(new HangManually(m_hanger, Constants.HangerConstants.kClimbSpeed));
+    new JoystickButton(m_technician, Button.kY.value).whileHeld(new HangManually(m_hanger, -Constants.HangerConstants.kClimbSpeed));
 
     new JoystickButton(m_operator, Button.kLeftBumper.value).whileHeld(new IndexOut(m_index));
-    new JoystickButton(m_operator, Button.kRightBumper.value).whenPressed(new InstantCommand(m_shooter::gentleStop));
-    new JoystickButton(m_driver, Button.kA.value).whenPressed(new PointTurnGyroPID(m_vision.getXOffset(), m_drivetrain));
+    new JoystickButton(m_operator, Button.kRightBumper.value).whenPressed(new InstantCommand(m_shooter::gentleStop, m_shooter));
+    new JoystickButton(m_driver, Button.kA.value).whenPressed(new VisionAlign(m_vision, m_drivetrain));
+    new JoystickButton(m_driver, Button.kA.value).whenReleased(new InstantCommand(m_drivetrain::stopDrive, m_drivetrain));
     
   }
     

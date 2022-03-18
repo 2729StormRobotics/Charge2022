@@ -9,6 +9,7 @@ import frc.robot.commands.IndexLowerOut;
 import frc.robot.commands.IndexUpperOut;
 import frc.robot.commands.ShooterTwoSpeedShoot;
 import frc.robot.subsystems.Index;
+import frc.robot.commands.IndexOut;
 import frc.robot.subsystems.Shooter;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -20,7 +21,8 @@ public class TwoSpeedShoot extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(new ShooterTwoSpeedShoot(setpoint, actualSpeed, shooter),
-        new IndexUpperOut(index), new IndexLowerOut(index),
+        //new IndexUpperOut(index), new IndexLowerOut(index),
+        new IndexOut(index),
         new ShooterTwoSpeedShoot(setpoint, actualSpeed, shooter),
         new IndexUpperOut(index));
   }

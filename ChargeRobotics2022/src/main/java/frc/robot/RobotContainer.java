@@ -158,6 +158,9 @@ public class RobotContainer {
     new JoystickButton(m_driver, Button.kA.value).whenPressed(new VisionAlign(m_vision, m_drivetrain));
     new JoystickButton(m_driver, Button.kA.value).whenReleased(new InstantCommand(m_drivetrain::stopDrive, m_drivetrain));
     
+    SmartDashboard.putNumber("VisionP", 0.0075);
+    SmartDashboard.putNumber("VisionD", 0);
+    SmartDashboard.putNumber("VisionI", 0);
   }
     
   /**

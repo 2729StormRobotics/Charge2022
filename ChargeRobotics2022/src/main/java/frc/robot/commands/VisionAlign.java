@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.Drivetrain;
@@ -23,7 +24,7 @@ public class VisionAlign extends PIDCommand {
   public VisionAlign(Vision vision, Drivetrain drivetrain) {
     super(
         // The controller that the command will use
-        new PIDController(kAutoAlignP, kAutoAlignI, kAutoAlignD),
+        new PIDController(SmartDashboard.getNumber("VisionP", 0.0075), SmartDashboard.getNumber("VisionI", 0), SmartDashboard.getNumber("VisionD", 0)),
         // This should return the measurement
         () -> vision.getXOffset(),
         // This should return the setpoint (can also be a constant)
@@ -35,13 +36,15 @@ public class VisionAlign extends PIDCommand {
 
             // double o = Math.signum(output) * MathUtil.clamp(Math.abs(output), 0.1, 0.5);
 
-            if (Math.abs(output) < 0.1) {
-              output = Math.signum(output) * 0.1;
-            }
+            // if (Math.abs(output) < 0.1) {
+            //   output = Math.signum(output) * 0.1;
+            // }
 
             drivetrain.arcadeDrive(0, output, false);
 
             System.out.println("Vision Loop: " + output);
+
+            
           //}
         });
 
@@ -61,5 +64,13 @@ public class VisionAlign extends PIDCommand {
   public boolean isFinished() {
     return false;
     //return getController().atSetpoint() || !m_vision.isTargetDetected();
+  }
+
+  @Override
+  public void execute() {
+    super.execute();
+    getController().setP(SmartDashboard.getNumber("VisionP", 0));
+    getController().setI(SmartDashboard.getNumber("VisionI", 0));
+    getController().setD(SmartDashboard.getNumber("VisionD", 0));
   }
 }

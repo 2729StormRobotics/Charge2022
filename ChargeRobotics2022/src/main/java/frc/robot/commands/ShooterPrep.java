@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.Shooter;
 
@@ -21,6 +22,8 @@ public class ShooterPrep extends InstantCommand {
     m_shooter = shooter;  
 
     addRequirements(m_shooter);
+
+    SmartDashboard.putNumber("SHOOT SETTING", setpoint);
   }
 
   // Called when the command is initially scheduled.

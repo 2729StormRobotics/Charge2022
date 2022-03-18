@@ -130,15 +130,15 @@ public final class Constants {
         public static final double kVelocityConversion = 0;
      
         // PID values to maintain speed 
-        public static final double kP = 6e-4; // proportional constant
+        public static final double kP = 4.5e-4; // proportional constant
         public static final double kI = 0; // integral constant 
         public static final double kD = 0; // derivative constant
         public static final double kIz = 0; // integral zone
-        public static final double kFF = 0; // feed forward constant
+        public static final double kFF = 1.82e-4; // feed forward constant
         public static final double kMinOutput = 0;
         public static final double kMaxOutput = 0;
         public static final String kShooterShuffleboardTabName = "Shooter";
-        public static final double kVelocityTolerance = 10;
+        public static final double kVelocityTolerance = 100;
         public static final double kTarmacShotSpeed = 0;
         public static final double kDumpShotSpeed = -1250;
     }

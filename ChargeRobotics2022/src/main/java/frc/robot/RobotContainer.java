@@ -19,6 +19,8 @@ import frc.robot.commandgroups.AutoHubDump;
 import frc.robot.commandgroups.AutoWallShot;
 import frc.robot.commandgroups.AutoDriveBackwards;
 import frc.robot.commandgroups.IntakeAndIndex;
+import frc.robot.commandgroups.Shoot;
+import frc.robot.commandgroups.ShootStop;
 import frc.robot.commands.DriveDistance;
 import frc.robot.commands.DriveManuallyArcade;
 import frc.robot.commands.ExampleCommand;
@@ -164,10 +166,13 @@ public class RobotContainer {
     new JoystickButton(m_technician, Button.kY.value)
         .whileHeld(new HangManually(m_hanger, Constants.HangerConstants.kClimbSpeed));
 
+        // Shoot
+    new JoystickButton(m_operator, Button.kRightBumper.value).whenPressed(new Shoot(m_shooter, m_index));
+    new JoystickButton(m_operator, Button.kRightBumper.value).whenReleased(new ShootStop(m_shooter, m_index));
     
     new JoystickButton(m_operator, Button.kLeftBumper.value).whileHeld(new IndexOut(m_index));
-    new JoystickButton(m_operator, Button.kRightBumper.value)
-        .whenPressed(new InstantCommand(m_shooter::gentleStop, m_shooter));
+    // new JoystickButton(m_operator, Button.kRightBumper.value)
+    //     .whenPressed(new InstantCommand(m_shooter::gentleStop, m_shooter));
     new JoystickButton(m_driver, Button.kA.value).whenPressed(new VisionAlign(m_vision, m_drivetrain));
     new JoystickButton(m_driver, Button.kA.value).whenReleased(new InstantCommand(m_drivetrain::stopDrive, m_drivetrain));
     

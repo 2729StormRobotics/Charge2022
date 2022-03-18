@@ -4,26 +4,19 @@
 
 package frc.robot.commandgroups;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.IndexLowerOut;
-import frc.robot.commands.IndexUpperOut;
-import frc.robot.commands.ShooterTwoSpeedShoot;
 import frc.robot.subsystems.Index;
-import frc.robot.commands.IndexOut;
 import frc.robot.subsystems.Shooter;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class TwoSpeedShoot extends SequentialCommandGroup {
-  /** Creates a new TwoSpeedShoot. */
-  public TwoSpeedShoot(double setpoint, double actualSpeed, Shooter shooter, Index index) {
+public class ShootStop extends SequentialCommandGroup {
+  /** Creates a new ShootStop. */
+  public ShootStop(Shooter shooter, Index index) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new ShooterTwoSpeedShoot(setpoint, actualSpeed, shooter),
-        //new IndexUpperOut(index), new IndexLowerOut(index),
-        new IndexOut(index),
-        new ShooterTwoSpeedShoot(setpoint, actualSpeed, shooter),
-        new IndexUpperOut(index));
+    addCommands(new InstantCommand(shooter::disableLoop, shooter), new InstantCommand(index::stopIndexMotors, index));
   }
 }

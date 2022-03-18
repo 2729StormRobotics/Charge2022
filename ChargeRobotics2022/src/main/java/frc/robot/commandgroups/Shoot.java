@@ -4,11 +4,11 @@
 
 package frc.robot.commandgroups;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.IndexLowerOut;
-import frc.robot.commands.IndexUpperOut;
-import frc.robot.commands.ShooterSetSetpoint;
-import frc.robot.commands.ShooterShoot;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
+import frc.robot.commands.IndexOut;
 import frc.robot.subsystems.Index;
 import frc.robot.subsystems.Shooter;
 
@@ -16,23 +16,10 @@ import frc.robot.subsystems.Shooter;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class Shoot extends SequentialCommandGroup {
-
-  /** Creates a new Shoot. */
-  public Shoot(Index index, Shooter shooter, double speed) {
-    // if (index.hasUpperBall() && index.hasLowerBall()) {
-    // addCommands(new ShooterShoot(shooter, speed), new IndexUpperOut(index), new
-    // ShooterShoot(shooter, speed), new IndexMoveUp(index), new
-    // IndexUpperOut(index), new ShooterSetSetpoint(shooter, 0));
-    // } else if (index.hasUpperBall()) {
-    // addCommands(new ShooterShoot(shooter, speed), new IndexUpperOut(index), new
-    // ShooterSetSetpoint(shooter, 0));
-    // } else if (index.hasLowerBall()) {
-    // addCommands(new ShooterShoot(shooter, speed), new IndexMoveUp(index), new
-    // IndexUpperOut(index), new ShooterSetSetpoint(shooter, 0));
-    // }
-
-    addCommands(new ShooterShoot(shooter, speed), new IndexUpperOut(index), new IndexLowerOut(index),
-        new ShooterShoot(shooter, speed), new IndexUpperOut(index), new ShooterSetSetpoint(shooter, 0));
-
+  /** Creates a new ShooterShoot. */
+  public Shoot(Shooter shooter, Index index) {
+    // Add your commands in the addCommands() call, e.g.
+    // addCommands(new FooCommand(), new BarCommand());
+    addCommands(new InstantCommand(shooter::enableLoop, shooter), new WaitUntilCommand(shooter::atSetpoint),  new IndexOut(index));
   }
 }

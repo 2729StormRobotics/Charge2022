@@ -22,8 +22,6 @@ public class ShooterPrep extends InstantCommand {
     m_shooter = shooter;  
 
     addRequirements(m_shooter);
-
-    SmartDashboard.putNumber("SHOOT SETTING", setpoint);
   }
 
   // Called when the command is initially scheduled.

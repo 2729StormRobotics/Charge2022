@@ -174,6 +174,9 @@ public class Shooter extends SubsystemBase {
       m_pidController.setP(kP);
       m_pidController.setReference(m_setpoint, ControlType.kVelocity);
     }
+
+    
+
   }
 
   public void enableLoop() {
@@ -184,7 +187,9 @@ public class Shooter extends SubsystemBase {
 
   public void disableLoop() {
     m_enabled = false;
-    gentleStop();
+    m_pidController.setP(0);
+    m_pidController.setReference(0, ControlType.kVelocity);  
+    m_leftMotor.set(0);
   }
 
   public void gentleStop() {
@@ -246,5 +251,21 @@ public class Shooter extends SubsystemBase {
     // SmartDashboard.putNumber("Output", m_leftMotor.getAppliedOutput());
 
     SmartDashboard.putBoolean("Shooter Pistons Extended", m_pistons.get().equals(ShooterConstants.kPistonExtendedValue));
+
+    String setpointString;
+
+    if (m_setpoint == kWallShotSetpoint) {
+      setpointString = "Wall Shot";
+    } else if (m_setpoint == kCloseLaunchpadShotSetpoint) {
+      setpointString = "Close Launchpad Shot";
+    } else if (m_setpoint == kFarLaunchpadShotSetpoint) {
+      setpointString = "Far Launchpad";
+    } else if (m_setpoint == kHubShotSetpoint) {
+      setpointString = "Hub Shot";
+    } else {
+      setpointString = String.valueOf(m_setpoint);
+    }
+
+    SmartDashboard.putString("Shooter Setting", setpointString);
   }
 }

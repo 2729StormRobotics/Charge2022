@@ -152,6 +152,8 @@ public class RobotContainer {
     // Operator Left Trigger: Eject (Out)
     new Trigger(() -> (m_operator.getLeftTriggerAxis() > 0.01))
         .whileActiveContinuous(new IntakeEject(m_intake));
+    // Operator Left Bumper: Index Eject (Out)
+    new JoystickButton(m_operator, Button.kLeftBumper.value).whileHeld(new IndexEje)
     // Operator Start: Extend Intake Pistons
     new JoystickButton(m_operator, Button.kStart.value)
         .whenPressed(new IntakeExtend(m_intake));
@@ -166,7 +168,7 @@ public class RobotContainer {
     new JoystickButton(m_technician, Button.kY.value)
         .whileHeld(new HangManually(m_hanger, Constants.HangerConstants.kClimbSpeed));
 
-        // Shoot
+    // Operator Right Bumper: Shoot
     new JoystickButton(m_operator, Button.kRightBumper.value).whenPressed(new Shoot(m_shooter, m_index));
     new JoystickButton(m_operator, Button.kRightBumper.value).whenReleased(new ShootStop(m_shooter, m_index));
     
@@ -176,9 +178,9 @@ public class RobotContainer {
     new JoystickButton(m_driver, Button.kA.value).whenPressed(new VisionAlign(m_vision, m_drivetrain));
     new JoystickButton(m_driver, Button.kA.value).whenReleased(new InstantCommand(m_drivetrain::stopDrive, m_drivetrain));
     
-    SmartDashboard.putNumber("VisionP", 0.0075);
-    SmartDashboard.putNumber("VisionD", 0);
-    SmartDashboard.putNumber("VisionI", 0);
+    // SmartDashboard.putNumber("VisionP", 0.0075);
+    // SmartDashboard.putNumber("VisionD", 0);
+    // SmartDashboard.putNumber("VisionI", 0);
     new JoystickButton(m_driver, Button.kA.value)
         .whenReleased(new InstantCommand(m_drivetrain::stopDrive, m_drivetrain));
 

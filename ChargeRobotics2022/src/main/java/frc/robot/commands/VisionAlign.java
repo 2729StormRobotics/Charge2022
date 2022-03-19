@@ -24,7 +24,7 @@ public class VisionAlign extends PIDCommand {
   public VisionAlign(Vision vision, Drivetrain drivetrain) {
     super(
         // The controller that the command will use
-        new PIDController(SmartDashboard.getNumber("VisionP", 0.0075), SmartDashboard.getNumber("VisionI", 0), SmartDashboard.getNumber("VisionD", 0)),
+        new PIDController(0.011, .025, 0),
         // This should return the measurement
         () -> vision.getXOffset(),
         // This should return the setpoint (can also be a constant)
@@ -69,8 +69,8 @@ public class VisionAlign extends PIDCommand {
   @Override
   public void execute() {
     super.execute();
-    getController().setP(SmartDashboard.getNumber("VisionP", 0));
-    getController().setI(SmartDashboard.getNumber("VisionI", 0));
-    getController().setD(SmartDashboard.getNumber("VisionD", 0));
+    // getController().setP(SmartDashboard.getNumber("VisionP", 0));
+    // getController().setI(SmartDashboard.getNumber("VisionI", 0));
+    // getController().setD(SmartDashboard.getNumber("VisionD", 0));
   }
 }

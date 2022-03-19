@@ -109,9 +109,9 @@ public final class Constants {
 
         /* Setpoint speeds for each shot */
         public static final double kHubShotSetpoint = -1250;
-        public static final double kCloseLaunchpadShotSetpoint = -4000;
-        public static final double kFarLaunchpadShotSetpoint = -4500;
-        public static final double kWallShotSetpoint = -3500;
+        public static final double kCloseLaunchpadShotSetpoint = -3070;
+        public static final double kFarLaunchpadShotSetpoint = -3150;
+        public static final double kWallShotSetpoint = -2600;
 
         /* Hood Positions for each Shot */
         public static final boolean kWallShotExtendHood = false;

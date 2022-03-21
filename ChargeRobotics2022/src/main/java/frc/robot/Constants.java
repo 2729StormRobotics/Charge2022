@@ -43,7 +43,9 @@ public final class Constants {
         public static final int kHangerMotorRightPort = 4;
 
         // Constant speed at which the hanger motor will rotate to extend the elevator
-        public static final double kClimbSpeed = 0.2; //This value is a guess
+        public static final double kClimbSpeed = 1;
+        public static final double kReverseClimbSpeed = -1;
+
         // The maximum extension of the elevator
         public static final double kMaxHeight = 0.0;
 

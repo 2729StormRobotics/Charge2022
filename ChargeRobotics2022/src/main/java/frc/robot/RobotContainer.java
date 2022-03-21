@@ -165,7 +165,7 @@ public class RobotContainer {
 
     // Driver X: Hanger
     new JoystickButton(m_driver, Button.kX.value)
-        .whileHeld(new HangManually(m_hanger, -Constants.HangerConstants.kClimbSpeed));
+        .whileHeld(new HangManually(m_hanger, Constants.HangerConstants.kReverseClimbSpeed));
 
     // Operator Right Bumper: Shoot
     new JoystickButton(m_operator, Button.kRightBumper.value).whenPressed(new Shoot(m_shooter, m_index));

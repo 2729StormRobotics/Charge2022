@@ -26,6 +26,7 @@ import frc.robot.commands.DriveManuallyArcade;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.HangManually;
 import frc.robot.commands.IndexOut;
+import frc.robot.commands.IndexEject;
 import frc.robot.commands.IntakeEject;
 import frc.robot.commands.IntakeExtend;
 import frc.robot.commands.IntakeRetract;
@@ -152,8 +153,6 @@ public class RobotContainer {
     // Operator Left Trigger: Eject (Out)
     new Trigger(() -> (m_operator.getLeftTriggerAxis() > 0.01))
         .whileActiveContinuous(new IntakeEject(m_intake));
-    // Operator Left Bumper: Index Eject (Out)
-    new JoystickButton(m_operator, Button.kLeftBumper.value).whileHeld(new IndexEje)
     // Operator Start: Extend Intake Pistons
     new JoystickButton(m_operator, Button.kStart.value)
         .whenPressed(new IntakeExtend(m_intake));
@@ -161,20 +160,23 @@ public class RobotContainer {
     new JoystickButton(m_operator, Button.kBack.value).whenPressed(new IntakeRetract(m_intake));
 
     // Driver Y: Hanger
-    new JoystickButton(m_technician, Button.kY.value)
+    new JoystickButton(m_driver, Button.kY.value)
         .whileHeld(new HangManually(m_hanger, Constants.HangerConstants.kClimbSpeed));
 
-    // Reverse Hang: Technician Only (never on the field)
-    new JoystickButton(m_technician, Button.kY.value)
-        .whileHeld(new HangManually(m_hanger, Constants.HangerConstants.kClimbSpeed));
+    // Driver X: Hanger
+    new JoystickButton(m_driver, Button.kX.value)
+        .whileHeld(new HangManually(m_hanger, -Constants.HangerConstants.kClimbSpeed));
 
     // Operator Right Bumper: Shoot
     new JoystickButton(m_operator, Button.kRightBumper.value).whenPressed(new Shoot(m_shooter, m_index));
     new JoystickButton(m_operator, Button.kRightBumper.value).whenReleased(new ShootStop(m_shooter, m_index));
+   
+    // Operator Left Bumper: Index Eject
+    new JoystickButton(m_operator, Button.kLeftBumper.value).whileHeld(new IndexEject(m_index));
     
-    new JoystickButton(m_operator, Button.kLeftBumper.value).whileHeld(new IndexOut(m_index));
     // new JoystickButton(m_operator, Button.kRightBumper.value)
     //     .whenPressed(new InstantCommand(m_shooter::gentleStop, m_shooter));
+    
     new JoystickButton(m_driver, Button.kA.value).whenPressed(new VisionAlign(m_vision, m_drivetrain));
     new JoystickButton(m_driver, Button.kA.value).whenReleased(new InstantCommand(m_drivetrain::stopDrive, m_drivetrain));
     

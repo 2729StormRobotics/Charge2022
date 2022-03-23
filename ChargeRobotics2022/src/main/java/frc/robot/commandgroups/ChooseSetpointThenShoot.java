@@ -4,20 +4,18 @@
 
 package frc.robot.commandgroups;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
-import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
-import frc.robot.commands.IndexOut;
+import frc.robot.commands.VisionChooseShooterSetpoint;
 import frc.robot.subsystems.Index;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Vision;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class Shoot extends SequentialCommandGroup {
-  /** Creates a new ShooterShoot. */
-  public Shoot(Shooter shooter, Index index) {
-    addCommands(new InstantCommand(shooter::enableLoop, shooter), new WaitUntilCommand(shooter::atSetpoint),  new IndexOut(index));
+public class ChooseSetpointThenShoot extends SequentialCommandGroup {
+  /** Creates a new ChooseSetpointThenShoot. */
+  public ChooseSetpointThenShoot(Vision vision, Shooter shooter, Index index) {
+    addCommands(new VisionChooseShooterSetpoint(vision, shooter), new Shoot(shooter, index));
   }
 }

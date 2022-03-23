@@ -157,7 +157,7 @@ public final class Constants {
 
     public static final class VisionConstants {
         public static final double klimelightHeight = 38.25;
-        public static final double klimelightAngle = 0;
+        public static final double klimelightAngle = 90 - 65;
 
         public static final double kUpperTargetHeight = 104; // 8'8"
 

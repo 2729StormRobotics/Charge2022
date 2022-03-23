@@ -113,7 +113,7 @@ public final class Constants {
         public static final double kHubShotSetpoint = -1250;
         public static final double kCloseLaunchpadShotSetpoint = -3070;
         public static final double kFarLaunchpadShotSetpoint = -3150;
-        public static final double kWallShotSetpoint = -2600;
+        public static final double kWallShotSetpoint = -2700; //-2600
 
         /* Hood Positions for each Shot */
         public static final boolean kWallShotExtendHood = false;
@@ -153,7 +153,7 @@ public final class Constants {
 
         public static final int kdefaultPipeline = 0;
         
-        public static final double khorizontalRange = 1.5; // How far off from the crosshair the target can be to be centered on the x-axis
+        public static final double khorizontalRange = 1.0; // How far off from the crosshair the target can be to be centered on the x-axis
 
         // Alignment constants for the limelight
         public static final double kAutoAlignP = 0.0075;

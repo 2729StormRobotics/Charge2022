@@ -12,6 +12,9 @@ import frc.robot.subsystems.Index;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Vision;
+import frc.robot.commands.ShooterPrep;
+import static frc.robot.Constants.*;
+
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -21,8 +24,9 @@ public class AutoWallShot extends SequentialCommandGroup {
   public AutoWallShot(Shooter shooter, Index index, Drivetrain drivetrain, Intake intake, Vision vision) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    // addCommands(new DriveDistanceAndIntake(drivetrain, intake, index, -0.3, 40),
-    //     //new PointTurnGyroPID(vision.getXOffset(), drivetrain),
-    //     new TwoSpeedShoot(ShooterConstants.kWallShotSetpoint, ShooterConstants.kWallShotActualSpeed, shooter, index));
+     addCommands(new DriveDistanceAndIntake(drivetrain, intake, index, -0.3, 40),
+    new PointTurnGyroPID(vision.getXOffset(), drivetrain), new ShooterPrep(ShooterConstants.kWallShotSetpoint, ShooterConstants.kHubShotExtended, shooter),
+    new Shoot(shooter, index));
+    //new TwoSpeedShoot(ShooterConstants.kWallShotSetpoint, ShooterConstants.kWallShotActualSpeed, shooter, index));
   }
 }

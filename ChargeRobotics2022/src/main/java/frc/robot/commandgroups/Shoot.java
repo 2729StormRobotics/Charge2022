@@ -22,6 +22,6 @@ public class Shoot extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(new InstantCommand(shooter::enableLoop, shooter), new WaitUntilCommand(shooter::atSetpoint),  new IndexOut(index), 
       //new WaitUntilCommand(ball one leaves), 
-      new WaitUntilCommand(shooter::atSetpoint), new IndexOut(index));
+      /*new WaitUntilCommand(shooter::atSetpoint)*/ new WaitCommand(1), new IndexOut(index));
   }
 }

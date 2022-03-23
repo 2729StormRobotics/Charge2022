@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commandgroups.AutoHubDumpAndDriveBack;
+import frc.robot.commandgroups.AutoTarmacShot;
 import frc.robot.commandgroups.AutoTwoBallWallShot;
 import frc.robot.commandgroups.AutoDriveBackwards;
 import frc.robot.commandgroups.IntakeAndIndex;
@@ -102,7 +103,8 @@ public class RobotContainer {
     m_autoChooser.setDefaultOption("Do Nothing", new InstantCommand());
     m_autoChooser.addOption("Hub Dump", new AutoHubDumpAndDriveBack(m_shooter, m_index, m_drivetrain, m_intake, m_vision));
     m_autoChooser.addOption("Wall Shot", new AutoTwoBallWallShot(m_shooter, m_index, m_drivetrain, m_intake, m_vision));
-    m_autoChooser.addOption("Just Drive", new AutoDriveBackwards(m_drivetrain));
+    m_autoChooser.addOption("Just Drive Backwards", new AutoDriveBackwards(m_drivetrain));
+    m_autoChooser.addOption("tarmac Shot", new AutoTarmacShot(m_drivetrain, m_shooter, m_intake, m_index, m_vision));
 
     m_drivetrain.setDefaultCommand(
         new DriveManuallyArcade(() -> (m_driver.getLeftY() * 0.85), () -> (-m_driver.getRightX() * 0.7), m_drivetrain));

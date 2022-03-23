@@ -169,6 +169,7 @@ public class RobotContainer {
 
     // Operator Right Bumper: Shoot
     new JoystickButton(m_operator, Button.kRightBumper.value).whenPressed(new Shoot(m_shooter, m_index));
+    new JoystickButton(m_operator, Button.kRightBumper.value).whenPressed(new Shoot(m_shooter, m_index));
     new JoystickButton(m_operator, Button.kRightBumper.value).whenReleased(new ShootStop(m_shooter, m_index));
    
     // Operator Left Bumper: Index Eject

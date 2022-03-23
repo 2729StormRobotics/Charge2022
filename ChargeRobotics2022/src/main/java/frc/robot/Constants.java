@@ -236,7 +236,7 @@ public final class Constants {
         public static final double kTurnSpeed = .25;
 
         // Auto 
-        public static final double kAutoTarmacDistance = 100; // CHANGE THIS TO CORRECT DISTANCE 
+        public static final double kAutoTarmacDistance = 123.19; // CHANGE THIS TO CORRECT DISTANCE 
 
     }
     

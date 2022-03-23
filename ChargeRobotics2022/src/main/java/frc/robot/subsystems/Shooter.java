@@ -70,11 +70,16 @@ public class Shooter extends SubsystemBase {
     //  m_rightMotor.setInverted(true);
 
     // PID coefficients
-    kP = ShooterConstants.kP;
-    kI = ShooterConstants.kI;
-    kD = ShooterConstants.kD;
-    kIz = ShooterConstants.kIz;
-    kFF = ShooterConstants.kFF;
+    // kP = ShooterConstants.kP;
+    // kI = ShooterConstants.kI;
+    // kD = ShooterConstants.kD;
+    // kIz = ShooterConstants.kIz;
+    // kFF = ShooterConstants.kFF;
+
+    kP = SmartDashboard.getNumber("ShooterP", ShooterConstants.kP);
+    kI = SmartDashboard.getNumber("ShooterI", ShooterConstants.kI);
+    kD = SmartDashboard.getNumber("ShooterD", ShooterConstants.kD);
+    kFF = SmartDashboard.getNumber("ShooterFF", ShooterConstants.kFF);
 
     // Using .set() on the motor
     kMaxOutput = 1;

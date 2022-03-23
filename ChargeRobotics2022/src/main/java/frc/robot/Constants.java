@@ -114,12 +114,14 @@ public final class Constants {
         public static final double kCloseLaunchpadShotSetpoint = -3070;
         public static final double kFarLaunchpadShotSetpoint = -3150;
         public static final double kWallShotSetpoint = -2700; //-2600
+        public static final double kAutoTarmacShotSetpoint = -2700; // FIND THIS REAL VALUE
 
         /* Hood Positions for each Shot */
         public static final boolean kWallShotExtendHood = false;
         public static final boolean kHubShotExtended = false;
         public static final boolean kCloseLaunchpadShotExtended = false;
         public static final boolean kFarLaunchpadShotExtended = false;
+        public static final boolean kAutoTarmacShotExtended = false; // verify this 
 
 
         public static final int kBottomExtendedChannel = 6;
@@ -232,6 +234,9 @@ public final class Constants {
         public static final int kOperatorControllerPort = 1;
 
         public static final double kTurnSpeed = .25;
+
+        // Auto 
+        public static final double kAutoTarmacDistance = 100; // CHANGE THIS TO CORRECT DISTANCE 
 
     }
     

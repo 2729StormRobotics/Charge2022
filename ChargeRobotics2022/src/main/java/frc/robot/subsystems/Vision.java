@@ -62,14 +62,13 @@ public class Vision extends SubsystemBase {
     return (m_targetValue > 0.0);
   }
 
-  public boolean isHorizontallyAligned()
-  {
+  public boolean isHorizontallyAligned() {
     return (isTargetDetected() && m_xOffset < khorizontalRange && m_xOffset > -khorizontalRange);
   }
 
   // Returns the distance along the floor from the robot to the target on the upper hub 
   public double getHorizontalDistanceToUpperHub(){
-    return ( (kUpperTargetHeight - klimelightHeight) / Math.tan(Math.toRadians(getTargetAngle())) );
+    return ((kUpperTargetHeight - klimelightHeight) / Math.tan(Math.toRadians(getTargetAngle())));
   }
 
   public double getTargetAngle(){

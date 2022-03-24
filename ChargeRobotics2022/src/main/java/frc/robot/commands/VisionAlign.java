@@ -24,7 +24,7 @@ public class VisionAlign extends PIDCommand {
   public VisionAlign(Vision vision, Drivetrain drivetrain) {
     super(
         // The controller that the command will use
-        new PIDController(0.011, .025, 0),
+        new PIDController(kAutoAlignP, kAutoAlignI, kAutoAlignD),
         // This should return the measurement
         () -> vision.getXOffset(),
         // This should return the setpoint (can also be a constant)
@@ -56,12 +56,14 @@ public class VisionAlign extends PIDCommand {
     addRequirements(m_drivetrain);
 
     // Configure additional PID options by calling `getController` here.
+    // Tolerance only affects atSetpoint()
     getController().setTolerance(kAutoAlignTolerance, kAutoAlignSpeedTolerance);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    // No longer checking atSetpoint(), this command is now manually ended
     return false;
     //return getController().atSetpoint() || !m_vision.isTargetDetected();
   }

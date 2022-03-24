@@ -43,7 +43,9 @@ public final class Constants {
         public static final int kHangerMotorRightPort = 4;
 
         // Constant speed at which the hanger motor will rotate to extend the elevator
-        public static final double kClimbSpeed = 0.2; //This value is a guess
+        public static final double kClimbSpeed = 1;
+        public static final double kReverseClimbSpeed = -1;
+
         // The maximum extension of the elevator
         public static final double kMaxHeight = 0.0;
 
@@ -109,15 +111,17 @@ public final class Constants {
 
         /* Setpoint speeds for each shot */
         public static final double kHubShotSetpoint = -1250;
-        public static final double kCloseLaunchpadShotSetpoint = -4000;
-        public static final double kFarLaunchpadShotSetpoint = -4500;
-        public static final double kWallShotSetpoint = -3500;
+        public static final double kCloseLaunchpadShotSetpoint = -3070;
+        public static final double kFarLaunchpadShotSetpoint = -3150;
+        public static final double kWallShotSetpoint = -2700; //-2600
+        public static final double kAutoTarmacShotSetpoint = -2700; // FIND THIS REAL VALUE
 
         /* Hood Positions for each Shot */
         public static final boolean kWallShotExtendHood = false;
         public static final boolean kHubShotExtended = false;
         public static final boolean kCloseLaunchpadShotExtended = false;
         public static final boolean kFarLaunchpadShotExtended = false;
+        public static final boolean kAutoTarmacShotExtended = false; // verify this 
 
 
         public static final int kBottomExtendedChannel = 6;
@@ -130,15 +134,15 @@ public final class Constants {
         public static final double kVelocityConversion = 0;
      
         // PID values to maintain speed 
-        public static final double kP = 6e-4; // proportional constant
+        public static final double kP = 4.5e-4; // proportional constant
         public static final double kI = 0; // integral constant 
         public static final double kD = 0; // derivative constant
         public static final double kIz = 0; // integral zone
-        public static final double kFF = 0; // feed forward constant
+        public static final double kFF = 1.82e-4; // feed forward constant
         public static final double kMinOutput = 0;
         public static final double kMaxOutput = 0;
         public static final String kShooterShuffleboardTabName = "Shooter";
-        public static final double kVelocityTolerance = 10;
+        public static final double kVelocityTolerance = 100;
         public static final double kTarmacShotSpeed = 0;
         public static final double kDumpShotSpeed = -1250;
     }
@@ -151,10 +155,10 @@ public final class Constants {
 
         public static final int kdefaultPipeline = 0;
         
-        public static final double khorizontalRange = 1.5; // How far off from the crosshair the target can be to be centered on the x-axis
+        public static final double khorizontalRange = 1.0; // How far off from the crosshair the target can be to be centered on the x-axis
 
         // Alignment constants for the limelight
-        public static final double kAutoAlignP = 0.01;
+        public static final double kAutoAlignP = 0.0075;
         public static final double kAutoAlignI = 0.0;
         public static final double kAutoAlignD = 0.0;
         public static final double kAutoAlignTolerance = 1.0;
@@ -230,6 +234,9 @@ public final class Constants {
         public static final int kOperatorControllerPort = 1;
 
         public static final double kTurnSpeed = .25;
+
+        // Auto 
+        public static final double kAutoTarmacDistance = 123.19; // CHANGE THIS TO CORRECT DISTANCE 
 
     }
     

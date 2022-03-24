@@ -24,7 +24,7 @@ public class IndexOut extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_index.runLowerIndexMotor(-0.65);
+    m_index.runLowerIndexMotor(-0.6);
     m_index.runUpperIndexMotor(-0.3);
   }
 

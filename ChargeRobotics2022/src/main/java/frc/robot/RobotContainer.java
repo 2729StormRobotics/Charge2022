@@ -15,15 +15,19 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commandgroups.AutoHubDump;
-import frc.robot.commandgroups.AutoWallShot;
+import frc.robot.commandgroups.AutoHubDumpAndDriveBack;
+import frc.robot.commandgroups.AutoTarmacShot;
+import frc.robot.commandgroups.AutoTwoBallWallShot;
 import frc.robot.commandgroups.AutoDriveBackwards;
 import frc.robot.commandgroups.IntakeAndIndex;
+import frc.robot.commandgroups.Shoot;
+import frc.robot.commandgroups.ShootStop;
 import frc.robot.commands.DriveDistance;
 import frc.robot.commands.DriveManuallyArcade;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.HangManually;
 import frc.robot.commands.IndexOut;
+import frc.robot.commands.IndexEject;
 import frc.robot.commands.IntakeEject;
 import frc.robot.commands.IntakeExtend;
 import frc.robot.commands.IntakeRetract;
@@ -97,9 +101,10 @@ public class RobotContainer {
     m_autoChooser = new SendableChooser<>();
     SmartDashboard.putData("Autonomous Selector", m_autoChooser);
     m_autoChooser.setDefaultOption("Do Nothing", new InstantCommand());
-    m_autoChooser.addOption("Hub Dump", new AutoHubDump(m_shooter, m_index, m_drivetrain, m_intake, m_vision));
-    m_autoChooser.addOption("Wall Shot", new AutoWallShot(m_shooter, m_index, m_drivetrain, m_intake, m_vision));
-    m_autoChooser.addOption("Just Drive", new AutoDriveBackwards(m_drivetrain));
+    m_autoChooser.addOption("Hub Dump", new AutoHubDumpAndDriveBack(m_shooter, m_index, m_drivetrain, m_intake, m_vision));
+    m_autoChooser.addOption("Wall Shot", new AutoTwoBallWallShot(m_shooter, m_index, m_drivetrain, m_intake, m_vision));
+    m_autoChooser.addOption("Just Drive Backwards", new AutoDriveBackwards(m_drivetrain));
+    m_autoChooser.addOption("tarmac Shot", new AutoTarmacShot(m_drivetrain, m_shooter, m_intake, m_index, m_vision));
 
     m_drivetrain.setDefaultCommand(
         new DriveManuallyArcade(() -> (m_driver.getLeftY() * 0.85), () -> (-m_driver.getRightX() * 0.7), m_drivetrain));
@@ -157,18 +162,30 @@ public class RobotContainer {
     new JoystickButton(m_operator, Button.kBack.value).whenPressed(new IntakeRetract(m_intake));
 
     // Driver Y: Hanger
-    new JoystickButton(m_technician, Button.kY.value)
+    new JoystickButton(m_driver, Button.kY.value)
         .whileHeld(new HangManually(m_hanger, Constants.HangerConstants.kClimbSpeed));
 
-    // Reverse Hang: Technician Only (never on the field)
-    new JoystickButton(m_technician, Button.kY.value)
-        .whileHeld(new HangManually(m_hanger, Constants.HangerConstants.kClimbSpeed));
+    // Driver X: Hanger
+    new JoystickButton(m_driver, Button.kX.value)
+        .whileHeld(new HangManually(m_hanger, Constants.HangerConstants.kReverseClimbSpeed));
 
+    // Operator Right Bumper: Shoot
+    new JoystickButton(m_operator, Button.kRightBumper.value).whenPressed(new Shoot(m_shooter, m_index));
+    new JoystickButton(m_operator, Button.kRightBumper.value).whenPressed(new Shoot(m_shooter, m_index));
+    new JoystickButton(m_operator, Button.kRightBumper.value).whenReleased(new ShootStop(m_shooter, m_index));
+   
+    // Operator Left Bumper: Index Eject
+    new JoystickButton(m_operator, Button.kLeftBumper.value).whileHeld(new IndexEject(m_index));
     
-    new JoystickButton(m_operator, Button.kLeftBumper.value).whileHeld(new IndexOut(m_index));
-    new JoystickButton(m_operator, Button.kRightBumper.value)
-        .whenPressed(new InstantCommand(m_shooter::gentleStop, m_shooter));
+    // new JoystickButton(m_operator, Button.kRightBumper.value)
+    //     .whenPressed(new InstantCommand(m_shooter::gentleStop, m_shooter));
+    
     new JoystickButton(m_driver, Button.kA.value).whenPressed(new VisionAlign(m_vision, m_drivetrain));
+    new JoystickButton(m_driver, Button.kA.value).whenReleased(new InstantCommand(m_drivetrain::stopDrive, m_drivetrain));
+    
+    // SmartDashboard.putNumber("VisionP", 0.0075);
+    // SmartDashboard.putNumber("VisionD", 0);
+    // SmartDashboard.putNumber("VisionI", 0);
     new JoystickButton(m_driver, Button.kA.value)
         .whenReleased(new InstantCommand(m_drivetrain::stopDrive, m_drivetrain));
 

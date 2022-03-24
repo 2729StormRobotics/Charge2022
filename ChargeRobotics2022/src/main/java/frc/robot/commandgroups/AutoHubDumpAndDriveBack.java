@@ -25,6 +25,6 @@ public class AutoHubDumpAndDriveBack extends SequentialCommandGroup {
     addCommands(//new DriveDistanceAndIntake(drivetrain, intake, index, -0.3, 50),
     new ShooterPrep(ShooterConstants.kHubShotSetpoint, ShooterConstants.kHubShotExtended, shooter),
     new Shoot(shooter, index), 
-    new DriveDistance(drivetrain, -0.3, -100)); // VERIFY DISTANCE VALUE
+    new DriveDistance(drivetrain, -0.3, 60)); // VERIFY DISTANCE VALUE
   }
 }

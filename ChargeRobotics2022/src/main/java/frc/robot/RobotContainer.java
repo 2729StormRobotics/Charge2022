@@ -35,6 +35,7 @@ import frc.robot.commands.PointTurnUsingLimelight;
 import frc.robot.commands.ShooterManuallySetExtendedAngle;
 import frc.robot.commands.ShooterManuallySetRetractedAngle;
 import frc.robot.commands.ShooterPrep;
+import frc.robot.commands.ShooterTestMode;
 import frc.robot.commands.VisionAlign;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
@@ -85,6 +86,7 @@ public class RobotContainer {
   private final double turnBoostSpeedFactor = 0.7;
 
   private final SendableChooser<Command> m_autoChooser;
+  private final SendableChooser<Command> m_testChooser;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -104,7 +106,12 @@ public class RobotContainer {
     m_autoChooser.addOption("Hub Dump", new AutoHubDumpAndDriveBack(m_shooter, m_index, m_drivetrain, m_intake, m_vision));
     m_autoChooser.addOption("Wall Shot", new AutoTwoBallWallShot(m_shooter, m_index, m_drivetrain, m_intake, m_vision));
     m_autoChooser.addOption("Just Drive Backwards", new AutoDriveBackwards(m_drivetrain));
-    m_autoChooser.addOption("tarmac Shot", new AutoTarmacShot(m_drivetrain, m_shooter, m_intake, m_index, m_vision));
+    m_autoChooser.addOption("Tarmac Shot", new AutoTarmacShot(m_drivetrain, m_shooter, m_intake, m_index, m_vision));
+
+    m_testChooser = new SendableChooser<>();
+    SmartDashboard.putData("Test Selector", m_testChooser);
+    SmartDashboard.putBoolean("Test Mode", false);
+    m_autoChooser.setDefaultOption("Test Mode", new ShooterTestMode(m_shooter, true));
 
     m_drivetrain.setDefaultCommand(
         new DriveManuallyArcade(() -> (m_driver.getLeftY() * 0.85), () -> (-m_driver.getRightX() * 0.7), m_drivetrain));

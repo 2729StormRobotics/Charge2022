@@ -105,7 +105,7 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putNumber("Set Velocity", m_setpoint);
 
     //initialize shuffleboard testing to false.
-    shuffleboardTesting = true;
+    shuffleboardTesting = false;
 
   }
 

@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commandgroups.AutoHubDumpAndDriveBack;
 import frc.robot.commandgroups.AutoTarmacShot;
 import frc.robot.commandgroups.AutoTwoBallWallShot;
+import frc.robot.commandgroups.DriveDistanceAndIntake;
 import frc.robot.commandgroups.AutoDriveBackwards;
 import frc.robot.commandgroups.IntakeAndIndex;
 import frc.robot.commandgroups.Shoot;
@@ -49,6 +50,8 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Vision;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj.Compressor;
@@ -115,6 +118,9 @@ public class RobotContainer {
 
     m_drivetrain.setDefaultCommand(
         new DriveManuallyArcade(() -> (m_driver.getLeftY() * 0.85), () -> (-m_driver.getRightX() * 0.7), m_drivetrain));
+
+
+    SmartDashboard.putNumber("Auto Delay", 0);
 
     // Configure the button bindings
     configureButtonBindings();
@@ -207,7 +213,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
 
     // An ExampleCommand will run in autonomous
-    return m_autoChooser.getSelected();
+    return new SequentialCommandGroup(new WaitCommand(SmartDashboard.getNumber("Auto Delay", 0)), m_autoChooser.getSelected());
 
   }
 

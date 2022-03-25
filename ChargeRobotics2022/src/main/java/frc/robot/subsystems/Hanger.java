@@ -36,7 +36,7 @@ public class Hanger extends SubsystemBase {
     m_hangerMotorRight = new CANSparkMax(kHangerMotorRightPort, MotorType.kBrushless);
     motorInit(m_hangerMotorRight);
 
-    m_hangerMotorLeft.follow(m_hangerMotorRight, true);
+    m_hangerMotorLeft.follow(m_hangerMotorRight, false);
 
     m_encoderLeft = m_hangerMotorLeft.getEncoder();
     m_encoderRight = m_hangerMotorRight.getEncoder();

@@ -5,8 +5,10 @@
 package frc.robot.commandgroups;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ShooterConstants;
+import frc.robot.commands.AutoVisionAlign;
 import frc.robot.commands.IntakeExtend;
 import frc.robot.commands.ShooterPrep;
 import frc.robot.commands.VisionAlign;
@@ -26,9 +28,10 @@ public class AutoTarmacShot extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
      new IntakeExtend(intake), 
+     new WaitCommand(1),
      new DriveDistanceAndIntake(drivetrain, intake, index, -0.3, DriveConstants.kAutoTarmacDistance - vision.getHorizontalDistanceToUpperHub()), 
-    new VisionAlign(vision, drivetrain), 
+    new AutoVisionAlign(vision, drivetrain), 
     new ShooterPrep(ShooterConstants.kAutoTarmacShotSetpoint, ShooterConstants.kAutoTarmacShotExtended, shooter),
-    new Shoot(shooter, index));
+    new AutoShoot(shooter, index));
   }
 }

@@ -111,10 +111,10 @@ public final class Constants {
 
         /* Setpoint speeds for each shot */
         public static final double kHubShotSetpoint = -1250;
-        public static final double kCloseLaunchpadShotSetpoint = -3070;
-        public static final double kFarLaunchpadShotSetpoint = -3150;
-        public static final double kWallShotSetpoint = -2700; //-2600
-        public static final double kAutoTarmacShotSetpoint = -2700; // FIND THIS REAL VALUE
+        public static final double kCloseLaunchpadShotSetpoint = -2900;
+        public static final double kFarLaunchpadShotSetpoint = -3500;
+        public static final double kWallShotSetpoint = -2600; //-2600
+        public static final double kAutoTarmacShotSetpoint = -2300; 
 
         /* Hood Positions for each Shot */
         public static final boolean kWallShotExtendHood = false;
@@ -143,7 +143,6 @@ public final class Constants {
         public static final double kMaxOutput = 0;
         public static final String kShooterShuffleboardTabName = "Shooter";
         public static final double kVelocityTolerance = 100;
-        public static final double kTarmacShotSpeed = 0;
         public static final double kDumpShotSpeed = -1250;
     }
 

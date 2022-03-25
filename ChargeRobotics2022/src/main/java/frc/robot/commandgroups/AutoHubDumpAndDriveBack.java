@@ -4,8 +4,12 @@
 
 package frc.robot.commandgroups;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.commands.AutoVisionAlign;
 import frc.robot.commands.DriveDistance;
+import frc.robot.commands.IntakeExtend;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Index;
 import frc.robot.subsystems.Intake;
@@ -23,8 +27,15 @@ public class AutoHubDumpAndDriveBack extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(//new DriveDistanceAndIntake(drivetrain, intake, index, -0.3, 50),
-    new ShooterPrep(ShooterConstants.kHubShotSetpoint, ShooterConstants.kHubShotExtended, shooter),
-    new Shoot(shooter, index), 
-    new DriveDistance(drivetrain, -0.3, 60)); // VERIFY DISTANCE VALUE
+    // new ShooterPrep(ShooterConstants.kHubShotSetpoint, ShooterConstants.kHubShotExtended, shooter),
+    // new AutoShoot(shooter, index), 
+    new DriveDistance(drivetrain, -0.3, 60),
+    new WaitCommand(1),
+    new IntakeExtend(intake),
+    new AutoIntakeRun(intake, index),
+    new AutoVisionAlign(vision, drivetrain),
+    new ShooterPrep(-2450, ShooterConstants.kWallShotExtendHood, shooter),
+    new AutoShoot(shooter, index),
+    new InstantCommand(shooter::disableLoop, shooter)); // VERIFY DISTANCE VALUE
   }
 }

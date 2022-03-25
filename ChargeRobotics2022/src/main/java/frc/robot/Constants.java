@@ -107,13 +107,6 @@ public final class Constants {
         public static final boolean kMotorLeftInverted = false;
         public static final boolean kMotorRightInverted = false;
 
-        /* Setpoint speeds for each shot */
-        public static final double kHubShotSetpoint = -1250;
-        public static final double kCloseLaunchpadShotSetpoint = -3070;
-        public static final double kFarLaunchpadShotSetpoint = -3150;
-        public static final double kWallShotSetpoint = -2700; //-2600
-        public static final double kTarmacShotSetpoint = -2700; //Find this real value
-
         /* Horizontal distances for each shot */
         /*
          * These are really used for vision, but they're in the ShooterConstants class
@@ -125,6 +118,10 @@ public final class Constants {
         public static final double kWallDistance = 0;
         public static final double kTarmacDistance = 0;
 
+        public static final double kCloseLaunchpadShotSetpoint = -2900;
+        public static final double kFarLaunchpadShotSetpoint = -3500;
+        public static final double kWallShotSetpoint = -2600; //-2600
+        public static final double kAutoTarmacShotSetpoint = -2300; 
 
         /* Hood Positions for each Shot */
         public static final boolean kWallShotExtendHood = false;
@@ -152,7 +149,6 @@ public final class Constants {
         public static final double kMaxOutput = 0;
         public static final String kShooterShuffleboardTabName = "Shooter";
         public static final double kVelocityTolerance = 100;
-        public static final double kTarmacShotSpeed = 0;
         public static final double kDumpShotSpeed = -1250;
     }
 

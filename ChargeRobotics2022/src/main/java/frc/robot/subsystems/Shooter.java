@@ -180,9 +180,6 @@ public class Shooter extends SubsystemBase {
       m_pidController.setP(kP);
       m_pidController.setReference(m_setpoint, ControlType.kVelocity);
     }
-
-    
-
   }
 
   public void enableLoop() {

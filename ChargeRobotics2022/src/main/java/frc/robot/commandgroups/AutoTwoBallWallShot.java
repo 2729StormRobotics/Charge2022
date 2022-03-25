@@ -4,6 +4,7 @@
 
 package frc.robot.commandgroups;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.ShooterConstants;
@@ -29,10 +30,12 @@ public class AutoTwoBallWallShot extends SequentialCommandGroup {
     addCommands(
         new DriveDistance(drivetrain, -0.3, 7.5),
         new ShooterPrep(ShooterConstants.kAutoTarmacShotSetpoint, ShooterConstants.kHubShotExtended, shooter),
-        new Shoot(shooter, index),
+        new AutoShoot(shooter, index),
+        new InstantCommand(shooter::disableLoop, shooter),
+        new WaitCommand(1),
         new IntakeExtend(intake),
         new WaitCommand(1),
-        new DriveDistanceAndIntake(drivetrain, intake, index, -0.2, 37.5), // CHANGE THE DISTANCE VALUE
+        new DriveDistanceAndIntake(drivetrain, intake, index, -0.2, 35), // CHANGE THE DISTANCE VALUE
         new WaitCommand(2),
         new IntakeRetract(intake),
         new WaitCommand(1),
@@ -41,7 +44,8 @@ public class AutoTwoBallWallShot extends SequentialCommandGroup {
         new AutoVisionAlign(vision, drivetrain),
         new WaitCommand(1),
         new ShooterPrep(ShooterConstants.kWallShotSetpoint, ShooterConstants.kHubShotExtended, shooter),
-        new Shoot(shooter, index));
+        new AutoShoot(shooter, index),
+        new InstantCommand(shooter::disableLoop, shooter));
     // new TwoSpeedShoot(ShooterConstants.kWallShotSetpoint,
     // ShooterConstants.kWallShotActualSpeed, shooter, index));
   }

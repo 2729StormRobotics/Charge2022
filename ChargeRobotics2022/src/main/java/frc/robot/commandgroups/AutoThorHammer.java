@@ -18,27 +18,24 @@ import frc.robot.subsystems.Vision;
 import static frc.robot.Constants.*;
 import frc.robot.commands.ShooterPrep;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class AutoHubDumpAndDriveBack extends SequentialCommandGroup {
+/**
+ * Starts against the hub, drives to the Wall
+ */
+public class AutoThorHammer extends SequentialCommandGroup {
   /** Creates a new ShootAutomatically. */
-  public AutoHubDumpAndDriveBack(Shooter shooter, Index index, Drivetrain drivetrain, Intake intake, Vision vision) {
+  public AutoThorHammer(Shooter shooter, Index index, Drivetrain drivetrain, Intake intake, Vision vision) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(//new DriveDistanceAndIntake(drivetrain, intake, index, -0.3, 50),
     // new ShooterPrep(ShooterConstants.kHubShotSetpoint, ShooterConstants.kHubShotExtended, shooter),
     // new AutoShoot(shooter, index), 
-    
-    //new DriveDistance(drivetrain, -0.3, 60),
-   // new WaitCommand(1),
-   // new IntakeExtend(intake),
-    //new AutoIntakeRun(intake, index),
-    //new AutoVisionAlign(vision, drivetrain),
-    new ShooterPrep(ShooterConstants.kHubShotSetpoint, ShooterConstants.kWallShotExtendHood, shooter),
+    new DriveDistance(drivetrain, -0.3, 60),
+    new WaitCommand(1),
+    new IntakeExtend(intake),
+    new AutoIntakeRun(intake, index),
+    new AutoVisionAlign(vision, drivetrain),
+    new ShooterPrep(-2450, ShooterConstants.kWallShotExtendHood, shooter),
     new AutoShoot(shooter, index),
-    new InstantCommand(shooter::disableLoop, shooter),
-    new DriveDistance(drivetrain, -0.3, 60)); // VERIFY DISTANCE VALUE
-
+    new InstantCommand(shooter::disableLoop, shooter)); // VERIFY DISTANCE VALUE
   }
 }

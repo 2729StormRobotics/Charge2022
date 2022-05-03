@@ -15,11 +15,15 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commandgroups.AutoHubDumpAndDriveBack;
+import frc.robot.commandgroups.AutoThorHammer;
+import frc.robot.commandgroups.AutoThorHammerWallSmash;
 import frc.robot.commandgroups.AutoTarmacShot;
 import frc.robot.commandgroups.AutoTwoBallWallShot;
-import frc.robot.commandgroups.AutoDriveBackwards;
+import frc.robot.commandgroups.DriveDistanceAndIntake;
 import frc.robot.commandgroups.IntakeAndIndex;
+import frc.robot.commandgroups.AutoDriveBackwards;
+import frc.robot.commandgroups.AutoEdgeThorHammerWallSmash;
+import frc.robot.commandgroups.AutoHubDumpAndDriveBack;
 import frc.robot.commandgroups.Shoot;
 import frc.robot.commandgroups.ShootStop;
 import frc.robot.commands.DriveDistance;
@@ -35,6 +39,7 @@ import frc.robot.commands.PointTurnUsingLimelight;
 import frc.robot.commands.ShooterManuallySetExtendedAngle;
 import frc.robot.commands.ShooterManuallySetRetractedAngle;
 import frc.robot.commands.ShooterPrep;
+import frc.robot.commands.ShooterTestMode;
 import frc.robot.commands.VisionAlign;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
@@ -48,6 +53,8 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Vision;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj.Compressor;
@@ -85,6 +92,7 @@ public class RobotContainer {
   private final double turnBoostSpeedFactor = 0.7;
 
   private final SendableChooser<Command> m_autoChooser;
+  private final SendableChooser<Command> m_testChooser;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -101,13 +109,24 @@ public class RobotContainer {
     m_autoChooser = new SendableChooser<>();
     SmartDashboard.putData("Autonomous Selector", m_autoChooser);
     m_autoChooser.setDefaultOption("Do Nothing", new InstantCommand());
-    m_autoChooser.addOption("Hub Dump", new AutoHubDumpAndDriveBack(m_shooter, m_index, m_drivetrain, m_intake, m_vision));
-    m_autoChooser.addOption("Wall Shot", new AutoTwoBallWallShot(m_shooter, m_index, m_drivetrain, m_intake, m_vision));
+    m_autoChooser.addOption("Thor Hammer", new AutoThorHammer(m_shooter, m_index, m_drivetrain, m_intake, m_vision));
+    m_autoChooser.addOption("Wall Shot Intake", new AutoTwoBallWallShot(m_shooter, m_index, m_drivetrain, m_intake, m_vision));
+    m_autoChooser.addOption("Thor Hammer Slam", new AutoThorHammerWallSmash(m_shooter, m_index, m_drivetrain, m_intake, m_vision));
     m_autoChooser.addOption("Just Drive Backwards", new AutoDriveBackwards(m_drivetrain));
-    m_autoChooser.addOption("tarmac Shot", new AutoTarmacShot(m_drivetrain, m_shooter, m_intake, m_index, m_vision));
+    m_autoChooser.addOption("Tarmac Shot", new AutoTarmacShot(m_drivetrain, m_shooter, m_intake, m_index, m_vision));
+    m_autoChooser.addOption("Thor Edge", new AutoEdgeThorHammerWallSmash(m_shooter, m_index, m_drivetrain, m_intake, m_vision));
+    m_autoChooser.addOption("Hub Dump", new AutoHubDumpAndDriveBack(m_shooter, m_index, m_drivetrain, m_intake, m_vision));
+
+    m_testChooser = new SendableChooser<>();
+    SmartDashboard.putData("Test Selector", m_testChooser);
+    SmartDashboard.putBoolean("Test Mode", false);
+    m_autoChooser.setDefaultOption("Test Mode", new ShooterTestMode(m_shooter, true));
 
     m_drivetrain.setDefaultCommand(
-        new DriveManuallyArcade(() -> (m_driver.getLeftY() * 0.85), () -> (-m_driver.getRightX() * 0.7), m_drivetrain));
+        new DriveManuallyArcade(() -> (m_driver.getLeftY() * 0.85), () -> (-m_driver.getRightX() * 0.6), m_drivetrain));
+
+
+    SmartDashboard.putNumber("Auto Delay", 0);
 
     // Configure the button bindings
     configureButtonBindings();
@@ -141,12 +160,12 @@ public class RobotContainer {
     new JoystickButton(m_operator, Button.kY.value).whenPressed(
         new ShooterPrep(ShooterConstants.kHubShotSetpoint, ShooterConstants.kHubShotExtended, m_shooter));
     // Operator X: Close Launchpad
-    new JoystickButton(m_operator, Button.kX.value).whenPressed(
+    new JoystickButton(m_operator, Button.kB.value).whenPressed(
         new ShooterPrep(ShooterConstants.kCloseLaunchpadShotSetpoint, ShooterConstants.kCloseLaunchpadShotExtended,
             m_shooter));
     // Operator B: Far Launchpad
-    new JoystickButton(m_operator, Button.kB.value).whenPressed(
-        new ShooterPrep(ShooterConstants.kFarLaunchpadShotSetpoint, ShooterConstants.kFarLaunchpadShotExtended,
+    new JoystickButton(m_operator, Button.kX.value).whenPressed(
+        new ShooterPrep(ShooterConstants.kTarmacShotSetpoint, ShooterConstants.kFarLaunchpadShotExtended,
             m_shooter));
 
     // Operator Right Trigger: Intake & Index (In)
@@ -165,8 +184,8 @@ public class RobotContainer {
     new JoystickButton(m_driver, Button.kY.value)
         .whileHeld(new HangManually(m_hanger, Constants.HangerConstants.kClimbSpeed));
 
-    // Driver X: Hanger
-    new JoystickButton(m_driver, Button.kX.value)
+    // Driver X: Hanger NO NEED
+    new JoystickButton(m_technician, Button.kY.value)
         .whileHeld(new HangManually(m_hanger, Constants.HangerConstants.kReverseClimbSpeed));
 
     // Operator Right Bumper: Shoot
@@ -200,7 +219,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
 
     // An ExampleCommand will run in autonomous
-    return m_autoChooser.getSelected();
+    return new SequentialCommandGroup(new WaitCommand(SmartDashboard.getNumber("Auto Delay", 0)), m_autoChooser.getSelected());
 
   }
 

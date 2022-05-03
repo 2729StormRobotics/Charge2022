@@ -62,7 +62,8 @@ public class AutoVisionAlign extends PIDCommand {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return getController().atSetpoint();
+   return getController().atSetpoint();
+   //return false;
   }
 
   @Override

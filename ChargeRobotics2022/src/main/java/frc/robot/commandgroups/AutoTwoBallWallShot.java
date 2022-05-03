@@ -29,7 +29,7 @@ public class AutoTwoBallWallShot extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
         new DriveDistance(drivetrain, -0.3, 7.5),
-        new ShooterPrep(ShooterConstants.kAutoTarmacShotSetpoint, ShooterConstants.kHubShotExtended, shooter),
+        new ShooterPrep(ShooterConstants.kTarmacShotSetpoint, ShooterConstants.kHubShotExtended, shooter),
         new AutoShoot(shooter, index),
         new InstantCommand(shooter::disableLoop, shooter),
         new WaitCommand(1),

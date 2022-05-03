@@ -24,6 +24,12 @@ public class Vision extends SubsystemBase {
   private double m_percentArea; // target area
   private double m_targetValue; // whether the limelight has an valid targets (0 or 1)
 
+  public static final double kTarmacToCenterOfWheelsDistance = 83.422;
+  public static final double kCenterOfWheelsToLimelightDeltaX = 12.423;
+  public static final double kTarmacToLimelightDistance = kTarmacToCenterOfWheelsDistance - kCenterOfWheelsToLimelightDeltaX;
+  public static final double kTarmacShotDistanceTolerance = 5.0;
+
+
   /** Creates a new Vision. */
   public Vision() {
     // Instantiate the network table
@@ -120,5 +126,23 @@ public class Vision extends SubsystemBase {
     updateLimeLight();
     // SmartDashboard.putNumber("x offset", m_xOffset);
     SmartDashboard.putBoolean("Limelight Aligned", isHorizontallyAligned());
+
+    double offsetFromTarmacShot = getHorizontalDistanceToUpperHub() - kTarmacToLimelightDistance;
+
+    if (Math.abs(offsetFromTarmacShot) < kTarmacShotDistanceTolerance) {
+      SmartDashboard.putBoolean("Tarmac Shot", true);
+      SmartDashboard.putString("Tarmac Line", "Excellent :)");
+    } else if (offsetFromTarmacShot >= kTarmacShotDistanceTolerance) {
+      SmartDashboard.putBoolean("Tarmac Shot", false);
+      SmartDashboard.putString("Tarmac Line", "Back Up");
+    } else if (offsetFromTarmacShot <= -kTarmacShotDistanceTolerance) {
+      SmartDashboard.putBoolean("Tarmac Shot", false);
+      SmartDashboard.putString("Tarmac Line", "Go Forward");
+    } else {
+      SmartDashboard.putBoolean("Tarmac Shot", false);
+      SmartDashboard.putString("Tarmac Line", "Unknown");
+    }
+
+
   }
 }

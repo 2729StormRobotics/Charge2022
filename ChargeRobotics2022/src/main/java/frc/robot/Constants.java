@@ -44,8 +44,8 @@ public final class Constants {
         public static final int kHangerMotorRightPort = 4;
 
         // Constant speed at which the hanger motor will rotate to extend the elevator
-        public static final double kClimbSpeed = 1;
-        public static final double kReverseClimbSpeed = -1;
+        public static final double kClimbSpeed = 0.5;
+        public static final double kReverseClimbSpeed = -0.5;
 
         // The maximum extension of the elevator
         public static final double kMaxHeight = 0.0;
@@ -118,10 +118,11 @@ public final class Constants {
         public static final double kWallDistance = 0;
         public static final double kTarmacDistance = 0;
 
+        public static final double kHubShotSetpoint = -1250;
         public static final double kCloseLaunchpadShotSetpoint = -2900;
         public static final double kFarLaunchpadShotSetpoint = -3500;
-        public static final double kWallShotSetpoint = -2600; //-2600
-        public static final double kAutoTarmacShotSetpoint = -2300; 
+        public static final double kWallShotSetpoint = -2650; //-2600
+        public static final double kTarmacShotSetpoint = -2350; 
 
         /* Hood Positions for each Shot */
         public static final boolean kWallShotExtendHood = false;
@@ -148,7 +149,7 @@ public final class Constants {
         public static final double kMinOutput = 0;
         public static final double kMaxOutput = 0;
         public static final String kShooterShuffleboardTabName = "Shooter";
-        public static final double kVelocityTolerance = 100;
+        public static final double kVelocityTolerance = 30;
         public static final double kDumpShotSpeed = -1250;
     }
 
@@ -161,6 +162,11 @@ public final class Constants {
         public static final int kdefaultPipeline = 0;
         public static final double khorizontalRange = 1.0; // How far off from the crosshair the target can be to be centered on the x-axis
 
+         // Alignment constants for the limelight
+         public static final double kAutoAlignP = 0.011;
+         public static final double kAutoAlignI = 0.025;
+         public static final double kAutoAlignD = 0.0;
+         public static final double kAutoAlignTolerance = 1.0;
         public static final double kAutoAlignSpeedTolerance = 1.0;
     }
 

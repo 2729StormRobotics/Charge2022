@@ -4,16 +4,17 @@
 
 package frc.robot.commandgroups;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.AutoVisionAlign;
 import frc.robot.commands.DriveDistance;
 import frc.robot.commands.IntakeExtend;
+import frc.robot.commands.IntakeRetract;
 import frc.robot.commands.ShooterPrep;
-import frc.robot.commands.VisionAlign;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Index;
 import frc.robot.subsystems.Intake;
@@ -23,28 +24,22 @@ import frc.robot.subsystems.Vision;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class AutoTarmacShot extends SequentialCommandGroup {
-  /** Creates a new AutoTarmacSho. */
-  public AutoTarmacShot(Drivetrain drivetrain, Shooter shooter, Intake intake, Index index, Vision vision) {
+public class AutoThorHammerWallSmash extends SequentialCommandGroup {
+  /** Creates a new AutoThorHammerWall. */
+  public AutoThorHammerWallSmash(Shooter shooter, Index index, Drivetrain drivetrain, Intake intake, Vision vision) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      // Back up and shoot preloaded
-      new DriveDistance(drivetrain, -0.3, 5),
-      new ShooterPrep(ShooterConstants.kTarmacShotSetpoint, ShooterConstants.kAutoTarmacShotExtended, shooter),
-      new AutoShoot(shooter, index),
-      new InstantCommand(shooter::disableLoop, shooter),
-      // Drive back to ball
-      new DriveDistance(drivetrain, -0.3, 20),
-      // Thor Hammer
-      new IntakeExtend(intake),
-      new AutoIntakeRun(intake, index),
-      // Drive forward back to tarmac and shoot
-      // Another option would be to drive back 5 inches and "wall shot"
-      new DriveDistance(drivetrain, 0.3, 23),
-      new ShooterPrep(ShooterConstants.kTarmacShotSetpoint, ShooterConstants.kAutoTarmacShotExtended, shooter),
-      new AutoShoot(shooter, index),
-      new InstantCommand(shooter::disableLoop, shooter)
-    );
+    new DriveDistance(drivetrain, -0.3, 60),
+    new WaitCommand(1),
+    new IntakeExtend(intake),
+    new AutoIntakeRun(intake, index),
+    new IntakeRetract(intake),
+    new WaitCommand(1),
+    new DriveDistance(drivetrain, -0.3, 5),
+    new AutoVisionAlign(vision, drivetrain),
+    new ShooterPrep(ShooterConstants.kWallShotSetpoint, ShooterConstants.kWallShotExtendHood, shooter),
+    new AutoShoot(shooter, index),
+    new InstantCommand(shooter::disableLoop, shooter)); // VERIFY DISTANCE VALUE);
   }
 }

@@ -15,12 +15,15 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commandgroups.AutoHubDumpAndDriveBack;
+import frc.robot.commandgroups.AutoThorHammer;
+import frc.robot.commandgroups.AutoThorHammerWallSmash;
 import frc.robot.commandgroups.AutoTarmacShot;
 import frc.robot.commandgroups.AutoTwoBallWallShot;
 import frc.robot.commandgroups.DriveDistanceAndIntake;
-import frc.robot.commandgroups.AutoDriveBackwards;
 import frc.robot.commandgroups.IntakeAndIndex;
+import frc.robot.commandgroups.AutoDriveBackwards;
+import frc.robot.commandgroups.AutoEdgeThorHammerWallSmash;
+import frc.robot.commandgroups.AutoHubDumpAndDriveBack;
 import frc.robot.commandgroups.Shoot;
 import frc.robot.commandgroups.ShootStop;
 import frc.robot.commands.DriveDistance;
@@ -106,10 +109,13 @@ public class RobotContainer {
     m_autoChooser = new SendableChooser<>();
     SmartDashboard.putData("Autonomous Selector", m_autoChooser);
     m_autoChooser.setDefaultOption("Do Nothing", new InstantCommand());
-    m_autoChooser.addOption("Hub Dump", new AutoHubDumpAndDriveBack(m_shooter, m_index, m_drivetrain, m_intake, m_vision));
-    m_autoChooser.addOption("Wall Shot", new AutoTwoBallWallShot(m_shooter, m_index, m_drivetrain, m_intake, m_vision));
+    m_autoChooser.addOption("Thor Hammer", new AutoThorHammer(m_shooter, m_index, m_drivetrain, m_intake, m_vision));
+    m_autoChooser.addOption("Wall Shot Intake", new AutoTwoBallWallShot(m_shooter, m_index, m_drivetrain, m_intake, m_vision));
+    m_autoChooser.addOption("Thor Hammer Slam", new AutoThorHammerWallSmash(m_shooter, m_index, m_drivetrain, m_intake, m_vision));
     m_autoChooser.addOption("Just Drive Backwards", new AutoDriveBackwards(m_drivetrain));
     m_autoChooser.addOption("Tarmac Shot", new AutoTarmacShot(m_drivetrain, m_shooter, m_intake, m_index, m_vision));
+    m_autoChooser.addOption("Thor Edge", new AutoEdgeThorHammerWallSmash(m_shooter, m_index, m_drivetrain, m_intake, m_vision));
+    m_autoChooser.addOption("Hub Dump", new AutoHubDumpAndDriveBack(m_shooter, m_index, m_drivetrain, m_intake, m_vision));
 
     m_testChooser = new SendableChooser<>();
     SmartDashboard.putData("Test Selector", m_testChooser);
@@ -117,7 +123,7 @@ public class RobotContainer {
     m_autoChooser.setDefaultOption("Test Mode", new ShooterTestMode(m_shooter, true));
 
     m_drivetrain.setDefaultCommand(
-        new DriveManuallyArcade(() -> (m_driver.getLeftY() * 0.85), () -> (-m_driver.getRightX() * 0.7), m_drivetrain));
+        new DriveManuallyArcade(() -> (m_driver.getLeftY() * 0.85), () -> (-m_driver.getRightX() * 0.6), m_drivetrain));
 
 
     SmartDashboard.putNumber("Auto Delay", 0);
@@ -154,12 +160,12 @@ public class RobotContainer {
     new JoystickButton(m_operator, Button.kY.value).whenPressed(
         new ShooterPrep(ShooterConstants.kHubShotSetpoint, ShooterConstants.kHubShotExtended, m_shooter));
     // Operator X: Close Launchpad
-    new JoystickButton(m_operator, Button.kX.value).whenPressed(
+    new JoystickButton(m_operator, Button.kB.value).whenPressed(
         new ShooterPrep(ShooterConstants.kCloseLaunchpadShotSetpoint, ShooterConstants.kCloseLaunchpadShotExtended,
             m_shooter));
     // Operator B: Far Launchpad
-    new JoystickButton(m_operator, Button.kB.value).whenPressed(
-        new ShooterPrep(ShooterConstants.kFarLaunchpadShotSetpoint, ShooterConstants.kFarLaunchpadShotExtended,
+    new JoystickButton(m_operator, Button.kX.value).whenPressed(
+        new ShooterPrep(ShooterConstants.kTarmacShotSetpoint, ShooterConstants.kFarLaunchpadShotExtended,
             m_shooter));
 
     // Operator Right Trigger: Intake & Index (In)
@@ -178,8 +184,8 @@ public class RobotContainer {
     new JoystickButton(m_driver, Button.kY.value)
         .whileHeld(new HangManually(m_hanger, Constants.HangerConstants.kClimbSpeed));
 
-    // Driver X: Hanger
-    new JoystickButton(m_driver, Button.kX.value)
+    // Driver X: Hanger NO NEED
+    new JoystickButton(m_technician, Button.kY.value)
         .whileHeld(new HangManually(m_hanger, Constants.HangerConstants.kReverseClimbSpeed));
 
     // Operator Right Bumper: Shoot

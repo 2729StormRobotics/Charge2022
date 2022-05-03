@@ -20,6 +20,6 @@ public class Shoot extends SequentialCommandGroup {
   public Shoot(Shooter shooter, Index index) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new InstantCommand(shooter::enableLoop, shooter), new WaitUntilCommand(shooter::atSetpoint),  new IndexOut(index));
+    addCommands(new InstantCommand(shooter::enableLoop, shooter), new WaitUntilCommand(shooter::atSetpoint),  new IndexOut(index), new WaitCommand(1), new IndexOut(index));
   }
 }

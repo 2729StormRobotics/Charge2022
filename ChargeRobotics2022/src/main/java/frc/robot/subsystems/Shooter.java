@@ -256,8 +256,8 @@ public class Shooter extends SubsystemBase {
       setpointString = "Wall Shot";
     } else if (m_setpoint == kCloseLaunchpadShotSetpoint) {
       setpointString = "Close Launchpad Shot";
-    } else if (m_setpoint == kFarLaunchpadShotSetpoint) {
-      setpointString = "Far Launchpad";
+    } else if (m_setpoint == kTarmacShotSetpoint) {
+      setpointString = "Tarmac";
     } else if (m_setpoint == kHubShotSetpoint) {
       setpointString = "Hub Shot";
     } else {

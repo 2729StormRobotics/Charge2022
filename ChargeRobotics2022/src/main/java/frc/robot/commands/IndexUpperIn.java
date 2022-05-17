@@ -7,12 +7,14 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Index;
 
-public class IndexOut extends CommandBase {
+public class IndexUpperIn extends CommandBase {
+
   private final Index m_index;
 
-  /** Creates a new IndexOut. */
-  public IndexOut(Index subsystem) {
+  /** Creates a new IndexRunUpper. */
+  public IndexUpperIn(Index subsystem) {
     m_index = subsystem;
+
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_index);
   }
@@ -24,19 +26,18 @@ public class IndexOut extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_index.runLowerIndexMotor(-0.6);
-    m_index.runUpperIndexMotor(-0.3);
+    m_index.runUpperIndexMotor();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_index.stopIndexMotors();
+    m_index.stopUpperMotor();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return m_index.hasUpperBall();
   }
 }

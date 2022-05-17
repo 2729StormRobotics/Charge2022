@@ -4,12 +4,19 @@
 
 package frc.robot;
 
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.util.net.PortForwarder;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.IntakeEject;
+import frc.robot.commands.IntakeExtend;
+import frc.robot.commands.IntakeRetract;
+import frc.robot.commands.IntakeRun;
+import frc.robot.subsystems.Index;
+import frc.robot.subsystems.Intake;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -22,6 +29,10 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
+  private static Intake intake = new Intake();
+  private static Index index = new Index();
+  
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -31,15 +42,6 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
-    //initialize camera
-    CameraServer.startAutomaticCapture();
-
-    PortForwarder.add(5800, "limelight.local", 5800);
-    PortForwarder.add(5801, "limelight.local", 5801);
-    PortForwarder.add(5802, "limelight.local", 5802);
-    PortForwarder.add(5803, "limelight.local", 5803);
-    PortForwarder.add(5804, "limelight.local", 5804);
-    PortForwarder.add(5805, "limelight.local", 5805);
   }
 
   /**
@@ -78,10 +80,7 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {
-
-
-  }
+  public void autonomousPeriodic() {}
 
   @Override
   public void teleopInit() {
@@ -92,14 +91,11 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-
-    
   }
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {
-  }
+  public void teleopPeriodic() {}
 
   @Override
   public void testInit() {
@@ -110,4 +106,21 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during test mode. */
   @Override
   public void testPeriodic() {}
+
+  /** This function is called once when the robot is first started up. */
+  @Override
+  public void simulationInit() {
+    XboxController sim = new XboxController(0);
+    new JoystickButton(sim, Button.kA.value).whenHeld(new IntakeRun(intake));
+    new JoystickButton(sim, Button.kB.value).whenHeld(new IntakeEject(intake));
+    new JoystickButton(sim, Button.kX.value).whenPressed(new IntakeExtend(intake));
+    new JoystickButton(sim, Button.kY.value).whenPressed(new IntakeRetract(intake));
+
+    SmartDashboard.putData("Intake", intake);
+  }
+
+  /** This function is called periodically whilst in simulation. */
+  @Override
+  public void simulationPeriodic() {
+  }
 }
